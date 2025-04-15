@@ -9,7 +9,7 @@ export function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="bg-[#007BFF] flex justify-between p-10 mx-auto items-center relative">
+    <div className="bg-[#007BFF] text-white flex justify-between p-10 mx-auto items-center relative">
       <h1 className="text-5xl font-semibold">LOGO</h1>
 
       <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
@@ -40,7 +40,7 @@ export function NavBar() {
       </nav>
 
       {isOpen && (
-        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff]">
+        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff] z-50">
           <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
             <li>
               <Link href="#">Início</Link>

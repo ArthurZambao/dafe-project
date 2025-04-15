@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export function Operation() {
   return (
-    <section className="py-10 bg-[#007BFF] w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
-      <h2 className="text-3xl font-bold text-center text-white mt-20 mb-12">
+    <section className="text-white py-10 bg-[#007BFF] w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
+      <h2 className="text-3xl font-bold text-center mt-20 mb-12">
         Como Funciona a D.A.F.E
       </h2>
 

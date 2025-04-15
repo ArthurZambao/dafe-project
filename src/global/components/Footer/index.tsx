@@ -1,9 +1,8 @@
 import Image from 'next/image';
 
-
 export function Footer() {
   return (
-    <footer className="w-full bg-[#007BFF] p-4">
+    <footer className="w-full text-white bg-[#007BFF] p-4">
       <div className="flex flex-col sm:flex-row justify-between items-center">
         {/* Logo no canto esquerdo */}
         <h1 className="text-5xl font-semibold mb-4 sm:mb-0">LOGO</h1>

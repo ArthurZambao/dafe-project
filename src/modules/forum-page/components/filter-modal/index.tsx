@@ -1,5 +1,7 @@
 'use client';
 
+import { filterOptions } from '@/global/constants/FilterOptions';
+
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -7,9 +9,12 @@ interface FilterModalProps {
   setSelectedTopic: (value: string | null) => void;
 }
 
-const filterOptions = ['diretores', 'alunos', 'aulas', 'atividades', 'extracurriculares'];
-
-export function FilterModal({ isOpen, onClose, selectedTopic, setSelectedTopic }: FilterModalProps) {
+export function FilterModal({
+  isOpen,
+  onClose,
+  selectedTopic,
+  setSelectedTopic,
+}: FilterModalProps) {
   if (!isOpen) return null;
 
   return (

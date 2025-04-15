@@ -1,0 +1,1 @@
+export const filterOptions = ['aulas', 'diretores', 'alunos', 'atividades', 'extracurriculares'];

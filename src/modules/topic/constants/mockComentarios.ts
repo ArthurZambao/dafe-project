@@ -22,6 +22,13 @@ export const comentariosPorTopico: Record<string, ComentarioType[]> = {
       mensagem: 'Lorem Ipsum is simply dummy text of the printing and Lorem Ipsum is simply dummy text of the printing and',
       data: '22/11/2010',
     },
+    {
+      id: 3,
+      imagem: '/ig-logo.svg',
+      autor: 'Mari',
+      mensagem: 'nada avê',
+      data: '22/21/2112',
+    },
   ],
   2: [
     {
