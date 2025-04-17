@@ -8,7 +8,6 @@ interface InputProps<T extends FieldValues> {
   placeholder: string;
   register: UseFormRegister<T>;
   error?: FieldError;
-  required?: boolean;
   mask?: string;
 }
 
@@ -19,7 +18,6 @@ export function Input<T extends FieldValues>({
   placeholder,
   register,
   error,
-  required,
   mask,
 }: InputProps<T>) {
   const applyMask = (value: string, maskType?: string) => {
@@ -39,7 +37,7 @@ export function Input<T extends FieldValues>({
   return (
     <div className="flex flex-col text-[#6C757D]">
       <p className="text-2xl font-semibold text-left">
-        {label} {required && <span className="text-red-500">*</span>}
+        {label} {error && <span className="text-red-500">*</span>}
       </p>
       <input
         id={id}

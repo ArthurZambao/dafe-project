@@ -31,7 +31,7 @@ export function CreateTopic() {
   };
 
   return (
-    <>
+    <div className=" px-10 sm:px-0">
       {/* Título principal */}
       <div className="py-10">
         <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
@@ -112,6 +112,6 @@ export function CreateTopic() {
           />
         </div>
       </form>
-    </>
+    </div>
   );
 }

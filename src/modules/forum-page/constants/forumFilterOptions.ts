@@ -1,0 +1,1 @@
+export const forumFilterOptions = ['aulas', 'diretores', 'alunos', 'atividades', 'extracurriculares'];

@@ -1,0 +1,18 @@
+export const news = [
+  { id: 1, title: 'Notícia 1', description: 'descrição da notícia 1' },
+  { id: 2, title: 'Notícia 2', description: 'descrição da notícia 2' },
+  { id: 3, title: 'Notícia 3', description: 'descrição da notícia 3' },
+  { id: 4, title: 'Notícia 4', description: 'descrição da notícia 4' },
+  { id: 5, title: 'Notícia 5', description: 'descrição da notícia 5' },
+  { id: 6, title: 'Notícia 6', description: 'descrição da notícia 6' },
+  { id: 7, title: 'Notícia 7', description: 'descrição da notícia 7' },
+  { id: 8, title: 'Notícia 8', description: 'descrição da notícia 8' },
+  { id: 9, title: 'Notícia 1', description: 'descrição da notícia 9' },
+  { id: 10, title: 'Notícia 2', description: 'descrição da notícia 10' },
+  { id: 11, title: 'Notícia 3', description: 'descrição da notícia 11' },
+  { id: 12, title: 'Notícia 4', description: 'descrição da notícia 12' },
+  { id: 13, title: 'Notícia 5', description: 'descrição da notícia 13' },
+  { id: 14, title: 'Notícia 6', description: 'descrição da notícia 14' },
+  { id: 15, title: 'Notícia 7', description: 'descrição da notícia 15' },
+  { id: 16, title: 'Notícia 8', description: 'descrição da notícia 16' },
+];
