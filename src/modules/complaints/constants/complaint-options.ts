@@ -1,0 +1,1 @@
+export const complaintOptions = ["Alunos", "professores", "Funcionários", "Coordenação", "Direção"];

@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
 
-export function CreateTopic() {
+export function CreateTopicData() {
   const hoje = new Date();
   const dia = String(hoje.getDate()).padStart(2, '0');
   const mes = String(hoje.getMonth() + 1).padStart(2, '0');
@@ -65,6 +66,7 @@ export function CreateTopic() {
                 label="Tópico:"
                 register={register}
                 error={errors.selectTopic}
+                selectOptions={forumFilterOptions}
               />
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { forumFilterOptions } from '@/modules/forum-page/constants/forumFilterOptions';
 import { FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
 interface SelectProps<T extends FieldValues> {
@@ -6,13 +5,20 @@ interface SelectProps<T extends FieldValues> {
   label: string;
   register: UseFormRegister<T>;
   error?: FieldError;
+  selectOptions: string[];
 }
 
-export function Select<T extends FieldValues>({ id, label, register, error }: SelectProps<T>) {
+export function Select<T extends FieldValues>({
+  id,
+  label,
+  register,
+  error,
+  selectOptions,
+}: SelectProps<T>) {
   const { onChange, ...rest } = register(id);
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 text-[#6C757D]">
       <p className="text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
@@ -30,7 +36,7 @@ export function Select<T extends FieldValues>({ id, label, register, error }: Se
         <option value="" disabled hidden>
           Selecione...
         </option>
-        {forumFilterOptions.map((option) => (
+        {selectOptions.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>

@@ -5,7 +5,7 @@ import { Jumbotron } from '../jumbotron';
 import { TopicList } from '../topic-list';
 import { CreateTopicButton } from '../topic-button';
 import { Filter } from '@/global/components/Filter';
-import { forumFilterOptions } from '../../constants/forumFilterOptions';
+import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
 
 export function ForumPageData() {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
