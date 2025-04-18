@@ -9,55 +9,55 @@ export function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="bg-[#007BFF] flex justify-between p-10 mx-auto items-center relative">
+    <div className="bg-[#007BFF] text-white flex justify-between p-10 mx-auto items-center relative">
       <h1 className="text-5xl font-semibold">LOGO</h1>
 
-      <button className="block sm:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
+      <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
         {isOpen ? '✖' : '☰'}
       </button>
 
       <nav>
-        <ul className="hidden sm:flex items-center space-x-10 text-xl">
-          <li className="hover:font-semibold">
+        <ul className="hidden md:flex items-center space-x-10 text-xl">
+          <li>
             <Link href="#">Início</Link>
           </li>
-          <li className="hover:font-semibold">
+          <li>
             <Link href="#">Fórum</Link>
           </li>
-          <li className="hover:font-semibold">
+          <li>
             <Link href="#">Notícias</Link>
           </li>
-          <li className="hover:font-semibold">
+          <li>
             <Link href="#">Denúncias</Link>
           </li>
-          <li className="hover:font-semibold">
+          <li>
             <Link href="#">Conversas</Link>
           </li>
-          <li className="hover:font-semibold">
+          <li>
             <Link href="#">Entrar</Link>
           </li>
         </ul>
       </nav>
 
       {isOpen && (
-        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l">
-          <ul className="flex flex-col items-center space-y-4 py-4 text-xl">
-            <li className="hover:font-semibold">
+        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff] z-50">
+          <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
+            <li>
               <Link href="#">Início</Link>
             </li>
-            <li className="hover:font-semibold">
+            <li>
               <Link href="#">Fórum</Link>
             </li>
-            <li className="hover:font-semibold">
+            <li>
               <Link href="#">Notícias</Link>
             </li>
-            <li className="hover:font-semibold">
+            <li>
               <Link href="#">Denúncias</Link>
             </li>
-            <li className="hover:font-semibold">
+            <li>
               <Link href="#">Conversas</Link>
             </li>
-            <li className="hover:font-semibold">
+            <li>
               <Link href="#">Entrar</Link>
             </li>
           </ul>
