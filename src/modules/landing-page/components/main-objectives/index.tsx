@@ -10,7 +10,7 @@ export function MainObjectives() {
             key={index}
             className="bg-[#007BFF] text-white text-center rounded-bl-[1.5rem] md:rounded-bl-[2.5rem] lg:rounded-bl-[4rem] rounded-tr-[1.5rem] md:rounded-tr-[2.5rem] lg:rounded-tr-[4rem] h-[9rem] sm:h-[10rem] md:h-[12rem] lg:h-[15rem] w-full flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow"
           >
-            <h3 className="font-bold text-2xl mb-2">{objetivo.titulo}</h3>
+            <h3 className="font-bold text-2xl mb-2 px-1">{objetivo.titulo}</h3>
             <p className="leading-relaxed text-sm px-4">{objetivo.descricao}</p>
           </div>
         ))}

@@ -11,14 +11,14 @@ export function TopicCard({ topic, onClick }: TopicCardProps) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer text-white flex flex-col sm:flex-row gap-6 py-10 px-6 sm:px-16 hover:bg-[#f9f9f9] mx-10 rounded-3xl"
+      className="cursor-pointer text-white flex flex-col sm:flex-row gap-6 py-10 px-6 sm:px-16 hover:bg-[#d4d4d4d3] mx-10 rounded-3xl"
     >
       <div className="flex flex-col gap-2 rounded-2xl mx-auto sm:mx-0">
         <div className="bg-[#007BFF] p-4 rounded-xl self-start">
           <Image src={topic.imagem} width={150} height={150} alt={`Imagem de ${topic.usuario}`} />
         </div>
         <p className="text-[#6C757D] text-sm mt-2 text-center">
-          Data da Publicação: <span className="font-bold">{topic.data}</span> <br />
+          Publicação: <span className="font-bold">{topic.data}</span> <br />
           Feito por: <span className="font-bold">{topic.usuario}</span>
         </p>
       </div>

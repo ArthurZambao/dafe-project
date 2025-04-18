@@ -77,7 +77,7 @@ export function ComplaintsData() {
           <div className="flex justify-center pt-8">
             <input
               type="submit"
-              value="Criar Assunto"
+              value="Fazer Denúncia"
               className="cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white px-8 sm:px-20 py-4 rounded-tr-xl rounded-bl-xl"
             />
           </div>

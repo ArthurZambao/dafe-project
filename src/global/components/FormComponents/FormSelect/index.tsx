@@ -31,7 +31,7 @@ export function Select<T extends FieldValues>({
           console.log('Selecionado:', value);
           onChange(e);
         }}
-        className="px-4 py-2 border border-[#007BFF] rounded-lg text-[#6C757D] focus:outline-none"
+        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} px-4 py-2 border rounded-lg text-[#6C757D] focus:outline-none`}
       >
         <option value="" disabled hidden>
           Selecione...

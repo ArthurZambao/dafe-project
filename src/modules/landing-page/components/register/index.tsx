@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function Register() {
   return (
     <section className="flex mt-15 mb-20 justify-center gap-20 mx-5">
-      <div className="flex flex-col gap-8 ">
+      <div className="flex flex-col gap-8 text-center">
         <h1 className="text-[#007BFF] text-3xl font-bold">
           FAÇA SEU REGISTRO <span className="text-[#6C757D]">AGORA</span> !
         </h1>
@@ -15,12 +16,13 @@ export function Register() {
           comunicados e ajudar a criar um ambiente escolar <br />
           mais transparente e participativo.
         </p>
-        <button className="bg-[#007BFF] font-bold cursor-pointer text-white px-10 py-2 rounded-tl-2xl rounded-br-2xl mx-auto">
+
+        <Link href="/register" className="bg-[#007BFF] font-bold cursor-pointer text-white px-10 py-2 rounded-tl-2xl rounded-br-2xl mx-auto">
           Registrar-se
-        </button>
+        </Link>
       </div>
       <Image
-        src="/ig-logo.svg"
+        src="/icons/ig-logo.svg"
         width={250}
         height={250}
         alt="Logo D.A.F.E"
