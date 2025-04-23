@@ -3,7 +3,9 @@ import Image from 'next/image';
 export function Operation() {
   return (
     <section className="text-white py-10 bg-[#007BFF] w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
-      <h2 className="text-3xl font-bold text-center mt-20 mb-12 px-2 sm:px-0">Como Funciona a D.A.F.E</h2>
+      <h2 className="text-3xl font-bold text-center mt-20 mb-12 px-2 sm:px-0">
+        Como Funciona a D.A.F.E
+      </h2>
 
       <div className="flex justify-center gap-8 py-10 px-4">
         <div className="flex sm:flex-row flex-col-reverse items-center justify-normal sm:justify-between sm:gap-[20rem]">
@@ -40,7 +42,7 @@ export function Operation() {
             </p>
           </div>
           <Image
-            src="/images/operation-image-1.png"
+            src="/images/operation-image-2.png"
             width={660}
             height={360}
             alt="Logo D.A.F.E"
@@ -52,7 +54,7 @@ export function Operation() {
       <div className="flex justify-center gap-8 py-10 px-4">
         <div className="flex sm:flex-row flex-col-reverse items-center justify-normal sm:justify-between sm:gap-[20rem]">
           <Image
-            src="/images/operation-image-1.png"
+            src="/images/operation-image-3.png"
             width={660}
             height={360}
             alt="Logo D.A.F.E"

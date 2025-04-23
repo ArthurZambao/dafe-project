@@ -38,7 +38,7 @@ export function TextArea<T extends FieldValues>({
 
   return (
     <div className="flex flex-col text-[#6C757D]">
-      <p className="text-2xl font-semibold text-left">
+      <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
       <textarea

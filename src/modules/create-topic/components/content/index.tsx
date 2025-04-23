@@ -23,9 +23,11 @@ export function CreateTopicData() {
   const [successMessage, setSuccessMessage] = useState('');
 
   const onSubmit = (data: CreateFormData) => {
+    const finalData = { ...data, date: hoje.toDateString() };
+
     try {
       // TODO: Fazer chamada para a API
-      console.log(data);
+      console.log(finalData);
       setSuccessMessage('Tópico criado com sucesso!');
     } catch (error) {
       console.error('Erro ao enviar dados:', error);

@@ -22,11 +22,11 @@ export function Register() {
         </Link>
       </div>
       <Image
-        src="/icons/ig-logo.svg"
-        width={250}
-        height={250}
+        src="/images/operation-image-register.png"
+        width={660}
+        height={360}
         alt="Logo D.A.F.E"
-        className="max-w-full"
+        className="max-w-full rounded-2xl"
       />
     </section>
   );

@@ -20,6 +20,8 @@ export function TopicCard({ topic, onClick }: TopicCardProps) {
         <p className="text-[#6C757D] text-sm mt-2 text-center">
           Publicação: <span className="font-bold">{topic.data}</span> <br />
           Feito por: <span className="font-bold">{topic.usuario}</span>
+          <br />
+          Tópico: <span className="font-bold">{topic.topico}</span>
         </p>
       </div>
 
