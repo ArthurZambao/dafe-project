@@ -1,23 +1,23 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="w-full text-white bg-[#007BFF] p-4">
-      <div className="flex flex-col sm:flex-row justify-between items-center">
-        {/* Logo no canto esquerdo */}
-        <h1 className="text-5xl font-semibold mb-4 sm:mb-0">LOGO</h1>
-
-        {/* Imagens à direita */}
+    <footer className="flex flex-col items-center bg-[#007BFF] text-white px-8 py-3">
+      <div className="w-full flex justify-between relative">
+        <Link href="/landing-page">
+          <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
+        </Link>
         <div className="flex space-x-4">
-          <Image src="/ig-logo.svg" width={50} height={50} alt="Ig Logo" />
-          <Image src="/x-logo.svg" width={50} height={50} alt="X Logo" />
-          <Image src="/fb-logo.svg" width={50} height={50} alt="Fb Logo" />
+          <Image src="/icons/ig-logo.svg" width={50} height={50} alt="Ig Logo" />
+          <Image src="/icons/x-logo.svg" width={50} height={50} alt="X Logo" />
+          <Image src="/icons/fb-logo.svg" width={50} height={50} alt="Fb Logo" />
         </div>
       </div>
-
-      {/* Copyright abaixo */}
-      <div className="mt-4 text-center">
-        <h2 className="text-2xl font-bold">© 2025 D.A.F.E. Todos os direitos reservados.</h2>
+      <div>
+        <h2 className="text-lg sm:text-2xl font-bold">
+          © 2025 D.A.F.E. Todos os direitos reservados.
+        </h2>
       </div>
     </footer>
   );

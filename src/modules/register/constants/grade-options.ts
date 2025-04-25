@@ -1,0 +1,1 @@
+export const gradeOptions = ["1º ano", "2º ano", "3º ano",];

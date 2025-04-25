@@ -18,8 +18,8 @@ export function NoticesPageData() {
           `}
           >
             <Image
-              src="/ig-logo.svg"
-              alt="Imagem da Notícia"
+              src={item.image}
+              alt={`Imagem da notícia ${item.title}`}
               layout="fill"
               objectFit="cover"
               className="z-0"

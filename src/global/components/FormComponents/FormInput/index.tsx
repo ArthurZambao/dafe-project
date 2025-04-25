@@ -3,7 +3,7 @@ import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form'
 
 interface InputProps<T extends FieldValues> {
   id: Path<T>;
-  label: string;
+  label?: string;
   type: string;
   placeholder: string;
   register: UseFormRegister<T>;
@@ -23,7 +23,7 @@ export function Input<T extends FieldValues>({
   const applyMask = (value: string, maskType?: string) => {
     if (!maskType) return value;
 
-    if (maskType === 'expiry') {
+    if (maskType === 'date') {
       const digits = value.replace(/\D/g, '');
       if (digits.length <= 2) return digits;
       return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
@@ -36,7 +36,7 @@ export function Input<T extends FieldValues>({
 
   return (
     <div className="flex flex-col text-[#6C757D]">
-      <p className="text-2xl font-semibold text-left">
+      <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
       <input
@@ -49,7 +49,7 @@ export function Input<T extends FieldValues>({
           e.target.value = maskedValue;
           onChange(e);
         }}
-        className="w-full text-sm tsm:text-base px-4 py-2 border border-[#007BFF] rounded-2xl outline-none justify-center"
+        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none justify-center`}
       />
       {error && <span className="text-red-500 text-sm text-left ml-4">{error.message}</span>}
     </div>

@@ -19,7 +19,7 @@ export function Select<T extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-1 text-[#6C757D]">
-      <p className="text-2xl font-semibold text-left">
+      <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
       <select
@@ -31,7 +31,7 @@ export function Select<T extends FieldValues>({
           console.log('Selecionado:', value);
           onChange(e);
         }}
-        className="px-4 py-2 border border-[#007BFF] rounded-lg text-[#6C757D] focus:outline-none"
+        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} px-4 py-2 border rounded-lg text-[#6C757D] focus:outline-none`}
       >
         <option value="" disabled hidden>
           Selecione...

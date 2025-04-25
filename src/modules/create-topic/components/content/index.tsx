@@ -6,29 +6,34 @@ import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
+import { useState } from 'react';
+import { FormattedDate } from '@/global/components/FormatedDate';
 
 export function CreateTopicData() {
   const hoje = new Date();
-  const dia = String(hoje.getDate()).padStart(2, '0');
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-  const ano = hoje.getFullYear();
-  const formatedData = `${dia}/${mes}/${ano}`;
-
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
 
+  const [successMessage, setSuccessMessage] = useState('');
+
   const onSubmit = (data: CreateFormData) => {
+    const finalData = { ...data, date: hoje.toDateString() };
+
     try {
       // TODO: Fazer chamada para a API
-      console.log(data);
+      console.log(finalData);
+      setSuccessMessage('Tópico criado com sucesso!');
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
     }
+    reset();
+    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (
@@ -40,6 +45,10 @@ export function CreateTopicData() {
         </h1>
       </div>
 
+      {successMessage && (
+        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
+      )}
+
       {/* Formulário */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -50,14 +59,17 @@ export function CreateTopicData() {
           <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
             <div className="w-40 h-40 sm:w-60 sm:h-60 bg-[#007BFF] rounded-2xl relative overflow-hidden">
               <Image
-                src="/ig-logo.svg"
+                src="/icons/ig-logo.svg"
                 alt="Imagem do tópico"
                 fill
                 className="object-cover rounded-2xl"
               />
             </div>
             <p className="text-center lg:text-left">
-              Publicar em: <span className="font-bold">{formatedData}</span>
+              Publicar em:{' '}
+              <span className="font-bold">
+                <FormattedDate date={hoje} />
+              </span>
             </p>
 
             <div className="w-full">
