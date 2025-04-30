@@ -1,10 +1,5 @@
-type ComentarioType = {
-  id: number;
-  imagem: string;
-  autor: string;
-  mensagem: string;
-  data: string;
-};
+import { ComentarioType } from "./comentario-type";
+
 
 export const comentariosPorTopico: Record<string, ComentarioType[]> = {
   1: [

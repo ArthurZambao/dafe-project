@@ -57,6 +57,7 @@ export function LoginData() {
           label="Senha:"
           type="password"
           placeholder="**********"
+          showPasswordToggle={true}
           register={register}
           error={errors.password}
         />

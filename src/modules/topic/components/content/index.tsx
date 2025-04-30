@@ -33,7 +33,7 @@ export function TopicPageData() {
       autor: 'Usuário',
       mensagem: comentario,
       data: new Date().toLocaleDateString(),
-      imagem: '/ig-logo.svg',
+      imagem: '/icons/ig-logo.svg',
     };
 
     const updatedComentarios = [...comentarios, newComentario];
