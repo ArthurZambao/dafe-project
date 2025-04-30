@@ -8,9 +8,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
 import { useState } from 'react';
 import { FormattedDate } from '@/global/components/FormatedDate';
+import axios from 'axios';
 
 export function CreateTopicData() {
   const hoje = new Date();
+  
+  // Formatar a data para o formato YYYY-MM-DD
+  const dataFormatada = hoje.toISOString().slice(0, 10); // Exemplo: "2025-04-29"
+  
   const {
     register,
     formState: { errors },
@@ -21,23 +26,35 @@ export function CreateTopicData() {
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: CreateFormData) => {
-    const finalData = { ...data, date: hoje.toDateString() };
+  const onSubmit = async (data: CreateFormData) => {
+    const finalData = { ...data, post_data: dataFormatada }; // Adicionando a data formatada
 
     try {
-      // TODO: Fazer chamada para a API
+      const response = await axios.post('http://localhost:3030/posts', finalData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
       console.log(finalData);
+      // Se a requisição for bem-sucedida, exibimos uma mensagem de sucesso
       setSuccessMessage('Tópico criado com sucesso!');
+      setErrorMessage('');
+      reset();
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
+
+      // Exibindo uma mensagem de erro para o usuário
+      setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
+      setSuccessMessage('');
     }
-    reset();
-    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (
-    <div className=" px-10 sm:px-0">
+    <div className="px-10 sm:px-0">
       {/* Título principal */}
       <div className="py-10">
         <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
@@ -49,10 +66,14 @@ export function CreateTopicData() {
         <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
       )}
 
+      {errorMessage && (
+        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
+      )}
+
       {/* Formulário */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6  sm:p-10 w-full max-w-5xl my-10 mx-auto"
+        className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
       >
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Imagem e Data */}
@@ -74,10 +95,10 @@ export function CreateTopicData() {
 
             <div className="w-full">
               <Select<CreateFormData>
-                id="selectTopic"
+                id="post_topico"
                 label="Tópico:"
                 register={register}
-                error={errors.selectTopic}
+                error={errors.post_topico}
                 selectOptions={forumFilterOptions}
               />
             </div>
@@ -86,20 +107,20 @@ export function CreateTopicData() {
           {/* Inputs de título e descrição */}
           <div className="flex flex-col gap-4 flex-1 w-full">
             <Input<CreateFormData>
-              id="topicTitle"
+              id="post_titulo"
               label="Título:"
               type="text"
               placeholder="Título do seu assunto"
               register={register}
-              error={errors.topicTitle}
+              error={errors.post_titulo}
             />
 
             <TextArea<CreateFormData>
-              id="topicDescription"
+              id="post_descricao"
               label="Descrição:"
               placeholder="Digite a descrição aqui..."
               register={register}
-              error={errors.topicDescription}
+              error={errors.post_descricao}
               rows={5}
             />
           </div>
@@ -108,11 +129,11 @@ export function CreateTopicData() {
         {/* Conteúdo do tópico */}
         <div className="py-6">
           <TextArea<CreateFormData>
-            id="topicMain"
+            id="post_conteudo"
             label="Assunto:"
             placeholder="Digite o conteúdo do assunto aqui..."
             register={register}
-            error={errors.topicMain}
+            error={errors.post_conteudo}
             rows={10}
           />
         </div>
