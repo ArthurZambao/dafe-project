@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { comentariosPorTopico } from '../../constants/mock-comentarios';
 import Image from 'next/image';
 import { ComentarioType } from '../../constants/comentario-type';
-import { TopicType } from '../../constants/topic-type';
+import { typeTopic } from '@/global/constants/typeTopic';
 
 export function TopicPageData() {
-  const [topic, setTopic] = useState<TopicType | null>(null);
+  const [topic, setTopic] = useState<typeTopic | null>(null);
   const [comentario, setComentario] = useState('');
   const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
   const [isInteracted, setisInteracted] = useState(false);
@@ -23,6 +23,10 @@ export function TopicPageData() {
     }
   }, []);
 
+  const formatarData = (data: string) => {
+    return new Date(data).toLocaleDateString('pt-BR');
+  };
+
   if (!topic) return <p className="p-10 text-xl">Carregando tópico...</p>;
 
   const handleClick = () => {
@@ -32,7 +36,7 @@ export function TopicPageData() {
       id: Date.now(),
       autor: 'Usuário',
       mensagem: comentario,
-      data: new Date().toLocaleDateString(),
+      data: new Date().toISOString(), // formato ISO
       imagem: '/ig-logo.svg',
     };
 
@@ -40,12 +44,12 @@ export function TopicPageData() {
 
     setComentario('');
     setComentarios(updatedComentarios);
-    comentariosPorTopico[topic.id] = updatedComentarios;
+    comentariosPorTopico[topic.post_id] = updatedComentarios;
   };
 
   const addInteration = () => {
     if (isInteracted) return;
-    topic.interacoes++;
+    topic.post_interacao++;
     setisInteracted(true);
   };
 
@@ -56,41 +60,41 @@ export function TopicPageData() {
         <div className="flex flex-col gap-6 items-center lg:items-start">
           <div className="w-60 h-60 sm:w-80 sm:h-80 bg-[#007BFF] rounded-2xl relative overflow-hidden">
             <Image
-              src={topic.imagem}
-              alt={topic.usuario}
+              src='/icons/ig-logo.svg'
+              alt="Imagem"
               fill
               className="object-cover rounded-2xl"
             />
           </div>
 
           <p className="text-gray-500 text-sm sm:text-base text-center lg:text-left">
-            Data da Publicação: <span className="font-bold">{topic.data}</span>
+            Data da Publicação: <span className="font-bold">{formatarData(topic.post_data)}</span>
             <br />
-            Feito Por: <span className="font-bold">{topic.usuario}</span>
+            Feito Por: <span className="font-bold">{topic.post_usuario}</span>
             <br />
-            Tópico: <span className="font-bold">{topic.topico}</span>
+            Tópico: <span className="font-bold">{topic.post_topico}</span>
           </p>
         </div>
 
         {/* Título, descrição e botão */}
         <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left py-8">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#007BFF]">
-            {topic.titulo}
+            {topic.post_titulo}
           </h1>
-          <p className="text-gray-700 text-lg sm:text-xl">{topic.descricao}</p>
+          <p className="text-gray-700 text-lg sm:text-xl">{topic.post_descricao}</p>
           <button
             onClick={() => {
               addInteration();
             }}
             className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
           >
-            <span className="font-extrabold">{topic.interacoes}</span> Interagir
+            <span className="font-extrabold">{topic.post_interacao}</span> Interagir
           </button>
         </div>
       </div>
 
       {/* Conteúdo principal */}
-      <p className="text-gray-700 text-lg sm:text-xl mb-10">{topic.conteudo}</p>
+      <p className="text-gray-700 text-lg sm:text-xl mb-10">{topic.post_conteudo}</p>
 
       {/* Comentários */}
       <p className="text-3xl sm:text-4xl text-[#007BFF] font-bold">
@@ -133,7 +137,7 @@ export function TopicPageData() {
             <div className="flex-1">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                 <h2 className="font-bold text-2xl text-[#007BFF]">{comentario.autor}</h2>
-                <p className="text-[#6C757D] text-lg">{comentario.data}</p>
+                <p className="text-[#6C757D] text-lg">{formatarData(comentario.data)}</p>
               </div>
               <p className="text-gray-800 mt-2 sm:mt-0">{comentario.mensagem}</p>
             </div>
