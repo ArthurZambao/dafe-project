@@ -1,5 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form';
+import { Eye, EyeOff } from 'lucide-react'; // ícones (instale lucide-react ou troque por outros)
 
 interface InputProps<T extends FieldValues> {
   id: Path<T>;
@@ -20,28 +21,30 @@ export function Input<T extends FieldValues>({
   error,
   mask,
 }: InputProps<T>) {
+  const [showPassword, setShowPassword] = useState(false);
+
   const applyMask = (value: string, maskType?: string) => {
     if (!maskType) return value;
-
     if (maskType === 'date') {
       const digits = value.replace(/\D/g, '');
       if (digits.length <= 2) return digits;
       return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
     }
-
     return value;
   };
 
   const { onChange, ...rest } = register(id);
 
+  const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
+
   return (
-    <div className="flex flex-col text-[#6C757D]">
+    <div className="flex flex-col text-[#6C757D] relative">
       <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
       <input
         id={id}
-        type={type}
+        type={inputType}
         placeholder={placeholder}
         {...rest}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -49,8 +52,20 @@ export function Input<T extends FieldValues>({
           e.target.value = maskedValue;
           onChange(e);
         }}
-        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none justify-center`}
+        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
       />
+
+      {/* Botão de mostrar/esconder senha */}
+      {type === 'password' && (
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className=" cursor-pointer absolute right-3 bottom-2 top-9 flex items-center text-gray-500"
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </button>
+      )}
+
       {error && <span className="text-red-500 text-sm text-left ml-4">{error.message}</span>}
     </div>
   );

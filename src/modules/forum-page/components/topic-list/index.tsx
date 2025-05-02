@@ -11,7 +11,6 @@ interface ForumTopicListProps {
 export function TopicList({ topics }: ForumTopicListProps) {
   const router = useRouter();
 
-  // Função para formatar a data no padrão brasileiro
   const formatarData = (data: string) => {
     return new Date(data).toLocaleDateString('pt-BR');
   };
@@ -33,26 +32,26 @@ export function TopicList({ topics }: ForumTopicListProps) {
                 src="/icons/ig-logo.svg"
                 width={150}
                 height={150}
-                alt={`Imagem de ${topic.post_usuario}`}
+                alt={`Imagem de ${topic.usuario}`}
               />
             </div>
             <p className="text-[#6C757D] text-sm mt-2 text-center">
-              Publicação: <span className="font-bold">{formatarData(topic.post_data)}</span> <br />
-              Feito por: <span className="font-bold">{topic.post_usuario}</span>
+              Publicação: <span className="font-bold">{formatarData(topic.data)}</span> <br />
+              Feito por: <span className="font-bold">{topic.usuario}</span>
               <br />
-              Tópico: <span className="font-bold">{topic.post_topico}</span>
+              Tópico: <span className="font-bold">{topic.topico}</span>
             </p>
           </div>
 
           <div className="flex flex-col gap-4 justify-center">
             <h3 className="font-bold text-3xl sm:text-4xl text-[#007BFF] mx-auto sm:mx-0">
-              {topic.post_titulo}
+              {topic.titulo}
             </h3>
             <p className="leading-relaxed text-lg text-[#6C757D] text-center sm:text-start sm:max-w-[60rem]">
-              {topic.post_descricao}
+              {topic.descricao}
             </p>
             <button className="self-start bg-[#007BFF] text-lg text-white px-6 py-2 mx-auto sm:mx-0 rounded-tl-xl rounded-br-xl">
-              <span className="font-bold">{topic.post_interacao}</span> Interações
+              <span className="font-bold">{topic.interacao}</span> Interações
             </button>
           </div>
         </div>

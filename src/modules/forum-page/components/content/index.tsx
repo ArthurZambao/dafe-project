@@ -19,7 +19,7 @@ export function ForumPageData() {
     setLoading(true);
     try {
       const url = topicFilter
-        ? `http://localhost:3030/posts?post_topico=${topicFilter}`
+        ? `http://localhost:3030/posts?topico=${topicFilter}`
         : `http://localhost:3030/posts`;
 
       const res = await axios.get(url);

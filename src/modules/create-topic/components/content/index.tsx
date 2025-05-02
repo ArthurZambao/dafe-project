@@ -12,10 +12,10 @@ import axios from 'axios';
 
 export function CreateTopicData() {
   const hoje = new Date();
+
   
-  // Formatar a data para o formato YYYY-MM-DD
-  const dataFormatada = hoje.toISOString().slice(0, 10); // Exemplo: "2025-04-29"
-  
+  const dataFormatada = hoje.toISOString().slice(0, 10); 
+
   const {
     register,
     formState: { errors },
@@ -29,17 +29,17 @@ export function CreateTopicData() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data: CreateFormData) => {
-    const finalData = { ...data, post_data: dataFormatada }; // Adicionando a data formatada
+    const finalData = { ...data, data: dataFormatada }; 
 
     try {
-      const response = await axios.post('http://localhost:3030/posts', finalData, {
+      await axios.post('http://localhost:3030/posts', finalData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       console.log(finalData);
-      // Se a requisição for bem-sucedida, exibimos uma mensagem de sucesso
+      
       setSuccessMessage('Tópico criado com sucesso!');
       setErrorMessage('');
       reset();
@@ -47,7 +47,7 @@ export function CreateTopicData() {
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
 
-      // Exibindo uma mensagem de erro para o usuário
+      
       setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
       setSuccessMessage('');
     }
@@ -55,7 +55,7 @@ export function CreateTopicData() {
 
   return (
     <div className="px-10 sm:px-0">
-      {/* Título principal */}
+      
       <div className="py-10">
         <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
           Criar Assunto
@@ -70,13 +70,13 @@ export function CreateTopicData() {
         <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
       )}
 
-      {/* Formulário */}
+      
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
       >
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Imagem e Data */}
+          
           <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
             <div className="w-40 h-40 sm:w-60 sm:h-60 bg-[#007BFF] rounded-2xl relative overflow-hidden">
               <Image
@@ -95,50 +95,50 @@ export function CreateTopicData() {
 
             <div className="w-full">
               <Select<CreateFormData>
-                id="post_topico"
+                id="topico"
                 label="Tópico:"
                 register={register}
-                error={errors.post_topico}
+                error={errors.topico}
                 selectOptions={forumFilterOptions}
               />
             </div>
           </div>
 
-          {/* Inputs de título e descrição */}
+          
           <div className="flex flex-col gap-4 flex-1 w-full">
             <Input<CreateFormData>
-              id="post_titulo"
+              id="titulo"
               label="Título:"
               type="text"
               placeholder="Título do seu assunto"
               register={register}
-              error={errors.post_titulo}
+              error={errors.titulo}
             />
 
             <TextArea<CreateFormData>
-              id="post_descricao"
+              id="descricao"
               label="Descrição:"
               placeholder="Digite a descrição aqui..."
               register={register}
-              error={errors.post_descricao}
+              error={errors.descricao}
               rows={5}
             />
           </div>
         </div>
 
-        {/* Conteúdo do tópico */}
+        
         <div className="py-6">
           <TextArea<CreateFormData>
-            id="post_conteudo"
+            id="conteudo"
             label="Assunto:"
             placeholder="Digite o conteúdo do assunto aqui..."
             register={register}
-            error={errors.post_conteudo}
+            error={errors.conteudo}
             rows={10}
           />
         </div>
 
-        {/* Botão de envio */}
+        
         <div className="flex justify-center pt-8">
           <input
             type="submit"

@@ -36,7 +36,7 @@ export function RegisterData() {
   };
 
   return (
-    <div className="px-6 sm:px-0 flex items-center justify-center min-h-screen">
+    <div className="flex flex-col px-6 sm:px-0 items-center justify-center min-h-screen">
 
       {successMessage && (
         <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>

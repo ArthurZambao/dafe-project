@@ -1,10 +1,10 @@
 export interface typeTopic {
-  post_id: number;
-  post_titulo: string;
-  post_usuario: string;
-  post_conteudo: string;
-  post_descricao: string;
-  post_data: string; // formato: 'YYYY-MM-DD'
-  post_topico: 'aulas' | 'diretores' | 'alunos' | 'atividades' | 'extracurriculares';
-  post_interacao: number;
+  id: number;
+  titulo: string;
+  usuario: string;
+  conteudo: string;
+  descricao: string;
+  data: string; // formato: 'YYYY-MM-DD'
+  topico: 'aulas' | 'diretores' | 'alunos' | 'atividades' | 'extracurriculares';
+  interacao: number;
 }

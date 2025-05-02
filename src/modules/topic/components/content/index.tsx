@@ -36,7 +36,7 @@ export function TopicPageData() {
       id: Date.now(),
       autor: 'Usuário',
       mensagem: comentario,
-      data: new Date().toISOString(), // formato ISO
+      data: new Date().toISOString(),
       imagem: '/ig-logo.svg',
     };
 
@@ -44,19 +44,18 @@ export function TopicPageData() {
 
     setComentario('');
     setComentarios(updatedComentarios);
-    comentariosPorTopico[topic.post_id] = updatedComentarios;
+    comentariosPorTopico[topic.id] = updatedComentarios;
   };
 
   const addInteration = () => {
     if (isInteracted) return;
-    topic.post_interacao++;
+    topic.interacao++;
     setisInteracted(true);
   };
 
   return (
     <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-10">
-        {/* Imagem e infos do usuário */}
         <div className="flex flex-col gap-6 items-center lg:items-start">
           <div className="w-60 h-60 sm:w-80 sm:h-80 bg-[#007BFF] rounded-2xl relative overflow-hidden">
             <Image
@@ -68,35 +67,34 @@ export function TopicPageData() {
           </div>
 
           <p className="text-gray-500 text-sm sm:text-base text-center lg:text-left">
-            Data da Publicação: <span className="font-bold">{formatarData(topic.post_data)}</span>
+            Data da Publicação: <span className="font-bold">{formatarData(topic.data)}</span>
             <br />
-            Feito Por: <span className="font-bold">{topic.post_usuario}</span>
+            Feito Por: <span className="font-bold">{topic.usuario}</span>
             <br />
-            Tópico: <span className="font-bold">{topic.post_topico}</span>
+            Tópico: <span className="font-bold">{topic.topico}</span>
           </p>
         </div>
 
-        {/* Título, descrição e botão */}
         <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left py-8">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#007BFF]">
-            {topic.post_titulo}
+            {topic.titulo}
           </h1>
-          <p className="text-gray-700 text-lg sm:text-xl">{topic.post_descricao}</p>
+          <p className="text-gray-700 text-lg sm:text-xl">{topic.descricao}</p>
           <button
             onClick={() => {
               addInteration();
             }}
             className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
           >
-            <span className="font-extrabold">{topic.post_interacao}</span> Interagir
+            <span className="font-extrabold">{topic.interacao}</span> Interagir
           </button>
         </div>
       </div>
 
-      {/* Conteúdo principal */}
-      <p className="text-gray-700 text-lg sm:text-xl mb-10">{topic.post_conteudo}</p>
 
-      {/* Comentários */}
+      <p className="text-gray-700 text-lg sm:text-xl mb-10">{topic.conteudo}</p>
+
+
       <p className="text-3xl sm:text-4xl text-[#007BFF] font-bold">
         {comentarios.length} Comentários
       </p>

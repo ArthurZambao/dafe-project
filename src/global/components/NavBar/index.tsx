@@ -12,7 +12,7 @@ export function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="bg-[#007BFF] text-white flex justify-between p-6 mx-auto items-center relative">
+    <div className="bg-[#007BFF] text-white flex justify-between p-6 mx-auto items-center relative select-none">
       <Link href="/landing-page">
         <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
       </Link>
