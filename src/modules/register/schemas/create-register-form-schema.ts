@@ -2,13 +2,13 @@ import { z } from 'zod';
 
 export const createRegisterFormSchema = z
   .object({
-    name: z
+    nome: z
       .string()
       .min(3, 'Nome Inválido!')
       .max(100, 'Nome Inválido!')
       .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/, 'Nome Inválido!'),
 
-    username: z
+    usuario: z
       .string()
       .min(3, 'O nome de usuário deve ter pelo menos 3 caracteres.')
       .max(20, 'O nome de usuário deve ter no máximo 20 caracteres.')
@@ -20,22 +20,22 @@ export const createRegisterFormSchema = z
       .min(5, 'E-mail inválido!')
       .max(100, 'E-mail inválido!'),
 
-    institution: z
+    instituicao: z
       .string()
       .min(2, 'Instituição inválida!')
       .max(100, 'Instituição inválida!'),
 
-    course: z
+    curso: z
       .string()
       .min(2, 'Curso inválido!')
       .max(100, 'Curso inválido!'),
 
-    grade: z
+    modulo: z
       .string()
       .min(1, 'Série inválida!')
       .max(20, 'Série inválida!'),
 
-    password: z
+    senha: z
       .string()
       .min(8, 'A senha deve ter no mínimo 8 caracteres.')
       .max(64, 'A senha deve ter no máximo 64 caracteres.')
@@ -44,11 +44,11 @@ export const createRegisterFormSchema = z
       .regex(/[0-9]/, 'A senha deve conter ao menos um número.')
       .regex(/[^A-Za-z0-9]/, 'A senha deve conter ao menos um caractere especial.'),
 
-    confirmPassword: z.string(),
+    confirmarSenha: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.senha === data.confirmarSenha, {
     message: 'As senhas não coincidem!',
-    path: ['confirmPassword'],
+    path: ['confirmarSenha'],
   });
 
 export type CreateRegisterFormData = z.infer<typeof createRegisterFormSchema>;

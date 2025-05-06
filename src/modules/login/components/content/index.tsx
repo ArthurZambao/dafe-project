@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/global/components/FormComponents/CheckBoxInput';
 import Link from 'next/link';
 import { useState } from 'react';
+import axios from 'axios';
 
 export function LoginData() {
   const {
@@ -17,17 +18,27 @@ export function LoginData() {
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: CreateLoginFormData) => {
+  const onSubmit = async (data: CreateLoginFormData) => {
     try {
-      // TODO: Fazer chamada para a API
+      await axios.post('http://localhost:3030/students', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
       console.log(data);
+
       setSuccessMessage('Login com sucesso!');
+      setErrorMessage('');
+      reset();
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
+      setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
+      setSuccessMessage('');
     }
-    reset();
-    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (

@@ -7,9 +7,10 @@ import {
   createRegisterFormSchema,
 } from '../../schemas/create-register-form-schema';
 import { Select } from '@/global/components/FormComponents/FormSelect';
-import { courseOptions } from '../../constants/course-options';
-import { gradeOptions } from '../../constants/grade-options';
+import { cursoOptions } from '../../constants/curso-options';
+import { moduloOptions } from '../../constants/modulo-options';
 import { useState } from 'react';
+import axios from 'axios';
 
 export function RegisterData() {
   const {
@@ -22,47 +23,67 @@ export function RegisterData() {
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: CreateRegisterFormData) => {
+  const onSubmit = async (data: CreateRegisterFormData) => {
+    const moduloMapping: { [key: string]: number } = {
+      '1º ano': 1,
+      '2º ano': 2,
+      '3º ano': 3,
+    };
+
+    const finalData = {
+      ...data,
+      modulo: moduloMapping[data.modulo] ?? data.modulo,
+    };
+
     try {
-      // TODO: Fazer chamada para a API
-      console.log(data);
-      setSuccessMessage('Login com sucesso!');
+      await axios.post('http://localhost:3030/students', finalData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log(finalData);
+      setSuccessMessage('Cadastro realizado com sucesso!');
+      setErrorMessage('');
+      reset();
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
+      setErrorMessage('Erro ao realizar cadastro. Por favor, tente novamente mais tarde.');
+      setSuccessMessage('');
     }
-    reset();
-    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (
-    <div className="flex flex-col px-6 sm:px-0 items-center justify-center min-h-screen">
-
+    <div className="flex flex-col px-4 sm:px-0 items-center justify-center min-h-screen">
       {successMessage && (
         <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
       )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[50rem] my-10 px-10 py-20"
+        className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10 px-6 sm:px-10 py-10 sm:py-20"
       >
         <h2 className="text-2xl sm:text-4xl text-center font-bold text-[#007BFF]">Cadastrar-se</h2>
+
         <Input<CreateRegisterFormData>
-          id="name"
+          id="nome"
           type="text"
           label="Nome Completo:"
           placeholder="Dafe da Silva"
           register={register}
-          error={errors.name}
+          error={errors.nome}
         />
 
         <Input<CreateRegisterFormData>
-          id="username"
+          id="usuario"
           label="Nome de Usuário:"
           type="text"
           placeholder="DafeSilva123"
           register={register}
-          error={errors.username}
+          error={errors.usuario}
         />
 
         <Input<CreateRegisterFormData>
@@ -75,55 +96,55 @@ export function RegisterData() {
         />
 
         <Input<CreateRegisterFormData>
-          id="institution"
+          id="instituicao"
           label="Intituição de Ensino:"
           type="text"
           placeholder="Etec de Guarulhos"
           register={register}
-          error={errors.institution}
+          error={errors.instituicao}
         />
 
-        <div className="flex gap-5">
+        <div className="flex flex-col sm:flex-row gap-5">
           <Select<CreateRegisterFormData>
-            id="course"
+            id="curso"
             label="Curso:"
             register={register}
-            error={errors.course}
-            selectOptions={courseOptions}
+            error={errors.curso}
+            selectOptions={cursoOptions}
           />
 
           <Select<CreateRegisterFormData>
-            id="grade"
+            id="modulo"
             label="Ano Escolar:"
             register={register}
-            error={errors.grade}
-            selectOptions={gradeOptions}
+            error={errors.modulo}
+            selectOptions={moduloOptions}
           />
         </div>
 
         <Input<CreateRegisterFormData>
-          id="password"
+          id="senha"
           label="Senha:"
           type="password"
           placeholder="***********"
           register={register}
-          error={errors.password}
+          error={errors.senha}
         />
 
         <Input<CreateRegisterFormData>
-          id="confirmPassword"
+          id="confirmarSenha"
           label="Confirmar Senha:"
           type="password"
           placeholder="***********"
           register={register}
-          error={errors.confirmPassword}
+          error={errors.confirmarSenha}
         />
 
         <div className="flex flex-col justify-center pt-4">
           <input
             type="submit"
             value="Cadastrar-se"
-            className="cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white mx-8 sm:mx-20 py-4 rounded-tr-xl rounded-bl-xl"
+            className="cursor-pointer bg-[#007BFF] text-lg sm:text-2xl font-bold text-white mx-4 sm:mx-20 py-3 sm:py-4 rounded-tr-xl rounded-bl-xl"
           />
           <div className="text-center mt-4 text-[#007BFF]">
             <Link href="/login">

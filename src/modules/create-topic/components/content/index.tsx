@@ -110,6 +110,7 @@ export function CreateTopicData() {
               id="titulo"
               label="Título:"
               type="text"
+              maxlength={50}
               placeholder="Título do seu assunto"
               register={register}
               error={errors.titulo}
@@ -118,6 +119,7 @@ export function CreateTopicData() {
             <TextArea<CreateFormData>
               id="descricao"
               label="Descrição:"
+              maxlength={100}
               placeholder="Digite a descrição aqui..."
               register={register}
               error={errors.descricao}
@@ -131,6 +133,7 @@ export function CreateTopicData() {
           <TextArea<CreateFormData>
             id="conteudo"
             label="Assunto:"
+            maxlength={300}
             placeholder="Digite o conteúdo do assunto aqui..."
             register={register}
             error={errors.conteudo}

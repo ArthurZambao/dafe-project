@@ -6,6 +6,7 @@ interface InputProps<T extends FieldValues> {
   id: Path<T>;
   label?: string;
   type: string;
+  maxlength?: number;
   placeholder: string;
   register: UseFormRegister<T>;
   error?: FieldError;
@@ -16,6 +17,7 @@ export function Input<T extends FieldValues>({
   id,
   label,
   type,
+  maxlength,
   placeholder,
   register,
   error,
@@ -45,6 +47,7 @@ export function Input<T extends FieldValues>({
       <input
         id={id}
         type={inputType}
+        maxLength={maxlength}
         placeholder={placeholder}
         {...rest}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {

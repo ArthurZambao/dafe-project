@@ -4,6 +4,7 @@ import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form'
 interface TextAreaProps<T extends FieldValues> {
   id: Path<T>;
   label: string;
+  maxlength?: number;
   placeholder: string;
   register: UseFormRegister<T>;
   error?: FieldError;
@@ -14,6 +15,7 @@ interface TextAreaProps<T extends FieldValues> {
 export function TextArea<T extends FieldValues>({
   id,
   label,
+  maxlength,
   placeholder,
   register,
   error,
@@ -43,6 +45,7 @@ export function TextArea<T extends FieldValues>({
       </p>
       <textarea
         id={id}
+        maxLength={maxlength}
         placeholder={placeholder}
         {...rest}
         rows={rows}
