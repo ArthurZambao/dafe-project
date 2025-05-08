@@ -7,7 +7,7 @@ export const createLoginFormSchema = z.object({
     .max(100, 'E-mail Inválido!')
     .email('E-mail inválido!'),
 
-  password: z
+  senha: z
     .string()
     .min(8, 'Senha Inválida!')
     .max(64, 'Senha Inválida!')

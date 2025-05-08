@@ -20,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
+      </head>
       <body className={`antialiased ${montserratAlternates.className}`}>
         <NavBar />
         {children}

@@ -5,8 +5,11 @@ import { comentariosPorTopico } from '../../constants/mock-comentarios';
 import Image from 'next/image';
 import { ComentarioType } from '../../constants/comentario-type';
 import { typeTopic } from '@/global/constants/typeTopic';
+import { useAuthGuard } from '@/hooks/useAuthGuard'; 
 
 export function TopicPageData() {
+  useAuthGuard();
+
   const [topic, setTopic] = useState<typeTopic | null>(null);
   const [comentario, setComentario] = useState('');
   const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
@@ -81,9 +84,7 @@ export function TopicPageData() {
           </h1>
           <p className="text-gray-700 text-lg sm:text-xl">{topic.descricao}</p>
           <button
-            onClick={() => {
-              addInteration();
-            }}
+            onClick={addInteration}
             className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
           >
             <span className="font-extrabold">{topic.interacao}</span> Interagir
@@ -91,9 +92,7 @@ export function TopicPageData() {
         </div>
       </div>
 
-
       <p className="text-gray-700 text-lg sm:text-xl mb-10">{topic.conteudo}</p>
-
 
       <p className="text-3xl sm:text-4xl text-[#007BFF] font-bold">
         {comentarios.length} Comentários

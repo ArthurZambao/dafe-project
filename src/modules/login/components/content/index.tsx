@@ -22,13 +22,15 @@ export function LoginData() {
 
   const onSubmit = async (data: CreateLoginFormData) => {
     try {
-      await axios.post('http://localhost:3030/students', data, {
+      const response = await axios.post('http://localhost:3030/login-jwt', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      console.log(data);
+      localStorage.setItem('token', response.data.token);
+
+      // Aplicar o router push para a pagina do usuario
 
       setSuccessMessage('Login com sucesso!');
       setErrorMessage('');
@@ -36,7 +38,7 @@ export function LoginData() {
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
-      setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
+      setErrorMessage('Erro ao Entrar. Por favor, tente novamente mais tarde.');
       setSuccessMessage('');
     }
   };
@@ -45,6 +47,9 @@ export function LoginData() {
     <div className="px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen">
       {successMessage && (
         <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
+      )}
+      {errorMessage && (
+        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
       )}
 
       <form
@@ -64,12 +69,12 @@ export function LoginData() {
         />
 
         <Input<CreateLoginFormData>
-          id="password"
+          id="senha"
           label="Senha:"
           type="password"
           placeholder="**********"
           register={register}
-          error={errors.password}
+          error={errors.senha}
         />
 
         <Checkbox<CreateLoginFormData>
