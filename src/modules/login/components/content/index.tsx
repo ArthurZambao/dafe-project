@@ -6,8 +6,10 @@ import { Checkbox } from '@/global/components/FormComponents/CheckBoxInput';
 import Link from 'next/link';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export function LoginData() {
+  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -30,12 +32,12 @@ export function LoginData() {
 
       localStorage.setItem('token', response.data.token);
 
-      // Aplicar o router push para a pagina do usuario
-
       setSuccessMessage('Login com sucesso!');
       setErrorMessage('');
       reset();
       setTimeout(() => setSuccessMessage(''), 3000);
+      
+      router.push('/user-page');
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
       setErrorMessage('Erro ao Entrar. Por favor, tente novamente mais tarde.');

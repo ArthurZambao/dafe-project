@@ -11,8 +11,10 @@ import { cursoOptions } from '../../constants/curso-options';
 import { moduloOptions } from '../../constants/modulo-options';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export function RegisterData() {
+  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -49,6 +51,8 @@ export function RegisterData() {
       setErrorMessage('');
       reset();
       setTimeout(() => setSuccessMessage(''), 3000);
+
+      router.push('/user-page');
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
       setErrorMessage('Erro ao realizar cadastro. Por favor, tente novamente mais tarde.');
@@ -60,6 +64,9 @@ export function RegisterData() {
     <div className="flex flex-col px-4 sm:px-0 items-center justify-center min-h-screen">
       {successMessage && (
         <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
+      )}
+      {errorMessage && (
+        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
       )}
 
       <form

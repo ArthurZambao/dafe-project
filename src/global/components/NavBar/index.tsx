@@ -3,13 +3,65 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const decoded = jwtDecode<{ exp: number }>(token);
+        const now = Date.now() / 1000;
+        if (decoded.exp > now) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('token');
+        }
+      } catch {
+        localStorage.removeItem('token');
+      }
+    }
+  }, []);
+
+  const renderAuthLink = () => {
+    if (isAuthenticated) {
+      return (
+        <Link href="/user-page" className="hover:underline">
+          Perfil
+        </Link>
+      );
+    }
+
+    if (pathname === '/login') {
+      return (
+        <Link href="/register" className="hover:underline">
+          Cadastrar-se
+        </Link>
+      );
+    }
+
+    if (pathname === '/register') {
+      return (
+        <Link href="/login" className="hover:underline">
+          Entrar
+        </Link>
+      );
+    }
+
+    return (
+      <Link href="/login" className="hover:underline">
+        Entrar
+      </Link>
+    );
+  };
 
   return (
     <div className="bg-[#007BFF] text-white flex justify-between p-6 mx-auto items-center relative select-none">
@@ -43,26 +95,7 @@ export function NavBar() {
               Denúncias
             </Link>
           </li>
-          {/* <li>
-            <Link href="#" className="hover:underline">
-              Conversas
-            </Link>
-          </li> */}
-          <li>
-            {pathname === '/login' ? (
-              <Link href="/register" className="hover:underline">
-                Cadastrar-se
-              </Link>
-            ) : pathname === '/register' ? (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            ) : (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            )}
-          </li>
+          <li>{renderAuthLink()}</li>
         </ul>
       </nav>
 
@@ -81,22 +114,7 @@ export function NavBar() {
             <li>
               <Link href="/complaints">Denúncias</Link>
             </li>
-            {/* <li>
-              <Link href="#">Conversas</Link>
-            </li> */}
-            {pathname === '/login' ? (
-              <Link href="/register" className="hover:underline">
-                Cadastrar-se
-              </Link>
-            ) : pathname === '/register' ? (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            ) : (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            )}
+            <li>{renderAuthLink()}</li>
           </ul>
         </nav>
       )}

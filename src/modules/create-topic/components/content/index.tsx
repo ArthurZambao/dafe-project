@@ -9,12 +9,16 @@ import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
 import { useState } from 'react';
 import { FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
+import { useRouter } from 'next/navigation';
 
 export function CreateTopicData() {
-  const hoje = new Date();
+  useAuthGuard();
 
-  
-  const dataFormatada = hoje.toISOString().slice(0, 10); 
+  const hoje = new Date();
+  const dataFormatada = hoje.toISOString().slice(0, 10);
+  const token = localStorage.getItem('token');
+  const router = useRouter();
 
   const {
     register,
@@ -29,17 +33,18 @@ export function CreateTopicData() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data: CreateFormData) => {
-    const finalData = { ...data, data: dataFormatada }; 
+    const finalData = { ...data, data: dataFormatada };
 
     try {
       await axios.post('http://localhost:3030/posts', finalData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log(finalData);
-      
+      router.push('/forum-page');
+
       setSuccessMessage('Tópico criado com sucesso!');
       setErrorMessage('');
       reset();
@@ -47,15 +52,13 @@ export function CreateTopicData() {
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
 
-      
       setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
       setSuccessMessage('');
     }
   };
 
   return (
-    <div className="px-10 sm:px-0">
-      
+    <div className="px-10 sm:px-0 min-h-screen">
       <div className="py-10">
         <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
           Criar Assunto
@@ -70,13 +73,11 @@ export function CreateTopicData() {
         <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
       )}
 
-      
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
       >
         <div className="flex flex-col lg:flex-row gap-8">
-          
           <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
             <div className="w-40 h-40 sm:w-60 sm:h-60 bg-[#007BFF] rounded-2xl relative overflow-hidden">
               <Image
@@ -104,7 +105,6 @@ export function CreateTopicData() {
             </div>
           </div>
 
-          
           <div className="flex flex-col gap-4 flex-1 w-full">
             <Input<CreateFormData>
               id="titulo"
@@ -128,7 +128,6 @@ export function CreateTopicData() {
           </div>
         </div>
 
-        
         <div className="py-6">
           <TextArea<CreateFormData>
             id="conteudo"
@@ -141,7 +140,6 @@ export function CreateTopicData() {
           />
         </div>
 
-        
         <div className="flex justify-center pt-8">
           <input
             type="submit"
