@@ -3,13 +3,13 @@ import Link from 'next/link';
 
 export function Register() {
   return (
-    <section className="flex mt-15 mb-20 justify-center gap-20 mx-5">
+    <section className="flex flex-col sm:flex-row mt-15 mb-20 justify-center gap-20 mx-5">
       <div className="flex flex-col gap-8 text-center">
         <h1 className="text-[#007BFF] text-3xl font-bold">
           FAÇA SEU REGISTRO <span className="text-[#6C757D]">AGORA</span> !
         </h1>
         <p className="text-[#6C757D] sm:text-lg font-semibold ">
-          Não perca a chance de fazer a diferença na sua <br />
+          Não perca a chance de fazer a diferença na sua <br className="hidden sm:block" />
           escola! Com o D.A.F.E, sua voz será ouvida de forma <br className="hidden sm:block" />
           contínua e direta. Cadastre-se agora e comece a <br className="hidden sm:block" />
           compartilhar suas opiniões, ficar por dentro dos <br className="hidden sm:block" />

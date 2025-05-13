@@ -33,12 +33,13 @@ export function Operation() {
         <div className="flex sm:flex-row flex-col items-center justify-normal sm:justify-between sm:gap-[20rem]">
           <div className="pt-4 text-center">
             <h1 className="font-bold text-xl sm:text-4xl pb-4 sm:pb-10">FeedBack Constante:</h1>
-            <p className="text-sm sm:text-xl pb-6 sm:pb-0">
-              <span className="font-bold">O cadastro é rápido e fácil.</span> Os alunos criam sua{' '}
-              <br />
-              conta com informações básicas, como nome, turma e email, e{' '}
-              <br className="sm:block hidden" />
-              em poucos minutos estão prontos para começar a usar o aplicativo.
+            <p className="text-sm sm:text-xl pb-6 sm:pb-0 px-2 sm:px-0">
+              Sua opinião nos guia: com <span className="font-bold">feedback constante</span>,
+              ajustamos
+              <br className="hidden sm:block" />
+              cada detalhe para oferecer uma plataforma cada 
+              <br className="hidden sm:block" />
+              vez mais eficiente, transparente e feita para você.
             </p>
           </div>
           <Image

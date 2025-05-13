@@ -9,7 +9,7 @@ export function FormsPageData() {
       </section>
       <section className="py-10">
         {formsMock.map((form) => (
-          <Link href={form.link} key={form.id}>
+          <Link href="*" key={form.id}>
             <div className="text-center cursor-pointer hover:bg-[#d4d4d4d3] p-6 mb-4 max-w-md mx-auto rounded-3xl transition-all duration-300">
               <h2 className="text-[#007BFF] text-3xl font-bold mb-2">{form.title}</h2>
               <p className="text-[#6C757D]">{form.description}</p>
