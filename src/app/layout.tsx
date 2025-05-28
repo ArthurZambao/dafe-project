@@ -26,7 +26,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased ${montserratAlternates.className}`}>
         <NavBar />
-        {children}
+        <main className='pt-30'>{children}</main>
         <Footer />
         <Toaster position="top-center" richColors closeButton />
       </body>

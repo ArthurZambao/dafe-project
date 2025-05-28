@@ -56,7 +56,7 @@ export function NavBar() {
   };
 
   return (
-    <div className="bg-[#007BFF] text-white flex justify-between p-6 mx-auto items-center relative select-none">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#007BFF] border-b-10 border-[#1a89ff] text-white flex justify-between p-6 items-center select-none">
       <Link href="/landing-page">
         <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
       </Link>

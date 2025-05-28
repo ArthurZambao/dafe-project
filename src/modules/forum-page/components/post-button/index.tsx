@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function CreateTopicButton() {
+export function CreatePostButton() {
   return (
     <section className="flex justify-center pt-10 pb-40">
       <Link href="/create-topic">

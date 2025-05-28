@@ -1,10 +1,10 @@
-export interface typeTopic {
-  id: number;
+export interface typePost {
+  _id: string;
   titulo: string;
   usuario: string;
   conteudo: string;
   descricao: string;
-  data: string; // formato: 'YYYY-MM-DD'
+  data: string;
   topico: 'aulas' | 'diretores' | 'alunos' | 'atividades' | 'extracurriculares';
   interacao: number;
 }

@@ -3,7 +3,6 @@ import { CreateComplaintData, createComplaintSchema } from '../../schemas/create
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { complaintOptions } from '../../constants/complaint-options';
 import axios from 'axios';
@@ -18,8 +17,6 @@ export function ComplaintsData() {
     resolver: zodResolver(createComplaintSchema),
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data: CreateComplaintData) => {
     try {
@@ -28,19 +25,12 @@ export function ComplaintsData() {
           'Content-Type': 'application/json',
         },
       });
-
-      console.log(data);
-      
-      setSuccessMessage('Tópico criado com sucesso!');
-      setErrorMessage('');
+      console.log(data);    
       reset();
-      setTimeout(() => setSuccessMessage(''), 3000);
+
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
 
-      
-      setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
-      setSuccessMessage('');
     }
   };
 
@@ -49,10 +39,6 @@ export function ComplaintsData() {
       <h1 className=" text-4xl sm:text-6xl font-bold text-[#007BFF] text-center my-10">
         Denunciar
       </h1>
-
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
 
       <div className="mx-6 sm:mx-0">
         <form
