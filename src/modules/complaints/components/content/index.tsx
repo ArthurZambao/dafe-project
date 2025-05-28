@@ -3,9 +3,9 @@ import { CreateComplaintData, createComplaintSchema } from '../../schemas/create
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { complaintOptions } from '../../constants/complaint-options';
+import axios from 'axios';
 
 export function ComplaintsData() {
   const {
@@ -17,18 +17,21 @@ export function ComplaintsData() {
     resolver: zodResolver(createComplaintSchema),
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
 
-  const onSubmit = (data: CreateComplaintData) => {
+  const onSubmit = async (data: CreateComplaintData) => {
     try {
-      // TODO: Fazer chamada para a API
-      console.log(data);
-      setSuccessMessage('Denúncia enviada com sucesso!');
+      await axios.post('http://localhost:3030/complaints', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(data);    
+      reset();
+
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
+
     }
-    reset();
-    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (
@@ -37,40 +40,36 @@ export function ComplaintsData() {
         Denunciar
       </h1>
 
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
-
       <div className="mx-6 sm:mx-0">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[50rem] my-5 p-10"
         >
           <Input<CreateComplaintData>
-            id="complaintTitle"
+            id="titulo"
             label="Título da denúncia:"
             type="text"
             placeholder="Titulo12345"
             register={register}
-            error={errors.complaintTitle}
+            error={errors.titulo}
           />
 
           <div className="w-full sm:w-[10rem]">
             <Select<CreateComplaintData>
-              id="selectComplaintTopic"
+              id="topico"
               label="Tópico:"
               register={register}
-              error={errors.selectComplaintTopic}
+              error={errors.topico}
               selectOptions={complaintOptions}
             />
           </div>
 
           <TextArea<CreateComplaintData>
-            id="complaintMain"
+            id="conteudo"
             label="Sobre a denúncia:"
             placeholder="Digite a sua denúncia aqui..."
             register={register}
-            error={errors.complaintMain}
+            error={errors.conteudo}
             rows={7}
           />
 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 export function Footer() {
   return (
     <footer className="flex flex-col items-center bg-[#007BFF] text-white px-8 py-3 select-none">
-      <div className="w-full flex justify-between gap-4 relative">
+      <div className="w-full flex justify-between relative">
         <Link href="/landing-page">
           <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
         </Link>

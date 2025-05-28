@@ -3,10 +3,16 @@ import { z } from 'zod';
 export const createLoginFormSchema = z.object({
   email: z
     .string()
-    .email('E-mail inválido')
-    .max(255, 'E-mail muito longo!'),
-    
-  password: z.string().nonempty('Senha inválida!'),
+    .min(5, 'E-mail Inválido!')
+    .max(100, 'E-mail Inválido!')
+    .email('E-mail inválido!'),
+
+  senha: z
+    .string()
+    .min(8, 'Senha Inválida!')
+    .max(64, 'Senha Inválida!')
+    .nonempty('Senha inválida!'),
+
   remember: z.boolean().optional(),
 });
 

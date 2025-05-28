@@ -3,16 +3,60 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { AnimatedLink } from '@/global/animations/animatedLink';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
+  useEffect(() => {
+    const token = getTokenFromCookie();
+
+    if (token) {
+      try {
+        const decoded = jwtDecode<{ exp: number }>(token);
+        const now = Date.now() / 1000;
+        if (decoded.exp > now) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      }
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  const getTokenFromCookie = (): string | null => {
+    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  };
+
+  const renderAuthLink = () => {
+    if (isAuthenticated) {
+      return <AnimatedLink href="/user-page">Perfil</AnimatedLink>;
+    }
+
+    if (pathname === '/login') {
+      return <AnimatedLink href="/register">Cadastrar-se</AnimatedLink>;
+    }
+
+    if (pathname === '/register') {
+      return <AnimatedLink href="/login">Entrar</AnimatedLink>;
+    }
+
+    return <AnimatedLink href="/login">Entrar</AnimatedLink>;
+  };
+
   return (
-    <div className="bg-[#007BFF] text-white flex justify-between p-6 mx-auto items-center relative select-none">
+    <div className="fixed top-0 left-0 w-full z-50 bg-[#007BFF] border-b-10 border-[#1a89ff] text-white flex justify-between p-6 items-center select-none">
       <Link href="/landing-page">
         <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
       </Link>
@@ -24,45 +68,18 @@ export function NavBar() {
       <nav>
         <ul className="hidden md:flex items-center space-x-10 text-xl">
           <li>
-            <Link href="/landing-page" className="hover:underline">
-              Início
-            </Link>
+            <AnimatedLink href="/landing-page">Início</AnimatedLink>
           </li>
           <li>
-            <Link href="/forum-page" className="hover:underline">
-              Fórum
-            </Link>
+            <AnimatedLink href="/forum-page">Fórum</AnimatedLink>
           </li>
           <li>
-            <Link href="/notices-page" className="hover:underline">
-              Notícias
-            </Link>
+            <AnimatedLink href="/notices-page">Notícias</AnimatedLink>
           </li>
           <li>
-            <Link href="/complaints" className="hover:underline">
-              Denúncias
-            </Link>
+            <AnimatedLink href="/complaints">Denúncias</AnimatedLink>
           </li>
-          {/* <li>
-            <Link href="#" className="hover:underline">
-              Conversas
-            </Link>
-          </li> */}
-          <li>
-            {pathname === '/login' ? (
-              <Link href="/register" className="hover:underline">
-                Cadastrar-se
-              </Link>
-            ) : pathname === '/register' ? (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            ) : (
-              <Link href="/login" className="hover:underline">
-                Entrar
-              </Link>
-            )}
-          </li>
+          <li>{renderAuthLink()}</li>
         </ul>
       </nav>
 
@@ -81,22 +98,7 @@ export function NavBar() {
             <li>
               <Link href="/complaints" onClick={toggleMenu}>Denúncias</Link>
             </li>
-            {/* <li>
-              <Link href="#">Conversas</Link>
-            </li> */}
-            {pathname === '/login' ? (
-              <Link href="/register" className="hover:underline" onClick={toggleMenu}>
-                Cadastrar-se
-              </Link>
-            ) : pathname === '/register' ? (
-              <Link href="/login" className="hover:underline" onClick={toggleMenu}>
-                Entrar
-              </Link>
-            ) : (
-              <Link href="/login" className="hover:underline" onClick={toggleMenu}>
-                Entrar
-              </Link>
-            )}
+            <li>{renderAuthLink()}</li>
           </ul>
         </nav>
       )}

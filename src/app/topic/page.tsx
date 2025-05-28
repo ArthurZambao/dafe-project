@@ -1,7 +1,12 @@
 'use client';
 
-import { TopicPageData } from "@/modules/topic/components/content";
+import { ProtectedPage } from '@/global/components/protectedPage';
+import { TopicPageData } from '@/modules/post/components/content';
 
 export default function TopicPage() {
-  return <TopicPageData />;
+  return (
+    <ProtectedPage>
+      <TopicPageData />
+    </ProtectedPage>
+  );
 }

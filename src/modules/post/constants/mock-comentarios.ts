@@ -1,6 +1,5 @@
 import { ComentarioType } from "./comentario-type";
 
-
 export const comentariosPorTopico: Record<string, ComentarioType[]> = {
   1: [
     {

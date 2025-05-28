@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
@@ -6,11 +8,16 @@ import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
-import { useState } from 'react';
 import { FormattedDate } from '@/global/components/FormatedDate';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function CreateTopicData() {
   const hoje = new Date();
+  const dataFormatada = hoje.toISOString().slice(0, 10);
+  const router = useRouter();
+
   const {
     register,
     formState: { errors },
@@ -20,42 +27,50 @@ export function CreateTopicData() {
     resolver: zodResolver(createFormSchema),
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
+  const getTokenFromCookie = (): string | null => {
+    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  };
 
-  const onSubmit = (data: CreateFormData) => {
-    const finalData = { ...data, date: hoje.toDateString() };
+  const onSubmit = async (data: CreateFormData) => {
+    const finalData = { ...data, data: dataFormatada };
+    const token = getTokenFromCookie();
 
     try {
-      // TODO: Fazer chamada para a API
-      console.log(finalData);
-      setSuccessMessage('Tópico criado com sucesso!');
+      await axios.post('http://localhost:3030/posts', finalData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      router.push('/forum-page');
+      toast.success('Tópico criado com sucesso!');
+      reset();
     } catch (error) {
-      console.error('Erro ao enviar dados:', error);
+      let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string | string[] } } };
+        const message = err.response?.data?.message;
+        backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
+      }
+      toast.error(backendMessage);
     }
-    reset();
-    setTimeout(() => setSuccessMessage(''), 3000);
   };
 
   return (
-    <div className=" px-10 sm:px-0">
-      {/* Título principal */}
+    <div className="px-10 sm:px-0 min-h-screen">
       <div className="py-10">
         <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
           Criar Assunto
         </h1>
       </div>
 
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
-
-      {/* Formulário */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6  sm:p-10 w-full max-w-5xl my-10 mx-auto"
+        className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
       >
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Imagem e Data */}
           <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
             <div className="w-40 h-40 sm:w-60 sm:h-60 bg-[#007BFF] rounded-2xl relative overflow-hidden">
               <Image
@@ -74,50 +89,50 @@ export function CreateTopicData() {
 
             <div className="w-full">
               <Select<CreateFormData>
-                id="selectTopic"
+                id="topico"
                 label="Tópico:"
                 register={register}
-                error={errors.selectTopic}
+                error={errors.topico}
                 selectOptions={forumFilterOptions}
               />
             </div>
           </div>
 
-          {/* Inputs de título e descrição */}
           <div className="flex flex-col gap-4 flex-1 w-full">
             <Input<CreateFormData>
-              id="topicTitle"
+              id="titulo"
               label="Título:"
               type="text"
+              maxlength={50}
               placeholder="Título do seu assunto"
               register={register}
-              error={errors.topicTitle}
+              error={errors.titulo}
             />
 
             <TextArea<CreateFormData>
-              id="topicDescription"
+              id="descricao"
               label="Descrição:"
+              maxlength={100}
               placeholder="Digite a descrição aqui..."
               register={register}
-              error={errors.topicDescription}
+              error={errors.descricao}
               rows={5}
             />
           </div>
         </div>
 
-        {/* Conteúdo do tópico */}
         <div className="py-6">
           <TextArea<CreateFormData>
-            id="topicMain"
+            id="conteudo"
             label="Assunto:"
+            maxlength={300}
             placeholder="Digite o conteúdo do assunto aqui..."
             register={register}
-            error={errors.topicMain}
+            error={errors.conteudo}
             rows={10}
           />
         </div>
 
-        {/* Botão de envio */}
         <div className="flex justify-center pt-8">
           <input
             type="submit"

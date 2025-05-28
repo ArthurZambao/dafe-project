@@ -2,54 +2,53 @@ import { z } from 'zod';
 
 export const createRegisterFormSchema = z
   .object({
-    name: z
+    nome: z
       .string()
-      .min(2, 'Nome muito curto!') 
-      .max(100, 'Nome muito longo!'), 
+      .min(3, 'Nome Inválido!')
+      .max(100, 'Nome Inválido!')
+      .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/, 'Nome Inválido!'),
 
-    username: z
+    usuario: z
       .string()
-      .min(4, 'Nome de Usuário muito curto!') 
-      .max(20, 'Nome de Usuário muito longo!') 
-      .regex(/^\S+$/, 'Nome de Usuário não pode conter espaços!'), 
+      .min(3, 'O nome de usuário deve ter pelo menos 3 caracteres.')
+      .max(20, 'O nome de usuário deve ter no máximo 20 caracteres.')
+      .regex(/^[a-zA-Z0-9_]+$/, 'O nome de usuário só pode conter letras!'),
 
     email: z
       .string()
-      .email('E-mail inválido')
-      .max(255, 'E-mail muito longo!'), 
+      .email('E-mail inválido!')
+      .min(5, 'E-mail inválido!')
+      .max(100, 'E-mail inválido!'),
 
-    institution: z
+    instituicao: z
       .string()
-      .min(2, 'Instituição muito curta!')
-      .max(100, 'Instituição muito longa!'),
+      .min(2, 'Instituição inválida!')
+      .max(100, 'Instituição inválida!'),
 
-    course: z
+    curso: z
       .string()
-      .min(2, 'Curso muito curto!')
-      .max(100, 'Curso muito longo!'),
+      .min(2, 'Curso inválido!')
+      .max(100, 'Curso inválido!'),
 
-    grade: z
+    modulo: z
       .string()
       .min(1, 'Série inválida!')
-      .max(10, 'Série inválida!'),
+      .max(20, 'Série inválida!'),
 
-    password: z
+    senha: z
       .string()
-      .min(8, 'A senha precisa ter no mínimo 8 caracteres!')
-      .regex(/[A-Z]/, 'A senha precisa de pelo menos uma letra maiúscula!')
-      .regex(/[a-z]/, 'A senha precisa de pelo menos uma letra minúscula!')
-      .regex(/[0-9]/, 'A senha precisa de pelo menos um número!')
-      .regex(/[\W_]/, 'A senha precisa de pelo menos um caractere especial!')
-      .max(255, 'Senha muito longa!'),
+      .min(8, 'A senha deve ter no mínimo 8 caracteres.')
+      .max(64, 'A senha deve ter no máximo 64 caracteres.')
+      .regex(/[A-Z]/, 'A senha deve conter ao menos uma letra maiúscula.')
+      .regex(/[a-z]/, 'A senha deve conter ao menos uma letra minúscula.')
+      .regex(/[0-9]/, 'A senha deve conter ao menos um número.')
+      .regex(/[^A-Za-z0-9]/, 'A senha deve conter ao menos um caractere especial.'),
 
-    confirmPassword: z
-      .string()
-      .min(8, 'A confirmação de senha precisa ter no mínimo 8 caracteres!')
-      .max(255, 'Confirmação de senha muito longa!'),
+    confirmarSenha: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.senha === data.confirmarSenha, {
     message: 'As senhas não coincidem!',
-    path: ['confirmPassword'],
-  })
+    path: ['confirmarSenha'],
+  });
 
 export type CreateRegisterFormData = z.infer<typeof createRegisterFormSchema>;
