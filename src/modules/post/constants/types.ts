@@ -9,3 +9,7 @@ export type TopicType = {
   usuario: string;
   topico: string;
 };
+
+export type TopicPageDataProps = {
+  postId: string;
+};

@@ -12,6 +12,7 @@ import { FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { getValidToken } from '@/global/utils/auth';
 
 export function CreateTopicData() {
   const hoje = new Date();
@@ -27,17 +28,18 @@ export function CreateTopicData() {
     resolver: zodResolver(createFormSchema),
   });
 
-  const getTokenFromCookie = (): string | null => {
-    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
-    return match ? decodeURIComponent(match[1]) : null;
-  };
-
   const onSubmit = async (data: CreateFormData) => {
     const finalData = { ...data, data: dataFormatada };
-    const token = getTokenFromCookie();
+    const token = getValidToken();
+
+    if (!token) {
+      toast.error('Token inválido ou expirado. Faça login novamente.');
+      router.push('/login');
+      return;
+    }
 
     try {
-      await axios.post('http://localhost:3030/posts', finalData, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`, finalData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

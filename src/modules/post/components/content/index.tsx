@@ -4,11 +4,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { typePost } from '@/global/constants/typePost';
-
-
-type TopicPageDataProps = {
-  postId: string;
-};
+import { TopicPageDataProps } from '../../constants/types';
+import { getValidToken } from '@/global/utils/auth';
 
 export function PostPageData({ postId }: TopicPageDataProps) {
   const [post, setPost] = useState<typePost | null>(null);
@@ -16,10 +13,6 @@ export function PostPageData({ postId }: TopicPageDataProps) {
   const [error, setError] = useState<string | null>(null);
   const [isInteracted, setIsInteracted] = useState(false);
 
-  function getTokenFromCookie() {
-    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
-    return match ? decodeURIComponent(match[1]) : null;
-  }
 
   useEffect(() => {
     if (typeof postId !== 'string') {
@@ -31,7 +24,7 @@ export function PostPageData({ postId }: TopicPageDataProps) {
       setLoading(true);
       setError(null);
       try {
-        const token = getTokenFromCookie();
+        const token = getValidToken();
         if (!token) {
           setError('Você não está autenticado.');
           setLoading(false);
@@ -63,7 +56,7 @@ export function PostPageData({ postId }: TopicPageDataProps) {
   };
 
   if (loading) return <p className="p-10 text-xl min-h-screen">Carregando tópico...</p>;
-  if (error) return <p className="p-10 text-xl text-red-500">{error}</p>;
+  if (error) return <p className="p-10 text-xl text-red-500 min-h-screen">{error}</p>;
   if (!post) return <p className="p-10 text-xl min-h-screen">Tópico não encontrado.</p>;
 
   const addInteration = () => {
