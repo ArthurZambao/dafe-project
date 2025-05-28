@@ -11,6 +11,7 @@ interface InputProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   error?: FieldError;
   mask?: string;
+  showPasswordToggle?: boolean; // Propriedade para alternar a visibilidade da senha
 }
 
 export function Input<T extends FieldValues>({
