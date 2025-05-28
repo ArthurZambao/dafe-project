@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
@@ -6,18 +8,14 @@ import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forumFilterOptions } from '@/global/constants/forumFilterOptions';
-import { useState } from 'react';
 import { FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
-import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function CreateTopicData() {
-  useAuthGuard();
-
   const hoje = new Date();
   const dataFormatada = hoje.toISOString().slice(0, 10);
-  const token = localStorage.getItem('token');
   const router = useRouter();
 
   const {
@@ -29,11 +27,14 @@ export function CreateTopicData() {
     resolver: zodResolver(createFormSchema),
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const getTokenFromCookie = (): string | null => {
+    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  };
 
   const onSubmit = async (data: CreateFormData) => {
     const finalData = { ...data, data: dataFormatada };
+    const token = getTokenFromCookie();
 
     try {
       await axios.post('http://localhost:3030/posts', finalData, {
@@ -44,16 +45,16 @@ export function CreateTopicData() {
       });
 
       router.push('/forum-page');
-
-      setSuccessMessage('Tópico criado com sucesso!');
-      setErrorMessage('');
+      toast.success('Tópico criado com sucesso!');
       reset();
-      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-
-      setErrorMessage('Erro ao criar o tópico. Por favor, tente novamente mais tarde.');
-      setSuccessMessage('');
+      let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string | string[] } } };
+        const message = err.response?.data?.message;
+        backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
+      }
+      toast.error(backendMessage);
     }
   };
 
@@ -64,14 +65,6 @@ export function CreateTopicData() {
           Criar Assunto
         </h1>
       </div>
-
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
-
-      {errorMessage && (
-        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
-      )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}

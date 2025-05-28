@@ -18,7 +18,9 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
     <>
       {/* Botão da barra de filtro */}
       <div className="flex justify-between items-center py-10 px-6 sm:px-16 relative">
-        <h2 className="flex text-[#007BFF] text-3xl sm:text-4xl font-semibold"><span className='hidden sm:block'>Principais </span> Assuntos</h2>
+        <h2 className="hidden sm:block text-[#007BFF] text-3xl sm:text-4xl font-semibold">
+          Principais Assuntos
+        </h2>
         <button
           onClick={handleToggle}
           className="flex items-center gap-2 cursor-pointer bg-[#007BFF] text-xl sm:text-lg font-bold text-white px-10 py-2 rounded-tl-xl rounded-br-xl"

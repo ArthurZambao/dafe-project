@@ -1,16 +1,18 @@
-// src/hooks/useAuthGuard.ts
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 export function useAuthGuard() {
   const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
     if (!token) {
+      setIsChecking(false);
       router.push('/login');
       return;
     }
@@ -19,13 +21,20 @@ export function useAuthGuard() {
       const decoded = jwtDecode<{ exp: number }>(token);
       const now = Date.now() / 1000;
       if (decoded.exp < now) {
-        localStorage.removeItem('token');
+        Cookies.remove('token');
+        setIsChecking(false);
         router.push('/login');
         return;
       }
+
+
+      setIsChecking(false);
     } catch {
-      localStorage.removeItem('token');
+      Cookies.remove('token');
+      setIsChecking(false);
       router.push('/login');
     }
   }, [router]);
+
+  return isChecking;
 }

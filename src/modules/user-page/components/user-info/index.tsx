@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
 
 interface JwtPayload {
   usuario: string;
@@ -17,7 +18,7 @@ export function UserInfo() {
   const [user, setUser] = useState<JwtPayload | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token'); 
     if (token) {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
@@ -28,8 +29,8 @@ export function UserInfo() {
     }
   }, []);
 
-  if (!user) return null; 
-  console.log(user);
+  if (!user) return null;
+
   return (
     <div className="flex items-center justify-between mb-2 gap-6 sm:gap-0">
       <div className="flex items-center gap-3">

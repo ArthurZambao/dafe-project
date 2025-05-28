@@ -6,7 +6,7 @@ export function UserForms() {
       <p className="text-2xl text-[#007BFF]">{form.titulo}</p>
       <span className="flex justify-between items-center mt-2">
         <p className="text-[#6C757D] text-sm mt-2">
-          {form.data_inicial} até {form.data_final}
+          <span className="font-bold">{form.data_inicial}</span> até <span className="font-bold">{form.data_final}</span>
         </p>
         <p
           className={`${form.resposta === 'Respondido' ? 'text-[#007BFF]' : 'text-red-500'} text-sm mt-2`}

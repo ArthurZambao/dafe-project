@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form';
-import { Eye, EyeOff } from 'lucide-react'; // ícones (instale lucide-react ou troque por outros)
+import { Eye, EyeOff } from 'lucide-react';
 
 interface InputProps<T extends FieldValues> {
   id: Path<T>;
@@ -36,14 +36,18 @@ export function Input<T extends FieldValues>({
   };
 
   const { onChange, ...rest } = register(id);
-
   const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
+
+  const errorId = `${id}-error`;
 
   return (
     <div className="flex flex-col text-[#6C757D] relative">
-      <p className="text-lg sm:text-2xl font-semibold text-left">
-        {label} {error && <span className="text-red-500">*</span>}
-      </p>
+      {label && (
+        <label htmlFor={id} className="text-lg sm:text-2xl font-semibold text-left">
+          {label} {error && <span className="text-red-500">*</span>}
+        </label>
+      )}
+
       <input
         id={id}
         type={inputType}
@@ -55,21 +59,32 @@ export function Input<T extends FieldValues>({
           e.target.value = maskedValue;
           onChange(e);
         }}
-        className={`${error ? 'border-red-500' : 'border-[#007BFF]'} w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
+        className={`${
+          error ? 'border-red-500' : 'border-[#007BFF]'
+        } w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
       />
 
-      {/* Botão de mostrar/esconder senha */}
       {type === 'password' && (
         <button
           type="button"
           onClick={() => setShowPassword((prev) => !prev)}
-          className=" cursor-pointer absolute right-3 bottom-2 top-9 flex items-center text-gray-500"
+          className="cursor-pointer absolute right-3 bottom-2 top-9 flex items-center text-gray-500"
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
       )}
 
-      {error && <span className="text-red-500 text-sm text-left ml-4">{error.message}</span>}
+      {error && (
+        <span
+          id={errorId}
+          role="alert"
+          className="text-red-500 text-sm text-left ml-4 mt-1"
+        >
+          {error.message}
+        </span>
+      )}
     </div>
   );
 }

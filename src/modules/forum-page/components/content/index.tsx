@@ -9,7 +9,7 @@ import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
 import { CreateTopicButton } from '../topic-button';
 import { typeTopic } from '@/global/constants/typeTopic';
-import { useAuthGuard } from '@/hooks/useAuthGuard'; // Importando o useAuthGuard
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 
 export function ForumPageData() {
   useAuthGuard();
@@ -19,6 +19,12 @@ export function ForumPageData() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  // Função para ler token dos cookies
+  const getTokenFromCookie = (): string | null => {
+    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  };
 
   const fetchTopics = async (topicFilter: string | null, token: string) => {
     setLoading(true);
@@ -35,18 +41,21 @@ export function ForumPageData() {
 
       setTopics(res.data);
       setError(null);
-    } catch (err) {
-      console.error('Erro ao buscar tópicos:', err);
-      setError('Erro ao carregar os tópicos.');
+    } catch (error) {
+      console.error('Erro ao buscar tópicos:', error);
+      setError('Erro ao carregar os tópicos. Verifique sua conexão ou autenticação.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getTokenFromCookie();
     if (token) {
       fetchTopics(selectedTopic, token);
+    } else {
+      console.warn('Token ausente nos cookies');
+      setError('Você não está autenticado.');
     }
   }, [router, selectedTopic]);
 

@@ -9,9 +9,9 @@ import {
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { cursoOptions } from '../../constants/curso-options';
 import { moduloOptions } from '../../constants/modulo-options';
-import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function RegisterData() {
   const router = useRouter();
@@ -23,9 +23,6 @@ export function RegisterData() {
   } = useForm<CreateRegisterFormData>({
     resolver: zodResolver(createRegisterFormSchema),
   });
-
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data: CreateRegisterFormData) => {
     const moduloMapping: { [key: string]: number } = {
@@ -46,29 +43,24 @@ export function RegisterData() {
         },
       });
 
-      console.log(finalData);
-      setSuccessMessage('Cadastro realizado com sucesso!');
-      setErrorMessage('');
       reset();
-      setTimeout(() => setSuccessMessage(''), 3000);
 
       router.push('/user-page');
+      toast.success('Cadastro realizado com sucesso!');
     } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-      setErrorMessage('Erro ao realizar cadastro. Por favor, tente novamente mais tarde.');
-      setSuccessMessage('');
+      let backendMessage = 'Erro ao cadastrar. Por favor, tente novamente mais tarde.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string | string[] } } };
+        const message = err.response?.data?.message;
+        backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
+      }
+
+      toast.error(backendMessage);
     }
   };
 
   return (
     <div className="flex flex-col px-4 sm:px-0 items-center justify-center min-h-screen">
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
-      {errorMessage && (
-        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
-      )}
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10 px-6 sm:px-10 py-10 sm:py-20"

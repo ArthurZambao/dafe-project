@@ -4,12 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/global/components/FormComponents/CheckBoxInput';
 import Link from 'next/link';
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useLogin } from '@/hooks/useLogin';
 
 export function LoginData() {
-  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -19,41 +16,14 @@ export function LoginData() {
     resolver: zodResolver(createLoginFormSchema),
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const { login, isSubmitting } = useLogin();
 
-  const onSubmit = async (data: CreateLoginFormData) => {
-    try {
-      const response = await axios.post('http://localhost:3030/login-jwt', data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      localStorage.setItem('token', response.data.token);
-
-      setSuccessMessage('Login com sucesso!');
-      setErrorMessage('');
-      reset();
-      setTimeout(() => setSuccessMessage(''), 3000);
-      
-      router.push('/user-page');
-    } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-      setErrorMessage('Erro ao Entrar. Por favor, tente novamente mais tarde.');
-      setSuccessMessage('');
-    }
+  const onSubmit = (data: CreateLoginFormData) => {
+    login(data, reset);
   };
 
   return (
     <div className="px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen">
-      {successMessage && (
-        <p className="text-center text-green-600 font-semibold text-lg mb-4">{successMessage}</p>
-      )}
-      {errorMessage && (
-        <p className="text-center text-red-600 font-semibold text-lg mb-4">{errorMessage}</p>
-      )}
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[40rem] my-10 px-5 py-20"
@@ -89,8 +59,11 @@ export function LoginData() {
         <div className="flex flex-col justify-center pt-4">
           <input
             type="submit"
-            value="Entrar"
-            className="cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white mx-8 sm:mx-20 py-4 rounded-tr-xl rounded-bl-xl"
+            value={isSubmitting ? 'Entrando...' : 'Entrar'}
+            disabled={isSubmitting}
+            className={`cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white mx-8 sm:mx-20 py-4 rounded-tr-xl rounded-bl-xl transition-opacity ${
+              isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
+            }`}
           />
           <div className="text-center mt-4 text-[#007BFF]">
             <Link href="/register">

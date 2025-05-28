@@ -1,8 +1,12 @@
 'use client';
 
-import { ForumPageData } from "@/modules/forum-page/components/content";
-
+import { ProtectedPage } from '@/global/components/protectedPage';
+import { ForumPageData } from '@/modules/forum-page/components/content';
 
 export default function ForumPage() {
-    return <ForumPageData />;
+  return (
+    <ProtectedPage>
+      <ForumPageData />
+    </ProtectedPage>
+  );
 }

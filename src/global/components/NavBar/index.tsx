@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { AnimatedLink } from '@/global/animations/animatedLink';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -14,7 +15,7 @@ export function NavBar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getTokenFromCookie();
 
     if (token) {
       try {
@@ -23,44 +24,35 @@ export function NavBar() {
         if (decoded.exp > now) {
           setIsAuthenticated(true);
         } else {
-          localStorage.removeItem('token');
+          setIsAuthenticated(false);
         }
       } catch {
-        localStorage.removeItem('token');
+        setIsAuthenticated(false);
       }
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
+  const getTokenFromCookie = (): string | null => {
+    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+  };
+
   const renderAuthLink = () => {
     if (isAuthenticated) {
-      return (
-        <Link href="/user-page" className="hover:underline">
-          Perfil
-        </Link>
-      );
+      return <AnimatedLink href="/user-page">Perfil</AnimatedLink>;
     }
 
     if (pathname === '/login') {
-      return (
-        <Link href="/register" className="hover:underline">
-          Cadastrar-se
-        </Link>
-      );
+      return <AnimatedLink href="/register">Cadastrar-se</AnimatedLink>;
     }
 
     if (pathname === '/register') {
-      return (
-        <Link href="/login" className="hover:underline">
-          Entrar
-        </Link>
-      );
+      return <AnimatedLink href="/login">Entrar</AnimatedLink>;
     }
 
-    return (
-      <Link href="/login" className="hover:underline">
-        Entrar
-      </Link>
-    );
+    return <AnimatedLink href="/login">Entrar</AnimatedLink>;
   };
 
   return (
@@ -76,24 +68,16 @@ export function NavBar() {
       <nav>
         <ul className="hidden md:flex items-center space-x-10 text-xl">
           <li>
-            <Link href="/landing-page" className="hover:underline">
-              Início
-            </Link>
+            <AnimatedLink href="/landing-page">Início</AnimatedLink>
           </li>
           <li>
-            <Link href="/forum-page" className="hover:underline">
-              Fórum
-            </Link>
+            <AnimatedLink href="/forum-page">Fórum</AnimatedLink>
           </li>
           <li>
-            <Link href="/notices-page" className="hover:underline">
-              Notícias
-            </Link>
+            <AnimatedLink href="/notices-page">Notícias</AnimatedLink>
           </li>
           <li>
-            <Link href="/complaints" className="hover:underline">
-              Denúncias
-            </Link>
+            <AnimatedLink href="/complaints">Denúncias</AnimatedLink>
           </li>
           <li>{renderAuthLink()}</li>
         </ul>
@@ -103,16 +87,16 @@ export function NavBar() {
         <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff] z-50">
           <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
             <li>
-              <Link href="/landing-page">Início</Link>
+              <Link href="/landing-page" onClick={toggleMenu}>Início</Link>
             </li>
             <li>
-              <Link href="/forum-page">Fórum</Link>
+              <Link href="/forum-page" onClick={toggleMenu}>Fórum</Link>
             </li>
             <li>
-              <Link href="/notices-page">Notícias</Link>
+              <Link href="/notices-page" onClick={toggleMenu}>Notícias</Link>
             </li>
             <li>
-              <Link href="/complaints">Denúncias</Link>
+              <Link href="/complaints" onClick={toggleMenu}>Denúncias</Link>
             </li>
             <li>{renderAuthLink()}</li>
           </ul>
