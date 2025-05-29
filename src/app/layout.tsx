@@ -28,10 +28,10 @@ export default function RootLayout({
         <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
       </head>
       <body className={`antialiased ${montserratAlternates.className}`}>
-        <NavBar />
-        <main className="pt-30">{children}</main>
-        <Footer />
-        <Toaster position="top-center" richColors closeButton />
+          <NavBar />
+          <main className="pt-30">{children}</main>
+          <Footer />
+        <Toaster position="top-right" richColors closeButton />
       </body>
     </html>
   );

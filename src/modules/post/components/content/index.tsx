@@ -6,13 +6,13 @@ import axios from 'axios';
 import { typePost } from '@/global/constants/typePost';
 import { TopicPageDataProps } from '../../constants/types';
 import { getValidToken } from '@/global/utils/auth';
+import { AnimatedContent } from '@/global/animations/animatedContent';
 
 export function PostPageData({ postId }: TopicPageDataProps) {
   const [post, setPost] = useState<typePost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInteracted, setIsInteracted] = useState(false);
-
 
   useEffect(() => {
     if (typeof postId !== 'string') {
@@ -59,49 +59,69 @@ export function PostPageData({ postId }: TopicPageDataProps) {
   if (error) return <p className="p-10 text-xl text-red-500 min-h-screen">{error}</p>;
   if (!post) return <p className="p-10 text-xl min-h-screen">Tópico não encontrado.</p>;
 
-  const addInteration = () => {
-    if (isInteracted) return;
-    post.interacao++;
-    setIsInteracted(true);
+  const addInteration = async () => {
+    if (isInteracted || !post) return;
+
+    try {
+      const token = getValidToken();
+
+      const response = await axios.patch(
+        `http://localhost:3030/posts/${post._id}`,
+        { interacao: post.interacao + 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setPost(response.data);
+      setIsInteracted(true);
+    } catch (err) {
+      console.error('Erro ao interagir com o post:', err);
+      setError('Erro ao interagir com o post.');
+    }
   };
 
   return (
-    <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
-      <div className="flex flex-col lg:flex-row gap-10">
-        <div className="flex flex-col gap-6 items-center lg:items-start">
-          <div className="w-60 h-60 sm:w-80 sm:h-80 bg-[#007BFF] rounded-2xl relative overflow-hidden">
-            <Image
-              src="/icons/ig-logo.svg"
-              alt="Imagem"
-              fill
-              className="object-cover rounded-2xl"
-            />
+    <AnimatedContent inverse>
+      <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col gap-6 items-center lg:items-start">
+            <div className="w-60 h-60 sm:w-80 sm:h-80 bg-[#007BFF] rounded-2xl relative overflow-hidden">
+              <Image
+                src="/icons/ig-logo.svg"
+                alt="Imagem"
+                fill
+                className="object-cover rounded-2xl"
+              />
+            </div>
+
+            <p className="text-gray-500 text-sm sm:text-base text-center lg:text-left">
+              Data da Publicação: <span className="font-bold">{formatarData(post.data)}</span>
+              <br />
+              Feito Por: <span className="font-bold">{post.usuario}</span>
+              <br />
+              Tópico: <span className="font-bold">{post.topico}</span>
+            </p>
           </div>
 
-          <p className="text-gray-500 text-sm sm:text-base text-center lg:text-left">
-            Data da Publicação: <span className="font-bold">{formatarData(post.data)}</span>
-            <br />
-            Feito Por: <span className="font-bold">{post.usuario}</span>
-            <br />
-            Tópico: <span className="font-bold">{post.topico}</span>
-          </p>
+          <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left py-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#007BFF]">
+              {post.titulo}
+            </h1>
+            <p className="text-gray-700 text-lg sm:text-xl">{post.descricao}</p>
+            <button
+              onClick={addInteration}
+              className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
+            >
+              <span className="font-extrabold">{post.interacao}</span> Interagir
+            </button>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left py-8">
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#007BFF]">
-            {post.titulo}
-          </h1>
-          <p className="text-gray-700 text-lg sm:text-xl">{post.descricao}</p>
-          <button
-            onClick={addInteration}
-            className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
-          >
-            <span className="font-extrabold">{post.interacao}</span> Interagir
-          </button>
-        </div>
+        <p className="text-gray-700 text-lg sm:text-xl mb-10">{post.conteudo}</p>
       </div>
-
-      <p className="text-gray-700 text-lg sm:text-xl mb-10">{post.conteudo}</p>
-    </div>
+    </AnimatedContent>
   );
 }

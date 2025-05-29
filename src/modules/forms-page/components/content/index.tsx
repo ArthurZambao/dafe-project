@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { formsMock } from '../../constants/forms-mock';
+import { AnimatedContent } from '@/global/animations/animatedContent';
 
 export function FormsPageData() {
   return (
-    <>
+    <AnimatedContent inverse>
       <section className="bg-[#007BFF] w-full ">
         <h1 className="text-center text-6xl py-10 text-white font-bold">Formulários</h1>
       </section>
@@ -21,6 +22,6 @@ export function FormsPageData() {
           </Link>
         ))}
       </section>
-    </>
+    </AnimatedContent>
   );
 }
