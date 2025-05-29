@@ -1,14 +1,14 @@
 import { ProtectedPage } from '@/global/components/protectedPage';
-import { FormsPageData } from '@/modules/forms-page/components/content';
+import { UserPageData } from '@/modules/users/components/content';
 
 export const metadata = {
-  title: 'Formulários',
+  title: 'Perfil',
 };
 
-export default function FormsPage() {
+export default function UserPage() {
   return (
     <ProtectedPage>
-      <FormsPageData />
+      <UserPageData />
     </ProtectedPage>
   );
 }

@@ -4,44 +4,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
 import { AnimatedLink } from '@/global/animations/animatedLink';
+import { getValidToken } from '@/global/utils/auth'; // ✅ usando o utilitário
 
 export function NavBar() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
-    const token = getTokenFromCookie();
-
-    if (token) {
-      try {
-        const decoded = jwtDecode<{ exp: number }>(token);
-        const now = Date.now() / 1000;
-        if (decoded.exp > now) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch {
-        setIsAuthenticated(false);
-      }
-    } else {
-      setIsAuthenticated(false);
-    }
+    const token = getValidToken();
+    setIsAuthenticated(!!token);
   }, []);
-
-  const getTokenFromCookie = (): string | null => {
-    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
-    return match ? decodeURIComponent(match[1]) : null;
-  };
 
   const renderAuthLink = () => {
     if (isAuthenticated) {
-      return <AnimatedLink href="/user-page">Perfil</AnimatedLink>;
+      return <AnimatedLink href="/users">Perfil</AnimatedLink>;
     }
 
     if (pathname === '/login') {
@@ -66,19 +46,17 @@ export function NavBar() {
       </button>
 
       <nav>
-        <ul className="hidden md:flex items-center space-x-10 text-xl">
+        <ul className="hidden md:flex items-center space-x-4 lg:space-x-10 text-xl">
+          <li><AnimatedLink href="/landing-page">Início</AnimatedLink></li>
           <li>
-            <AnimatedLink href="/landing-page">Início</AnimatedLink>
+            <AnimatedLink href="/forms-page">
+              <span className="hidden md:inline-block lg:hidden">Form.</span>
+              <span className="inline-block md:hidden lg:inline-block">Formulário</span>
+            </AnimatedLink>
           </li>
-          <li>
-            <AnimatedLink href="/forum-page">Fórum</AnimatedLink>
-          </li>
-          <li>
-            <AnimatedLink href="/notices-page">Notícias</AnimatedLink>
-          </li>
-          <li>
-            <AnimatedLink href="/complaints">Denúncias</AnimatedLink>
-          </li>
+          <li><AnimatedLink href="/forum-page">Fórum</AnimatedLink></li>
+          <li><AnimatedLink href="/notices-page">Notícias</AnimatedLink></li>
+          <li><AnimatedLink href="/complaints">Denúncias</AnimatedLink></li>
           <li>{renderAuthLink()}</li>
         </ul>
       </nav>
@@ -86,18 +64,11 @@ export function NavBar() {
       {isOpen && (
         <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff] z-50">
           <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
-            <li>
-              <Link href="/landing-page" onClick={toggleMenu}>Início</Link>
-            </li>
-            <li>
-              <Link href="/forum-page" onClick={toggleMenu}>Fórum</Link>
-            </li>
-            <li>
-              <Link href="/notices-page" onClick={toggleMenu}>Notícias</Link>
-            </li>
-            <li>
-              <Link href="/complaints" onClick={toggleMenu}>Denúncias</Link>
-            </li>
+            <li><Link href="/landing-page" onClick={toggleMenu}>Início</Link></li>
+            <li><Link href="/forms-page" onClick={toggleMenu}>Formulários</Link></li>
+            <li><Link href="/forum-page" onClick={toggleMenu}>Fórum</Link></li>
+            <li><Link href="/notices-page" onClick={toggleMenu}>Notícias</Link></li>
+            <li><Link href="/complaints" onClick={toggleMenu}>Denúncias</Link></li>
             <li>{renderAuthLink()}</li>
           </ul>
         </nav>

@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { getValidToken } from '@/global/utils/auth';
 
-export function CreateTopicData() {
+export function CreatePostData() {
   const hoje = new Date();
   const dataFormatada = hoje.toISOString().slice(0, 10);
   const router = useRouter();
@@ -39,7 +39,7 @@ export function CreateTopicData() {
     }
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`, finalData, {
+      await axios.post("http://localhost:3030/posts", finalData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

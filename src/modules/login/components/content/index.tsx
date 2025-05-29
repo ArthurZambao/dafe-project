@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { CreateLoginFormData, createLoginFormSchema } from '../../schemas/create-login-form-schema';
 import { useForm } from 'react-hook-form';

@@ -11,7 +11,10 @@ const montserratAlternates = Montserrat_Alternates({
 });
 
 export const metadata: Metadata = {
-  title: 'DAFE',
+  title: {
+    default: 'DAFE',
+    template: 'DAFE | %s',
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +29,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased ${montserratAlternates.className}`}>
         <NavBar />
-        <main className='pt-30'>{children}</main>
+        <main className="pt-30">{children}</main>
         <Footer />
         <Toaster position="top-center" richColors closeButton />
       </body>

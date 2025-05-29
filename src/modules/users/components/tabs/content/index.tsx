@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { UserComments } from '../user-comments';
 import { UserPosts } from '../user-posts';

@@ -4,10 +4,10 @@ import { formsMock } from '../../constants/forms-mock';
 export function FormsPageData() {
   return (
     <>
-      <section className="bg-[#007BFF] w-full">
+      <section className="bg-[#007BFF] w-full ">
         <h1 className="text-center text-6xl py-10 text-white font-bold">Formulários</h1>
       </section>
-      <section className="py-10">
+      <section className="pt-20 min-h-screen">
         {formsMock.map((form) => (
           <Link href="*" key={form.id}>
             <div className="text-center cursor-pointer hover:bg-[#d4d4d4d3] p-6 mb-4 max-w-md mx-auto rounded-3xl transition-all duration-300">

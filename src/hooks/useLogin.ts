@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -23,7 +25,7 @@ export function useLogin() {
       Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
       reset();
 
-      router.push('/user-page');
+      router.push('/users');
       toast.success('Login realizado com sucesso!');
     } catch (error) {
       let backendMessage = 'Erro ao entrar. Por favor, tente novamente mais tarde.';

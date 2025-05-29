@@ -3,7 +3,7 @@ import { posts } from '../../../constants/posts';
 
 export function UserPosts() {
   return posts.map((post) => (
-    <div key={post.id} className="mb-4 p-4 border rounded-lg shadow-sm">
+    <div key={post.id} className="cursor-pointer mb-4 p-4 border rounded-lg shadow-sm">
       <p className="text-2xl text-[#007BFF]">{post.titulo}</p>
       <p className="text-md">{post.descricao}</p>
       <span className="flex justify-between items-center mt-2">

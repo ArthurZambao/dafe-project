@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { CreateComplaintData, createComplaintSchema } from '../../schemas/create-complaint-schema';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';

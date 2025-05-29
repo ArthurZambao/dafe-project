@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -45,7 +47,7 @@ export function RegisterData() {
 
       reset();
 
-      router.push('/user-page');
+      router.push('/users');
       toast.success('Cadastro realizado com sucesso!');
     } catch (error) {
       let backendMessage = 'Erro ao cadastrar. Por favor, tente novamente mais tarde.';

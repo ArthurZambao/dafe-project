@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Register() {
   return (
@@ -15,16 +16,21 @@ export function Register() {
           comunicados e ajudar a criar um ambiente escolar <br />
           mais transparente e participativo.
         </p>
-        <div className="w-full sm:w-1/2">
-          <Image
-            src="/images/register-image.png"
-            alt="Logo D.A.F.E"
-            className="w-full h-auto rounded-2xl"
-            layout="responsive"
-            width={660}
-            height={360}
-          />
-        </div>
+        <Link href="/register">
+          <button className="cursor-pointer bg-[#007BFF] text-3xl font-bold text-white px-12 sm:px-20 py-4 rounded-tl-xl rounded-br-xl">
+            Cadastrar-se
+          </button>
+        </Link>
+      </div>
+      <div className="w-full sm:w-1/2">
+        <Image
+          src="/images/register-image.png"
+          alt="Logo D.A.F.E"
+          className="w-full h-auto rounded-2xl"
+          layout="responsive"
+          width={660}
+          height={360}
+        />
       </div>
     </section>
   );
