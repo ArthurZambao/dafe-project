@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { typePost } from '@/global/constants/typePost';
-import { TopicPageDataProps } from '../../constants/types';
+
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
+import { PostPageDataProps } from '@/types/post';
 
-export function PostPageData({ postId }: TopicPageDataProps) {
+export function PostPageData({ postId }: PostPageDataProps) {
   const [post, setPost] = useState<typePost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

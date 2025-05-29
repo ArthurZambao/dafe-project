@@ -1,4 +1,4 @@
-export type TopicType = {
+export type PostType = {
   id: string;
   titulo: string;
   descricao: string;
@@ -10,6 +10,6 @@ export type TopicType = {
   topico: string;
 };
 
-export type TopicPageDataProps = {
+export type PostPageDataProps = {
   postId: string;
 };

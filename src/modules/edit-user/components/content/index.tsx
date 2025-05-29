@@ -3,9 +3,8 @@
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useUser } from '@/hooks/useUser';
-import Link from 'next/link';
 
-export function UserInfo() {
+export function EditUserData() {
   const user = useUser();
 
   if (!user) return null;
@@ -21,9 +20,7 @@ export function UserInfo() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <Link href="/users/edit-user">
-          <Pencil className="w-4 h-4 text-[#007BFF] cursor-pointer" />
-        </Link>
+        <Pencil className="w-4 h-4 text-[#007BFF] cursor-pointer" />
         <span className="text-xs sm:text-sm font-medium">{user.modulo}º Ano do Ensino Médio</span>
 
         <span className="text-xs sm:text-sm font-medium mr-4">
