@@ -55,10 +55,10 @@ export function LoginData() {
           />
 
           <Checkbox<CreateLoginFormData>
-            id="remember"
+            id="lembrar"
             label="Continuar conectado"
             register={register}
-            error={errors.remember}
+            error={errors.lembrar}
           />
 
           <div className="flex flex-col justify-center pt-4">
