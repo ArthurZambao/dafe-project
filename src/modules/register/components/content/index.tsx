@@ -9,12 +9,13 @@ import {
   createRegisterFormSchema,
 } from '../../schemas/create-register-form-schema';
 import { Select } from '@/global/components/FormComponents/FormSelect';
-import { cursoOptions } from '../../constants/curso-options';
-import { moduloOptions } from '../../constants/modulo-options';
+
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
+import { cursoOptions } from '@/global/constants/curso-options';
+import { moduloOptions } from '@/global/constants/modulo-options';
 
 export function RegisterData() {
   const router = useRouter();

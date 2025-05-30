@@ -20,7 +20,7 @@ export function NavBar() {
   }, []);
 
   const renderAuthLink = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated || pathname === '/users') {
       return <AnimatedLink href="/users">Perfil</AnimatedLink>;
     }
 

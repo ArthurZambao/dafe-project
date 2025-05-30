@@ -17,7 +17,6 @@ export function UserInfo() {
         <div>
           <p className="text-lg sm:text-3xl font-semibold">{user.usuario}</p>
           <p className="text-md sm:text-2xl text-[#6C757D] leading-none">{user.instituicao}</p>
-          <p className="text-xs sm:text-xl text-[#6C757D] leading-none">{user.id}</p>
         </div>
       </div>
       <div className="flex flex-col gap-2">

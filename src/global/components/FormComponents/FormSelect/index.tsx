@@ -6,6 +6,7 @@ interface SelectProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   error?: FieldError;
   selectOptions: string[];
+  primarySelectOption?: string;
 }
 
 export function Select<T extends FieldValues>({
@@ -14,6 +15,7 @@ export function Select<T extends FieldValues>({
   register,
   error,
   selectOptions,
+  primarySelectOption,
 }: SelectProps<T>) {
   const { onChange, ...rest } = register(id);
 
@@ -34,7 +36,7 @@ export function Select<T extends FieldValues>({
         className={`${error ? 'border-red-500' : 'border-[#007BFF]'} px-4 py-2 border rounded-lg text-[#6C757D] focus:outline-none`}
       >
         <option value="" disabled hidden>
-          Selecione...
+          {primarySelectOption ? primarySelectOption : 'Selecione...'}
         </option>
         {selectOptions.map((option) => (
           <option key={option} value={option}>

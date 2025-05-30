@@ -36,7 +36,7 @@ export function ForumPageData() {
       });
 
       if (res.data.length === 0) {
-        setMessage('Nenhum tópico encontrado para o filtro selecionado.');
+        setMessage('Nenhum post encontrado.');
       }else {
         setMessage(null);
       }
