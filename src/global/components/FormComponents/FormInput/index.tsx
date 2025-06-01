@@ -44,7 +44,7 @@ export function Input<T extends FieldValues>({
   const errorId = `${id}-error`;
 
   return (
-    <div className="flex flex-col text-[#6C757D] relative">
+    <div className="flex flex-col text-slate-gray relative">
       {label && (
         <label htmlFor={id} className="text-lg sm:text-2xl font-semibold text-left">
           {label} {error && <span className="text-red-500">*</span>}
@@ -65,7 +65,7 @@ export function Input<T extends FieldValues>({
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
         className={`${
-          error ? 'border-red-500' : 'border-[#007BFF]'
+          error ? 'border-red-500' : 'border-azure-primary'
         } w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
       />
 

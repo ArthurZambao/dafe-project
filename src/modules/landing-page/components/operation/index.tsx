@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function Operation() {
   return (
-    <section className="text-white py-10 bg-[#007BFF] w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
+    <section className="text-white py-10 bg-azure-primary w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
       <h2 className="text-3xl font-bold text-center mt-20 mb-12 px-2 sm:px-0">
         Como Funciona <br className='block sm:hidden' />a D.A.F.E
       </h2>

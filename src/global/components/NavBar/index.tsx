@@ -36,7 +36,7 @@ export function NavBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-[#007BFF] border-b-10 border-[#1a89ff] text-white flex justify-between p-6 items-center select-none">
+    <div className="fixed top-0 left-0 w-full z-50 bg-azure-primary border-b-10 border-azure-secondary text-white flex justify-between p-6 items-center select-none">
       <Link href="/landing-page">
         <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
       </Link>
@@ -62,7 +62,7 @@ export function NavBar() {
       </nav>
 
       {isOpen && (
-        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-[#007BFF] shadow-l border-b-10 border-[#1a89ff] z-50">
+        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-azure-primary shadow-l border-b-10 border-azure-secondary z-50">
           <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
             <li><Link href="/landing-page" onClick={toggleMenu}>Início</Link></li>
             <li><Link href="/forms-page" onClick={toggleMenu}>Formulários</Link></li>

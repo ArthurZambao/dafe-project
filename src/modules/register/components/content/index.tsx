@@ -68,9 +68,9 @@ export function RegisterData() {
       <div className="flex flex-col px-4 sm:px-0 items-center justify-center min-h-screen">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10 px-6 sm:px-10 py-10 sm:py-20"
+          className="flex flex-col gap-5 border-4 border-azure-primary rounded-tr-3xl rounded-bl-3xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10 px-6 sm:px-10 py-10 sm:py-20"
         >
-          <h2 className="text-2xl sm:text-4xl text-center font-bold text-[#007BFF]">
+          <h2 className="text-2xl sm:text-4xl text-center font-bold text-azure-primary">
             Cadastrar-se
           </h2>
 
@@ -150,9 +150,9 @@ export function RegisterData() {
             <input
               type="submit"
               value="Cadastrar-se"
-              className="cursor-pointer bg-[#007BFF] text-lg sm:text-2xl font-bold text-white mx-4 sm:mx-20 py-3 sm:py-4 rounded-tr-xl rounded-bl-xl"
+              className="cursor-pointer bg-azure-primary text-lg sm:text-2xl font-bold text-white mx-4 sm:mx-20 py-3 sm:py-4 rounded-tr-xl rounded-bl-xl"
             />
-            <div className="text-center mt-4 text-[#007BFF]">
+            <div className="text-center mt-4 text-azure-primary">
               <Link href="/login">
                 <p className="hover:underline">Já possui Cadastro? Entre por aqui</p>
               </Link>

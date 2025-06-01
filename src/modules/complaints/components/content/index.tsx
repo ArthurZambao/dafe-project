@@ -38,14 +38,14 @@ export function ComplaintsData() {
 
   return (
     <div className="min-h-screen">
-      <h1 className=" text-4xl sm:text-6xl font-bold text-[#007BFF] text-center my-10">
+      <h1 className=" text-4xl sm:text-6xl font-bold text-azure-primary text-center my-10">
         Denunciar
       </h1>
 
       <div className="mx-6 sm:mx-0">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[50rem] my-5 p-10"
+          className="flex flex-col gap-5 border-4 border-azure-primary rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[50rem] my-5 p-10"
         >
           <Input<CreateComplaintData>
             id="titulo"
@@ -79,7 +79,7 @@ export function ComplaintsData() {
             <input
               type="submit"
               value="Fazer Denúncia"
-              className="cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white px-8 sm:px-20 py-4 rounded-tr-xl rounded-bl-xl"
+              className="cursor-pointer bg-azure-primary text-xl sm:text-3xl font-bold text-white px-8 sm:px-20 py-4 rounded-tr-xl rounded-bl-xl"
             />
           </div>
         </form>

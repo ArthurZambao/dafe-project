@@ -18,12 +18,12 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
     <>
       {/* Botão da barra de filtro */}
       <div className="flex justify-between items-center py-10 px-6 sm:px-16 relative">
-        <h2 className="hidden sm:block text-[#007BFF] text-3xl sm:text-4xl font-semibold">
+        <h2 className="hidden sm:block text-azure-primary text-3xl sm:text-4xl font-semibold">
           Principais Assuntos
         </h2>
         <button
           onClick={handleToggle}
-          className="flex items-center gap-2 cursor-pointer bg-[#007BFF] text-xl sm:text-lg font-bold text-white px-10 py-2 rounded-tl-xl rounded-br-xl"
+          className="flex items-center gap-2 cursor-pointer bg-azure-primary btn-dafe-hover text-xl sm:text-lg font-bold text-white px-10 py-2 rounded-tl-xl rounded-br-xl"
         >
           <SlidersHorizontal size={16} /> <span className="hidden sm:block">Filtrar Por</span>
         </button>
@@ -49,7 +49,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
                     handleClose();
                   }}
                   className={`px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] w-full font-semibold text-lg cursor-pointer
-                    ${selectedFilter === option ? 'bg-[#007BFF] text-white' : 'border border-[#007BFF] text-[#007BFF]'}`}
+                    ${selectedFilter === option ? 'bg-azure-primatext-azure-primary text-white' : 'border border-azure-primatext-azure-primary text-azure-primary'}`}
                 >
                   {option}
                 </button>
@@ -59,7 +59,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
                   setSelectedFilter(null);
                   handleClose();
                 }}
-                className="mt-6 font-bold border border-[#007BFF] text-[#007BFF] cursor-pointer rounded-tl-[20px] rounded-br-[20px] w-full py-3"
+                className="mt-6 font-bold border border-azure-primatext-azure-primary text-azure-primary cursor-pointer rounded-tl-[20px] rounded-br-[20px] w-full py-3"
               >
                 Mostrar Todos
               </button>

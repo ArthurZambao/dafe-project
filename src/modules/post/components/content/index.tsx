@@ -89,7 +89,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
       <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           <div className="flex flex-col gap-6 items-center lg:items-start">
-            <div className="w-60 h-60 sm:w-80 sm:h-80 bg-[#007BFF] rounded-2xl relative overflow-hidden">
+            <div className="w-60 h-60 sm:w-80 sm:h-80 bg-azure-primary rounded-2xl relative overflow-hidden">
               <Image
                 src="/icons/ig-logo.svg"
                 alt="Imagem"
@@ -108,13 +108,13 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </div>
 
           <div className="flex flex-col gap-8 items-center lg:items-start text-center lg:text-left py-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#007BFF]">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-azure-primary">
               {post.titulo}
             </h1>
             <p className="text-gray-700 text-lg sm:text-xl">{post.descricao}</p>
             <button
               onClick={addInteration}
-              className="cursor-pointer mx-auto bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
+              className="cursor-pointer mx-auto bg-azure-primary btn-dafe-hover text-2xl sm:text-3xl font-bold text-white px-10 py-3 rounded-tl-xl rounded-br-xl"
             >
               <span className="font-extrabold">{post.interacao}</span> Interagir
             </button>

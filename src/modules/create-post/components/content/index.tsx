@@ -65,18 +65,18 @@ export function CreatePostData() {
     <AnimatedContent inverse>
       <div className="px-10 sm:px-0 min-h-screen">
         <div className="py-10">
-          <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-[#007BFF]">
+          <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-azure-primary">
             Criar Assunto
           </h1>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="text-[#6C757D] border-3 border-[#007BFF] rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
+          className="text-slate-gray border-3 border-azure-primary rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
         >
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
-              <div className="w-40 h-40 sm:w-60 sm:h-60 bg-[#007BFF] rounded-2xl relative overflow-hidden">
+              <div className="w-40 h-40 sm:w-60 sm:h-60 bg-azure-primary rounded-2xl relative overflow-hidden">
                 <Image
                   src="/icons/ig-logo.svg"
                   alt="Imagem do tópico"
@@ -141,7 +141,7 @@ export function CreatePostData() {
             <input
               type="submit"
               value="Criar Assunto"
-              className="cursor-pointer bg-[#007BFF] text-2xl sm:text-3xl font-bold text-white px-10 sm:px-20 py-4 rounded-tl-xl rounded-br-xl"
+              className="cursor-pointer bg-azure-primary text-2xl sm:text-3xl font-bold text-white px-10 sm:px-20 py-4 rounded-tl-xl rounded-br-xl"
             />
           </div>
         </form>
