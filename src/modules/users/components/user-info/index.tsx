@@ -1,12 +1,12 @@
 'use client';
 
+import { useAuth } from '@/global/context/useAuth';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
-import { useUser } from '@/hooks/useUser';
 import Link from 'next/link';
 
 export function UserInfo() {
-  const user = useUser();
+  const { user } = useAuth();
 
   if (!user) return null;
 

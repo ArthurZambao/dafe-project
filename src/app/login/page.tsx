@@ -1,3 +1,4 @@
+import { AuthGate } from '@/global/components/authGate/authGate';
 import { LoginData } from '@/modules/login/components/content';
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function SpaceCreate() {
-  return <LoginData />;
+  return (
+    <AuthGate mode="guest" redirectTo='/users'>
+      <LoginData />
+    </AuthGate>
+  );
 }

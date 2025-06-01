@@ -8,15 +8,18 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
-import { CreateEditUserFormData, createEditUserFormSchema } from '../../schemas/create-edit-user-form-schema';
+import {
+  CreateEditUserFormData,
+  createEditUserFormSchema,
+} from '../../schemas/create-edit-user-form-schema';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/modulo-options';
 import { Select } from '@/global/components/FormComponents/FormSelect';
-import { useUser } from '@/hooks/useUser';
+import { useAuth } from '@/global/context/useAuth';
 
 export function EditUserData() {
   const router = useRouter();
-  const user = useUser();
+  const { user } = useAuth();
 
   const {
     register,
@@ -26,7 +29,6 @@ export function EditUserData() {
   } = useForm<CreateEditUserFormData>({
     resolver: zodResolver(createEditUserFormSchema),
   });
-
 
   const onSubmit = async (data: CreateEditUserFormData) => {
     const moduloMapping: { [key: string]: number } = {
@@ -39,10 +41,10 @@ export function EditUserData() {
       ...data,
       modulo: moduloMapping[data.modulo] ?? data.modulo,
     };
-    console.log(id, finalData);
+    console.log(currentUser.id, finalData);
 
     try {
-      await axios.patch(`http://localhost:3030/students/${id}`, finalData, {
+      await axios.patch(`http://localhost:3030/students/${currentUser.id}`, finalData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -50,7 +52,7 @@ export function EditUserData() {
 
       reset();
       router.push('/users');
-      toast.success('Usuário Atualizado com sucesso!'); 
+      toast.success('Usuário Atualizado com sucesso!');
     } catch (error) {
       let backendMessage = 'Erro ao Atualizar Usuário. Por favor, tente novamente mais tarde.';
       if (error && typeof error === 'object' && 'response' in error) {
@@ -63,15 +65,9 @@ export function EditUserData() {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-lg text-gray-500">Carregando dados do usuário...</p>
-      </div>
-    );
-  }
+  if (!user) return null;
 
-  const { id, nome, email, usuario, instituicao, curso, modulo } = user;
+  const currentUser = user;
 
   return (
     <AnimatedContent inverse>
@@ -88,7 +84,7 @@ export function EditUserData() {
             id="nome"
             type="text"
             label="Nome Completo:"
-            placeholder={nome}
+            placeholder={currentUser.nome}
             register={register}
             error={errors.nome}
           />
@@ -97,7 +93,7 @@ export function EditUserData() {
             id="usuario"
             label="Nome de Usuário:"
             type="text"
-            placeholder={usuario}
+            placeholder={currentUser.usuario}
             register={register}
             error={errors.usuario}
           />
@@ -106,7 +102,7 @@ export function EditUserData() {
             id="email"
             label="E-mail:"
             type="text"
-            placeholder={email}
+            placeholder={currentUser.email}
             register={register}
             error={errors.email}
           />
@@ -115,7 +111,7 @@ export function EditUserData() {
             id="instituicao"
             label="Intituição de Ensino:"
             type="text"
-            placeholder={instituicao}
+            placeholder={currentUser.instituicao}
             register={register}
             error={errors.instituicao}
           />
@@ -127,7 +123,7 @@ export function EditUserData() {
               register={register}
               error={errors.curso}
               selectOptions={cursoOptions}
-              primarySelectOption={curso}
+              primarySelectOption={currentUser.curso}
             />
 
             <Select<CreateEditUserFormData>
@@ -136,7 +132,7 @@ export function EditUserData() {
               register={register}
               error={errors.modulo}
               selectOptions={moduloOptions}
-              primarySelectOption={`${modulo}º ano`}
+              primarySelectOption={`${currentUser.modulo}º ano`}
             />
           </div>
 

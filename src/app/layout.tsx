@@ -4,6 +4,7 @@ import { NavBar } from '@/global/components/NavBar';
 import { Footer } from '@/global/components/Footer';
 import { Montserrat_Alternates } from 'next/font/google';
 import { Toaster } from 'sonner';
+import { AuthProvider } from '@/global/context/useAuth';
 
 const montserratAlternates = Montserrat_Alternates({
   subsets: ['latin'],
@@ -28,10 +29,12 @@ export default function RootLayout({
         <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
       </head>
       <body className={`antialiased ${montserratAlternates.className}`}>
+        <AuthProvider>
           <NavBar />
           <main className="pt-30">{children}</main>
           <Footer />
-        <Toaster position="top-right" richColors closeButton />
+          <Toaster position="top-right" richColors closeButton />
+        </AuthProvider>
       </body>
     </html>
   );

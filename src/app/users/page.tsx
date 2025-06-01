@@ -1,4 +1,4 @@
-import { ProtectedPage } from '@/global/components/protectedPage';
+import { AuthGate } from '@/global/components/authGate/authGate';
 import { UserPageData } from '@/modules/users/components/content';
 
 export const metadata = {
@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function UserPage() {
   return (
-    <ProtectedPage>
+    <AuthGate mode="auth">
       <UserPageData />
-    </ProtectedPage>
+    </AuthGate>
   );
 }

@@ -1,11 +1,11 @@
-import { ProtectedPage } from "@/global/components/protectedPage";
+import { AuthGate } from "@/global/components/authGate/authGate";
 import { EditUserData } from "@/modules/edit-user/components/content";
 
 
 export default function EditUserPage() {
   return (
-    <ProtectedPage>
+    <AuthGate mode="auth">
       <EditUserData />
-    </ProtectedPage>
+    </AuthGate>
   );
 }
