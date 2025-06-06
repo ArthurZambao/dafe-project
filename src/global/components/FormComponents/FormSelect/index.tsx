@@ -20,7 +20,7 @@ export function Select<T extends FieldValues>({
   const { onChange, ...rest } = register(id);
 
   return (
-    <div className="flex flex-col gap-1 text-slate-gray">
+    <div className="inline-block flex flex-col gap-1 text-slate-gray">
       <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
@@ -33,7 +33,7 @@ export function Select<T extends FieldValues>({
           console.log('Selecionado:', value);
           onChange(e);
         }}
-        className={`${error ? 'border-red-500' : 'border-azure-primary'} px-4 py-2 border rounded-lg text-slate-gray focus:outline-none`}
+        className={`${error ? 'border-red-500' : 'border-azure-primary'} px-4 py-2 border rounded-xl text-slate-gray focus:outline-none w-auto min-w-[150px]`}
       >
         <option value="" disabled hidden>
           {primarySelectOption ? primarySelectOption : 'Selecione...'}
@@ -48,3 +48,4 @@ export function Select<T extends FieldValues>({
     </div>
   );
 }
+

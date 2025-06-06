@@ -14,6 +14,9 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
+import { useState } from 'react';
+import { TextForm } from '../text-form';
+import { MediaForm } from '../media-form';
 
 export function CreatePostData() {
   const hoje = new Date();
@@ -61,88 +64,70 @@ export function CreatePostData() {
     }
   };
 
+  const [activeTab, setActiveTab] = useState<'texto' | 'midia'>(
+    'texto'
+  );
+
   return (
     <AnimatedContent inverse>
       <div className="px-10 sm:px-0 min-h-screen">
-        <div className="py-10 px-20">
+        <div className="pt-8 px-20">
           <h1 className="text-4xl text-left sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
             Criar Assunto
           </h1>
         </div>
 
+        <div className="flex overflow-x-auto no-scrollbar gap-6 text-xl text-azure-primary font-medium border-b border-gray-300 px-2 sm:justify-center">
+          <button
+            className={`cursor-pointer whitespace-nowrap ${
+              activeTab === 'texto' ? 'border-b-2 border-azure-primary pb-1' : ''
+            }`}
+            onClick={() => setActiveTab('texto')}
+          >
+            Texto
+          </button>
+          <button
+            className={`cursor-pointer whitespace-nowrap ${
+              activeTab === 'midia' ? 'border-b-2 border-azure-primary pb-1' : ''
+            }`}
+            onClick={() => setActiveTab('midia')}
+          >
+            Mídia
+          </button>
+        </div>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="text-slate-gray border-3 border-azure-primary rounded-2xl p-6 sm:p-10 w-full max-w-5xl my-10 mx-auto"
+          className="text-slate-gray px-6 sm:p-10 w-full max-w-4xl mx-auto"
         >
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="flex flex-col gap-4 items-center lg:items-start w-full lg:w-1/3">
-              <div className="w-40 h-40 sm:w-60 sm:h-60 bg-azure-primary rounded-2xl relative overflow-hidden">
-                <Image
-                  src="/icons/ig-logo.svg"
-                  alt="Imagem do tópico"
-                  fill
-                  className="object-cover rounded-2xl"
-                />
-              </div>
-              <p className="text-center lg:text-left">
-                Publicar em:{' '}
-                <span className="font-bold">
-                  <FormattedDate date={hoje} />
-                </span>
-              </p>
+          {activeTab === 'texto' && (
+            <TextForm register={register} errors={errors} />
+          )}
 
-              <div className="w-full">
-                <Select<CreateFormData>
-                  id="topico"
-                  label="Tópico:"
-                  register={register}
-                  error={errors.topico}
-                  selectOptions={forumFilterOptions}
-                />
-              </div>
-            </div>
+          {activeTab === 'midia' && (
+            <MediaForm register={register} errors={errors} />
+          )}
 
-            <div className="flex flex-col gap-4 flex-1 w-full">
-              <Input<CreateFormData>
-                id="titulo"
-                label="Título:"
-                type="text"
-                maxlength={50}
-                placeholder="Título do seu assunto"
-                register={register}
-                error={errors.titulo}
-              />
-
-              <TextArea<CreateFormData>
-                id="descricao"
-                label="Descrição:"
-                maxlength={100}
-                placeholder="Digite a descrição aqui..."
-                register={register}
-                error={errors.descricao}
-                rows={5}
+          <div className="flex flex-col pl-auto pt-4">
+            <div className="flex gap-8 justify-end w-full">
+              <button
+                type="submit"
+                className="cursor-pointer text-xl sm:text-2xl text-azure-primary px-3 sm:px-6 py-2 border-2 border-azure-primary rounded-xl"
+              >
+                Salvar Rascunho
+              </button>
+              <input
+                type="submit"
+                value="Criar Assunto"
+                className="cursor-pointer btn-dafe btn-dafe-hover text-xl sm:text-2xl font-bold text-white px-5 sm:px-10 py-2 rounded-tl-xl rounded-br-xl"
               />
             </div>
-          </div>
-
-          <div className="py-6">
-            <TextArea<CreateFormData>
-              id="conteudo"
-              label="Assunto:"
-              maxlength={300}
-              placeholder="Digite o conteúdo do assunto aqui..."
-              register={register}
-              error={errors.conteudo}
-              rows={10}
-            />
-          </div>
-
-          <div className="flex justify-center pt-8">
-            <input
-              type="submit"
-              value="Criar Assunto"
-              className="cursor-pointer bg-azure-primary text-2xl sm:text-3xl font-bold text-white px-10 sm:px-20 py-4 rounded-tl-xl rounded-br-xl"
-            />
+            <p className="text-center lg:text-right pt-4">
+              Publicar em:{' '}
+              <span className="font-bold">
+                <FormattedDate date={hoje} />
+              </span>
+            </p>
           </div>
         </form>
       </div>
