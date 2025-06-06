@@ -3,10 +3,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { Jumbotron } from '../jumbotron';
 import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
-import { CreatePostButton } from '../post-button';
 import { PostList } from '../post-list';
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
@@ -55,8 +53,6 @@ export function ForumPageData() {
 
   return (
     <AnimatedContent inverse>
-      <Jumbotron />
-
       <Filter
         selectedFilter={selectedPost}
         setSelectedFilter={setSelectedPost}
@@ -73,7 +69,6 @@ export function ForumPageData() {
         <PostList posts={posts} />
       )}
 
-      <CreatePostButton />
     </AnimatedContent>
   );
 }

@@ -3,14 +3,13 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
-import { typePost } from '@/types/typePostList';
-
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { PostPageDataProps } from '@/types/post';
+import { typePostList } from '@/types/typePostList';
 
 export function PostPageData({ postId }: PostPageDataProps) {
-  const [post, setPost] = useState<typePost | null>(null);
+  const [post, setPost] = useState<typePostList | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInteracted, setIsInteracted] = useState(false);

@@ -64,8 +64,8 @@ export function CreatePostData() {
   return (
     <AnimatedContent inverse>
       <div className="px-10 sm:px-0 min-h-screen">
-        <div className="py-10">
-          <h1 className="text-4xl text-center sm:text-5xl lg:text-6xl font-bold text-azure-primary">
+        <div className="py-10 px-20">
+          <h1 className="text-4xl text-left sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
             Criar Assunto
           </h1>
         </div>

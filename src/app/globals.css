@@ -15,6 +15,7 @@
   --color-azure-footer: #195492;
   --color-slate-gray: #6c757d;
   --color-light-dafe-gray: #d4d4d4d3;
+  --color-dafe-gray-hover: #ebe8e8;
 }
 
 @theme inline {
@@ -27,7 +28,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
-    --foreground: #ededed;
+    --foreground: #dad8d8;
   }
 }
 

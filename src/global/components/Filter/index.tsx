@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
+import { PostButton } from '@/modules/forum-page/components/post-button';
 
 interface FilterProps {
   selectedFilter: string | null;
@@ -17,16 +18,19 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
   return (
     <>
       {/* Botão da barra de filtro */}
-      <div className="flex justify-between items-center py-10 px-6 sm:px-16 relative">
-        <h2 className="hidden sm:block text-azure-primary text-3xl sm:text-4xl font-semibold">
+      <div className="flex sm:justify-between items-start py-10 px-6 sm:px-16 relative">
+        <h2 className="hidden sm:block text-[#4A83C0] text-3xl sm:text-4xl font-semibold">
           Principais Assuntos
         </h2>
-        <button
-          onClick={handleToggle}
-          className="flex items-center gap-2 cursor-pointer bg-azure-primary btn-dafe-hover text-xl sm:text-lg font-bold text-white px-10 py-2 rounded-tl-xl rounded-br-xl"
-        >
-          <SlidersHorizontal size={16} /> <span className="hidden sm:block">Filtrar Por</span>
-        </button>
+        <div className='flex items-center gap-10'>
+          <PostButton />
+          <button
+            onClick={handleToggle}
+            className="flex items-center gap-2 cursor-pointer hover:border-b-1 text-xl sm:text-lg text-black py-2"
+          >
+            <span className="hidden sm:block">Filtrar Por</span><SlidersHorizontal size={16} />
+          </button>
+        </div>
       </div>
 
       {/* Modal de opções */}
