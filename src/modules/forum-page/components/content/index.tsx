@@ -6,15 +6,14 @@ import axios from 'axios';
 import { Jumbotron } from '../jumbotron';
 import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
-
 import { CreatePostButton } from '../post-button';
 import { PostList } from '../post-list';
-import { typePost } from '@/global/constants/typePost';
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
+import { typePostList } from '@/types/typePostList';
 
 export function ForumPageData() {
-  const [posts, setPosts] = useState<typePost[]>([]);
+  const [posts, setPosts] = useState<typePostList[]>([]);
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -34,7 +33,7 @@ export function ForumPageData() {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      console.log('Posts fetched:', res.data);
       if (res.data.length === 0) {
         setMessage('Nenhum post encontrado.');
       }else {

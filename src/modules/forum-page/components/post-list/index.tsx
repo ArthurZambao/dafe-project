@@ -1,10 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { typePost } from '@/global/constants/typePost';
+import { typePostList } from '@/types/typePostList';
 
 interface PostListProps {
-  posts: typePost[];
+  posts: typePostList[];
 }
 
 export function PostList({ posts }: PostListProps) {
@@ -14,14 +14,13 @@ export function PostList({ posts }: PostListProps) {
     return new Date(data).toLocaleDateString('pt-BR');
   };
   
-
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10">
       {posts.map((post, index) => (
         <div
           key={index}
           onClick={() => {
-            console.log(post._id);
+            console.log(post);
 
             if (!post._id) return alert('ID do tópico ausente!');
             router.push(`/forum-page/${post._id}`);
@@ -41,7 +40,7 @@ export function PostList({ posts }: PostListProps) {
             <p className="text-slate-gray text-sm text-center sm:text-left">
               Publicação: <span className="font-bold">{formatarData(post.data)}</span>
               <br />
-              Feito por: <span className="font-bold">{post.usuario}</span>
+              Feito por: <span className="font-bold">{post.autor.usuario}</span>
               <br />
               Tópico: <span className="font-bold">{post.topico}</span>
             </p>

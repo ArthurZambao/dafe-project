@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
-import { typePost } from '@/global/constants/typePost';
+import { typePost } from '@/types/typePostList';
 
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';

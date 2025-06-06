@@ -1,4 +1,6 @@
-export interface typePost {
+import { PostAutor } from "./postAutor";
+
+export interface typePostList {
   _id: string;
   titulo: string;
   usuario: string;
@@ -7,4 +9,5 @@ export interface typePost {
   data: string;
   topico: 'aulas' | 'diretores' | 'alunos' | 'atividades' | 'extracurriculares';
   interacao: number;
+  autor: PostAutor;
 }
