@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { NavBar } from '@/global/components/NavBar';
 import { Footer } from '@/global/components/Footer';
-import { Montserrat_Alternates } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '@/global/context/useAuth';
 
-const montserratAlternates = Montserrat_Alternates({
+const inter = Inter({
   subsets: ['latin'],
   weight: '500',
 });
@@ -28,10 +28,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
       </head>
-      <body className={`antialiased ${montserratAlternates.className}`}>
+      <body className={`antialiased ${inter.className}`}>
         <AuthProvider>
           <NavBar />
-          <main className="pt-30">{children}</main>
+          <main className="pt-22">{children}</main>
           <Footer />
           <Toaster position="top-right" richColors closeButton />
         </AuthProvider>

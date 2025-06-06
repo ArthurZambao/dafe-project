@@ -5,7 +5,7 @@ export function Register() {
   return (
     <section className="flex flex-col sm:flex-row mt-15 mb-20 justify-center gap-20 mx-5">
       <div className="flex flex-col gap-8 text-center">
-        <h1 className="text-azure-primary text-3xl font-bold">
+        <h1 className="text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-3xl font-bold">
           FAÇA SEU REGISTRO <span className="text-slate-gray">AGORA</span> !
         </h1>
         <p className="text-slate-gray sm:text-lg font-semibold ">
@@ -17,7 +17,7 @@ export function Register() {
           mais transparente e participativo.
         </p>
         <Link href="/register">
-          <button className="cursor-pointer bg-azure-primary btn-dafe-hover text-3xl font-bold text-white px-12 sm:px-20 py-4 rounded-tl-xl rounded-br-xl">
+          <button className="cursor-pointer btn-dafe btn-dafe-hover duration-300 text-3xl font-bold text-white px-12 sm:px-20 py-4">
             Cadastrar-se
           </button>
         </Link>

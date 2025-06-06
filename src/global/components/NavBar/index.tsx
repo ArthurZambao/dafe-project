@@ -1,11 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { AnimatedLink } from '@/global/animations/animatedLink';
-import { getValidToken } from '@/global/utils/auth'; // ✅ usando o utilitário
+import { getValidToken } from '@/global/utils/auth';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,54 +19,74 @@ export function NavBar() {
 
   const renderAuthLink = () => {
     if (isAuthenticated || pathname === '/users') {
-      return <AnimatedLink href="/users">Perfil</AnimatedLink>;
+      return <Link href="/users" className={`${isActive('/users')}`}>Perfil</Link>;
     }
 
     if (pathname === '/login') {
-      return <AnimatedLink href="/register">Cadastrar-se</AnimatedLink>;
+      return <Link href="/register" className={`${isActive('/register')}`}>Cadastrar-se</Link>;
     }
 
     if (pathname === '/register') {
-      return <AnimatedLink href="/login">Entrar</AnimatedLink>;
+      return <Link href="/login" className={`${isActive('/login')}`}>Entrar</Link>;
     }
 
-    return <AnimatedLink href="/login">Entrar</AnimatedLink>;
+    return <Link href="/login" className={`${isActive('/login')}`}>Entrar</Link>;
   };
 
+  const isActive = (path: string) => pathname === path ? 'navbar-mark' : '';
+
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-azure-primary border-b-10 border-azure-secondary text-white flex justify-between p-6 items-center select-none">
-      <Link href="/landing-page">
-        <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
-      </Link>
+    <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary border-b-1 border-[#0E2641] flex justify-between p-6 items-center select-none">
+      <h1 className='text-3xl font-bold text-azure-primary flex items-center space-x-2'>
+        LOGO
+      </h1>
 
       <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
         {isOpen ? '✖' : '☰'}
       </button>
 
       <nav>
-        <ul className="hidden md:flex items-center space-x-4 lg:space-x-10 text-xl">
-          <li><AnimatedLink href="/landing-page">Início</AnimatedLink></li>
-          <li>
-            <AnimatedLink href="/forms-page">
+        <ul className="hidden md:flex items-center space-x-2 lg:space-x-4 text-xl">
+          <li className={`py-2 px-4 rounded-xl navbar-mark-hover ${isActive('/landing-page')}`}>
+            <Link href="/landing-page">Início</Link>
+          </li>
+          <li className={`py-2 px-4 rounded-xl navbar-mark-hover ${isActive('/forms-page')}`}>
+            <Link href="/forms-page">
               <span className="hidden md:inline-block lg:hidden">Form.</span>
               <span className="inline-block md:hidden lg:inline-block">Formulário</span>
-            </AnimatedLink>
+            </Link>
           </li>
-          <li><AnimatedLink href="/forum-page">Fórum</AnimatedLink></li>
-          <li><AnimatedLink href="/notices-page">Notícias</AnimatedLink></li>
-          <li><AnimatedLink href="/complaints">Denúncias</AnimatedLink></li>
-          <li>{renderAuthLink()}</li>
+          <li className={`py-2 px-4 rounded-xl navbar-mark-hover ${isActive('/forum-page')}`}>
+            <Link href="/forum-page">Fórum</Link>
+          </li>
+          <li className={`py-2 px-4 rounded-xl navbar-mark-hover ${isActive('/notices-page')}`}>
+            <Link href="/notices-page">Notícias</Link>
+          </li>
+          <li className={`py-2 px-4 rounded-xl navbar-mark-hover ${isActive('/complaints')}`}>
+            <Link href="/complaints">Denúncias</Link>
+          </li>
+          <li className='py-2 px-4 rounded-xl navbar-mark-hover'>{renderAuthLink()}</li>
         </ul>
       </nav>
 
       {isOpen && (
-        <nav className="absolute top-30 left-1/2 transform -translate-x-1/2 w-full bg-azure-primary shadow-l border-b-10 border-azure-secondary z-50">
+        <nav className="absolute top-20 left-1/2 transform -translate-x-1/2 w-full bg-white shadow-l border-b-10 border-azure-secondary z-50">
           <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
-            <li><Link href="/landing-page" onClick={toggleMenu}>Início</Link></li>
-            <li><Link href="/forms-page" onClick={toggleMenu}>Formulários</Link></li>
-            <li><Link href="/forum-page" onClick={toggleMenu}>Fórum</Link></li>
-            <li><Link href="/notices-page" onClick={toggleMenu}>Notícias</Link></li>
-            <li><Link href="/complaints" onClick={toggleMenu}>Denúncias</Link></li>
+            <li className={`${isActive('/landing-page')}`}>
+              <Link href="/landing-page" onClick={toggleMenu}>Início</Link>
+            </li>
+            <li className={`${isActive('/forms-page')}`}>
+              <Link href="/forms-page" onClick={toggleMenu}>Formulários</Link>
+            </li>
+            <li className={`${isActive('/forum-page')}`}>
+              <Link href="/forum-page" onClick={toggleMenu}>Fórum</Link>
+            </li>
+            <li className={`${isActive('/notices-page')}`}>
+              <Link href="/notices-page" onClick={toggleMenu}>Notícias</Link>
+            </li>
+            <li className={`${isActive('/complaints')}`}>
+              <Link href="/complaints" onClick={toggleMenu}>Denúncias</Link>
+            </li>
             <li>{renderAuthLink()}</li>
           </ul>
         </nav>
