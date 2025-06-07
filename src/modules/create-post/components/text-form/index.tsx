@@ -13,7 +13,7 @@ interface TextFormProps {
 export function TextForm({ register, errors }: TextFormProps) {
   return (
     <>
-      <div className="flex flex-col lg:flex-row gap-2">
+      <div className="flex flex-col lg:flex-row gap-2 py-10 sm:py-0">
         <div className="w-full flex flex-col gap-2">
           <Input<CreateFormData>
             id="titulo"

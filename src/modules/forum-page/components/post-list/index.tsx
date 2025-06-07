@@ -45,7 +45,7 @@ export function PostList({ posts }: PostListProps) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-center bg-[#D9D9D9] py-50">
+            <div className="flex items-center justify-center bg-[#D9D9D9] py-30 sm:py-50">
               <Image
                 src="/icons/ig-logo.svg"
                 width={100}

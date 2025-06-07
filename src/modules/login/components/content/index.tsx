@@ -27,13 +27,16 @@ export function LoginData() {
 
   return (
     <AnimatedContent inverse>
-      <div className="px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen">
+      <div className="bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen z-0">
+        <h1 className="text-2xl sm:text-4xl text-center font-bold text-azure-footer">
+          Entrar na sua conta
+        </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 border-4 border-azure-primary rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[40rem] my-10 px-5 py-20"
+          className=" bg-white flex flex-col gap-5 border-2 border-azure-primary rounded-2xl mx-auto w-full sm:w-[40rem] my-10 px-5 pt-20"
         >
-          <h2 className="text-2xl sm:text-4xl text-center font-bold text-azure-primary">
-            Entrar na sua conta
+          <h2 className="text-2xl sm:text-5xl text-center font-extrabold text-azure-primary">
+            LOGO
           </h2>
           <Input<CreateLoginFormData>
             id="email"
@@ -54,27 +57,34 @@ export function LoginData() {
             error={errors.senha}
           />
 
-          <Checkbox<CreateLoginFormData>
-            id="lembrar"
-            label="Continuar conectado"
-            register={register}
-            error={errors.lembrar}
-          />
+          <p className="pl-2 text-sm cursor-pointer hover:underline text-azure-primary">
+            Esqueci minha senha
+          </p>
 
+          <div className="mx-auto py-4">
+            <Checkbox<CreateLoginFormData>
+              id="lembrar"
+              label="Continuar conectado"
+              register={register}
+              error={errors.lembrar}
+            />
+          </div>
           <div className="flex flex-col justify-center pt-4">
             <input
               type="submit"
               value={isSubmitting ? 'Entrando...' : 'Entrar'}
               disabled={isSubmitting}
-              className={`cursor-pointer bg-azure-primary text-xl sm:text-3xl font-bold text-white mx-8 sm:mx-20 py-4 rounded-tr-xl rounded-bl-xl transition-opacity ${
+              className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${
                 isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
               }`}
             />
-            <div className="text-center mt-4 text-azure-primary">
+            <div className="text-center mt-10 text-[#1363B9] pt-8 pb-6">
               <Link href="/register">
-                <p className="hover:underline">Não possui Cadastro? Registre-se</p>
+                <p className="hover:underline">
+                  Não possui Cadastro?{' '}
+                  <span className="text-azure-primary underline">Registre-se!</span>
+                </p>
               </Link>
-              <p className="cursor-pointer hover:underline">Esqueci minha senha</p>
             </div>
           </div>
         </form>

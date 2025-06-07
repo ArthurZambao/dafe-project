@@ -17,7 +17,7 @@ export function Checkbox<T extends FieldValues>({ id, label, register, error }: 
           {...register(id)}
           className="accent-azure-primary w-4 h-4 rounded-md"
         />
-        <span className="text-sm tsm:text-base">{label}</span>
+        <span className="text-sm sm:text-base">{label}</span>
       </label>
       {error && <span className="text-red-500 text-sm text-left ml-6">{error.message}</span>}
     </div>

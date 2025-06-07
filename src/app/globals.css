@@ -62,7 +62,7 @@ body {
 }
 
 .btn-dafe{
- @apply bg-gradient-to-r from-[#05366B] to-[#0A6AD1] rounded-lg transition duration-300 ease-in-out;
+ @apply bg-gradient-to-r from-[#05366B] to-[#0A6AD1] rounded-lg cursor-pointer transition duration-300 ease-in-out;
 }
 
 .btn-dafe-hover:hover {
