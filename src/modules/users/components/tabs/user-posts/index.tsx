@@ -66,13 +66,20 @@ export function UserPosts() {
             if (!post._id) return alert('ID do tópico ausente!');
             router.push(`/forum-page/${post._id}`);
           }}
-          className="cursor-pointer mb-4 p-4 border rounded-lg shadow-sm"
+          className="cursor-pointer mb-4 p-4 border border-azure-primary rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
         >
-          <p className="text-2xl text-azure-primary">{post.titulo}</p>
-          <p className="text-md">{post.descricao}</p>
-          <span className="flex justify-between items-center mt-2">
-            <p className="text-slate-gray text-sm mt-2">
-              {new Date(post.data).toLocaleDateString()}
+          <p className="text-xl sm:text-3xl text-azure-primary break-words whitespace-pre-wrap w-full">
+            {post.titulo}
+          </p>
+          <p className="text-xs sm:text-base break-words whitespace-pre-wrap w-full">
+            {post.descricao}
+          </p>
+          <p className="text-slate-gray text-xs sm:text-sm mt-2">
+            Tópico: <span className='font-bold'>{post.topico}</span>
+          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-slate-gray text-xs sm:text-sm">
+              Feito em: <span className='font-bold'>{new Date(post.data).toLocaleDateString()}</span>
             </p>
             <Trash2
               onClick={(e) => {
@@ -81,7 +88,7 @@ export function UserPosts() {
               }}
               className="cursor-pointer hover:text-red-600 transition-colors duration-200 "
             />
-          </span>
+          </div>
         </div>
       ))}
     </>
