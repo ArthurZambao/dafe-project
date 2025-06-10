@@ -1,8 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { MessageSquareText, ThumbsUp } from 'lucide-react';
 import { typePostList } from '@/types/typePostList';
+import { PostInfoSection } from '@/global/components/postInfoSection';
 
 interface PostListProps {
   posts: typePostList[];
@@ -60,14 +60,7 @@ export function PostList({ posts }: PostListProps) {
             <p className="leading-relaxed pt-6 text-sm sm:text-base lg:text-lg text-slate-gray text-center sm:text-left break-words w-full">
               {post.descricao}
             </p>
-            <div className='flex gap-4 sm:justify-start justify-center'>
-              <button className=" flex gap-4 self-center sm:self-start border-1 border-[#0B4079] rounded-xl text-base text-[#0B4079] px-4 sm:px-6 py-2">
-                <span className="font-bold">{post.interacao}</span> <ThumbsUp />
-              </button>
-              <button className=" flex gap-4 self-center sm:self-start border-1 border-[#0B4079] rounded-xl text-base text-[#0B4079] px-4 sm:px-6 py-2">
-                <span className="font-bold">{/*Comentarios*/}</span> <MessageSquareText />
-              </button>
-            </div>
+          <PostInfoSection interacao={post.interacao} commentsCount={post.commentsCount} />
           </div>
         </div>
       ))}

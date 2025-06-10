@@ -10,4 +10,5 @@ export interface typePostList {
   topico: 'aulas' | 'diretores' | 'alunos' | 'atividades' | 'extracurriculares';
   interacao: number;
   autor: PostAutor;
+  commentsCount: number;
 }

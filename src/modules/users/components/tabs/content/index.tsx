@@ -40,7 +40,7 @@ export function Tabs() {
         </button>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 w-full">
         {activeTab === 'comentarios' && <UserComments />}
         {activeTab === 'posts' && <UserPosts />}
         {activeTab === 'denuncias' && <UserComplaints/>}
