@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormattedDate } from '@/global/components/FormatedDate';
+import { CurrentTime, FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -96,7 +96,13 @@ export function CreatePostData() {
       );
 
       router.push('/forum-page');
-      toast.success('Tópico criado com sucesso!');
+      toast.success('Tópico criado com sucesso!', {
+        description: (
+          <p className='flex'>
+            Criado às {" "} <CurrentTime />
+          </p>
+        ),
+      });
       reset();
     } catch (error) {
       let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
@@ -118,7 +124,9 @@ export function CreatePostData() {
               Criar Assunto
             </h1>
             <div>
-              <h2 className="text-base text-center sm:text-lg font-semibold text-black mb-2">Rascunhos</h2>
+              <h2 className="text-base text-center sm:text-lg font-semibold text-black mb-2">
+                Rascunhos
+              </h2>
               <UlPostDraftList
                 drafts={drafts}
                 handleLoadDraft={handleLoadDraft}

@@ -25,7 +25,7 @@ export function useLogin() {
       Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
       reset();
 
-      router.push('/users');
+      router.push('/forum-page');
       toast.success('Login realizado com sucesso!');
     } catch (error) {
       let backendMessage = 'Erro ao entrar. Por favor, tente novamente mais tarde.';

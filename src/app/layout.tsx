@@ -33,7 +33,19 @@ export default function RootLayout({
           <NavBar />
           <main className="pt-22">{children}</main>
           <Footer />
-          <Toaster position="top-right" richColors closeButton />
+          <Toaster
+            position="bottom-right"
+            theme="light"
+            toastOptions={{
+              classNames: {
+                toast: 'bg-white text-azure-primary border border-gray-200 shadow-lg',
+                title: 'font-bold text-azure-primary',
+                description: 'text-sm text-azure-primary',
+                actionButton: 'bg-azure-primary text-white px-2 py-1 rounded',
+                cancelButton: 'text-gray-500',
+              },
+            }}
+          />
         </AuthProvider>
       </body>
     </html>

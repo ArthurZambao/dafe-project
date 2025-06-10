@@ -1,10 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getValidToken } from '@/global/utils/auth';
-import { AnimatedLink } from '@/global/animations/animatedLink';
 import { NavItem } from '../NavItem';
 
 
