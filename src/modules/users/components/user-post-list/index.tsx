@@ -1,25 +1,29 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { typePostList } from '@/types/typePostList';
-import { PostInfoSection } from '@/global/components/postInfoSection';
 import { FadeInUp } from '@/global/animations/fadeInUp';
+import { PostInfoSection } from '@/global/components/postInfoSection';
+import { typePostList } from '@/types/typePostList';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-interface PostListProps {
+interface UserPostListProps {
   posts: typePostList[];
+  handleDelete: (postId: string) => void;
 }
 
-export function PostList({ posts }: PostListProps) {
+const formatarData = (data: string) => {
+  return new Date(data).toLocaleDateString('pt-BR');
+};
+
+export function UserPostList({ posts, handleDelete }: UserPostListProps) {
   const router = useRouter();
 
-  const formatarData = (data: string) => {
-    return new Date(data).toLocaleDateString('pt-BR');
-  };
+  if (posts.length === 0) {
+    return <div className="text-center text-gray-500 text-sm mt-6">Você não tem nenhum Post.</div>;
+  }
 
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10 mx-10">
       {posts.map((post, index) => (
-        <FadeInUp key={index} delay={index * 0.05}>
+        <FadeInUp key={index} delay={index * 0.1}>
           <div
             onClick={() => {
               console.log(post);
@@ -31,9 +35,20 @@ export function PostList({ posts }: PostListProps) {
           >
             <div>
               <div className="flex-col sm:flex">
-                <h3 className="font-bold sm:text-4xl text-3xl text-azure-primary text-center sm:text-left break-words w-full">
-                  {post.titulo}
-                </h3>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-center sm:text-left">
+                  <h3 className="font-bold sm:text-4xl text-3xl text-azure-primary break-words w-full order-2 sm:order-none">
+                    {post.titulo}
+                  </h3>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(post._id);
+                    }}
+                    className="cursor-pointer btn-dafe btn-dafe-hover px-4 py-2 order-1 sm:order-none mx-auto sm:mx-0 mb-2 sm:mb-0"
+                  >
+                    Deletar
+                  </button>
+                </div>
                 <div className="flex-col sm:flex text-slate-gray text-md text-center sm:text-left py-4">
                   <p>
                     Publicação: <span className="font-bold">{formatarData(post.data)}</span>

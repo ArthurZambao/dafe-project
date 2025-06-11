@@ -6,11 +6,13 @@ import { UserPosts } from '../user-posts';
 import { UserComplaints } from '../user-complaints';
 import { UserForms } from '../user-forms';
 
+
 export function Tabs() {
   const [activeTab, setActiveTab] = useState<'comentarios' | 'posts' | 'denuncias' | 'formularios'>(
     'comentarios'
   );
 
+  
   return (
     <>
       <div className="flex overflow-x-auto no-scrollbar gap-6 text-xl text-azure-primary font-medium border-b border-gray-300 px-2 sm:justify-center">

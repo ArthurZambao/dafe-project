@@ -1,5 +1,3 @@
-'use client';
-
 import { AnimatedLink } from '@/global/animations/animatedLink';
 import { NavItemProps } from '@/types/navBar';
 

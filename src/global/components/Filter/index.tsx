@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { PostButton } from '@/modules/forum-page/components/post-button';
