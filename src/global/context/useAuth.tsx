@@ -5,17 +5,18 @@ import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 import { JwtPayload } from '@/types/jwt';
 
-
 interface AuthContextProps {
   user: JwtPayload | null;
   isAuthenticated: boolean;
   logout: () => void;
+  setUserFromToken: (token: string) => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,
   isAuthenticated: false,
   logout: () => {},
+  setUserFromToken: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,7 +43,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   function logout() {
     Cookies.remove('token');
     setUser(null);
-    window.location.href = '/login'; // ou router.push, se preferir
+    window.location.href = '/login';
+  }
+
+  function setUserFromToken(token: string) {
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      setUser(decoded);
+    } catch {
+      setUser(null);
+    }
   }
 
   return (
@@ -51,6 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         isAuthenticated: !!user,
         logout,
+        setUserFromToken,
       }}
     >
       {children}

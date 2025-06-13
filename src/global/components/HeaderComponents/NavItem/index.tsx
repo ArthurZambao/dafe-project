@@ -1,7 +1,7 @@
 import { AnimatedLink } from '@/global/animations/animatedLink';
 import { NavItemProps } from '@/types/navBar';
 
-export function NavItem({ href, pathname, children, onClick }: NavItemProps) {
+export function NavItem({ href, pathname, children, onClick, toggleUserMenu }: NavItemProps) {
     const isActive = pathname === href;
 
     const baseClass =
@@ -9,12 +9,13 @@ export function NavItem({ href, pathname, children, onClick }: NavItemProps) {
     const activeClass = 'bg-azure-primary text-white';
 
     return (
-        <div className={`${baseClass} ${isActive ? activeClass : ''}`}>
-            <AnimatedLink href={href} >
+        <div className={`${baseClass} ${isActive ? activeClass : ''}`} onClick={() => toggleUserMenu?.()}>
+            <AnimatedLink href={href}>
                 <div onClick={onClick}>
                     {children}
                 </div>
             </AnimatedLink>
         </div>
+
     );
 }

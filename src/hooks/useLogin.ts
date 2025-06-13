@@ -3,10 +3,12 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
+import { useAuth } from '@/global/context/useAuth';
 
 export function useLogin() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const { setUserFromToken } = useAuth();
 
   interface LoginData {
     email: string;
@@ -21,6 +23,7 @@ export function useLogin() {
       });
 
       Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
+      setUserFromToken(response.data.token);
       reset();
 
       router.push('/forum-page');

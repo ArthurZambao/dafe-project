@@ -1,36 +1,40 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { getValidToken } from '@/global/utils/auth';
+import { useState } from 'react';
 import { NavItem } from '../NavItem';
-
+import { UserMenu } from '../UserMenu';
+import { useAuth } from '@/global/context/useAuth';
+import { NavBarMobile } from '../NavBarMobile';
+import { AnimatedButton } from '@/global/animations/animatedButton';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
 
-  useEffect(() => {
-    const token = getValidToken();
-    setIsAuthenticated(!!token);
-  }, [pathname]);
+  const closeUserMenu = () => setIsUserMenuOpen(false);
 
   const renderAuthLink = () => {
-    if (isAuthenticated || pathname === '/users') {
-      return <NavItem href="/users" pathname={pathname}>Perfil</NavItem>;
+    if (isAuthenticated) {
+      return (
+        <>
+          <AnimatedButton onClick={toggleUserMenu}>
+            Perfil
+          </AnimatedButton>
+          {isUserMenuOpen && <UserMenu toggleUserMenu={toggleUserMenu} />}
+        </>
+      );
     }
 
     if (pathname === '/login') {
       return <NavItem href="/register" pathname={pathname}>Cadastrar-se</NavItem>;
-    } 
-
-    if (pathname === '/register') {
-      <NavItem href="/login" pathname={pathname}>Entrar</NavItem>;
     }
-
+    console.log(isAuthenticated)
     return <NavItem href="/login" pathname={pathname}>Entrar</NavItem>;
   };
 
@@ -44,29 +48,22 @@ export function NavBar() {
 
       <nav>
         <ul className="hidden md:flex items-center space-x-2 lg:space-x-4 text-xl">
-          <NavItem href="/landing-page" pathname={pathname}>Início</NavItem>
-          <NavItem href="/forms-page" pathname={pathname}>
+          <NavItem href="/landing-page" pathname={pathname} onClick={closeUserMenu}>Início</NavItem>
+          <NavItem href="/forms-page" pathname={pathname} onClick={closeUserMenu}>
             <span className="hidden md:inline-block lg:hidden">Form.</span>
             <span className="inline-block md:hidden lg:inline-block">Formulário</span>
           </NavItem>
-          <NavItem href="/forum-page" pathname={pathname}>Fórum</NavItem>
-          <NavItem href="/notices-page" pathname={pathname}>Notícias</NavItem>
-          <NavItem href="/complaints" pathname={pathname}>Denúncias</NavItem>
-          <li className="py-2 px-4 rounded-xl">{renderAuthLink()}</li>
+          <NavItem href="/forum-page" pathname={pathname} onClick={closeUserMenu}>Fórum</NavItem>
+          <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>Notícias</NavItem>
+          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>Denúncias</NavItem>
+          <li>
+            {renderAuthLink()}
+          </li>
         </ul>
       </nav>
 
       {isOpen && (
-        <nav className="absolute top-20 left-1/2 transform -translate-x-1/2 w-full bg-white shadow-l border-b-2 z-50">
-          <ul className="flex flex-col items-center space-y-4 py-8 text-xl">
-            <NavItem href="/landing-page" pathname={pathname} onClick={toggleMenu}>Início</NavItem>
-            <NavItem href="/forms-page" pathname={pathname} onClick={toggleMenu}>Formulários</NavItem>
-            <NavItem href="/forum-page" pathname={pathname} onClick={toggleMenu}>Fórum</NavItem>
-            <NavItem href="/notices-page" pathname={pathname} onClick={toggleMenu}>Notícias</NavItem>
-            <NavItem href="/complaints" pathname={pathname} onClick={toggleMenu}>Denúncias</NavItem>
-            <li onClick={toggleMenu}>{renderAuthLink()}</li>
-          </ul>
-        </nav>
+        <NavBarMobile pathname={pathname} toggleMenu={toggleMenu} renderAuthLink={renderAuthLink} />
       )}
     </div>
   );
