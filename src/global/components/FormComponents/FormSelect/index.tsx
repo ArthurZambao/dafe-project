@@ -20,7 +20,7 @@ export function Select<T extends FieldValues>({
   const { onChange, ...rest } = register(id);
 
   return (
-    <div className="inline-block flex flex-col gap-1 text-slate-gray">
+    <div className="flex flex-col gap-1 text-slate-gray">
       <p className="text-lg sm:text-2xl font-semibold text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>

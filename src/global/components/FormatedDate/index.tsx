@@ -21,6 +21,10 @@ const getCurrentTime = (): string => {
   return `${hours}:${minutes}`;
 };
 
+  export const formatarData = (data: string) => {
+    return new Date(data).toLocaleDateString('pt-BR');
+  };
+
 export const CurrentTime: React.FC = () => {
   const time = getCurrentTime();
 

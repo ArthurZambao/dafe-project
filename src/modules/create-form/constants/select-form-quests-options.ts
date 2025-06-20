@@ -1,0 +1,1 @@
+export const selectFormQuestsOptions = ["Múltipla Escolha", "Escolha Única", "Dissertativa", "Upload de Arquivo", "Escala em Linha"];

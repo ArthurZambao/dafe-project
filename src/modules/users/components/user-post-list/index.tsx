@@ -1,4 +1,3 @@
-import { FadeInUp } from '@/global/animations/fadeInUp';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typePostList } from '@/types/typePostList';
 import Image from 'next/image';

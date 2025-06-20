@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { typePostList } from '@/types/typePostList';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { FadeInUp } from '@/global/animations/fadeInUp';
+import { formatarData } from '@/global/components/FormatedDate';
 
 interface PostListProps {
   posts: typePostList[];
@@ -11,10 +12,6 @@ interface PostListProps {
 
 export function PostList({ posts }: PostListProps) {
   const router = useRouter();
-
-  const formatarData = (data: string) => {
-    return new Date(data).toLocaleDateString('pt-BR');
-  };
 
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10 mx-10">
