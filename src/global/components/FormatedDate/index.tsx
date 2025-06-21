@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface FormattedDateProps {
   date: Date;
 }
@@ -10,3 +12,21 @@ export function FormattedDate({ date }: FormattedDateProps) {
 
   return <span className="font-bold">{formatedData}</span>;
 }
+
+const getCurrentTime = (): string => {
+  const now = new Date();
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  const hours = pad(now.getHours());
+  const minutes = pad(now.getMinutes());
+  return `${hours}:${minutes}`;
+};
+
+  export const formatarData = (data: string) => {
+    return new Date(data).toLocaleDateString('pt-BR');
+  };
+
+export const CurrentTime: React.FC = () => {
+  const time = getCurrentTime();
+
+  return <span>{time}</span>;
+};

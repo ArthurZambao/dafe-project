@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { NavBar } from '@/global/components/NavBar';
+import { NavBar } from '@/global/components/HeaderComponents/NavBar';
 import { Footer } from '@/global/components/Footer';
-import { Montserrat_Alternates } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
+import { AuthProvider } from '@/global/context/useAuth';
 
-const montserratAlternates = Montserrat_Alternates({
+const inter = Inter({
   subsets: ['latin'],
   weight: '500',
 });
 
 export const metadata: Metadata = {
-  title: 'DAFE',
+  title: {
+    default: 'DAFE',
+    template: 'DAFE | %s',
+  },
 };
 
 export default function RootLayout({
@@ -24,11 +28,25 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
       </head>
-      <body className={`antialiased ${montserratAlternates.className}`}>
-        <NavBar />
-        <main className='pt-30'>{children}</main>
-        <Footer />
-        <Toaster position="top-center" richColors closeButton />
+      <body className={`antialiased ${inter.className}`}>
+        <AuthProvider>
+          <NavBar />
+          <main className="pt-22">{children}</main>
+          <Footer />
+          <Toaster
+            position="bottom-right"
+            theme="light"
+            toastOptions={{
+              classNames: {
+                toast: 'bg-white text-azure-primary border border-gray-200 shadow-lg',
+                title: 'font-bold text-azure-primary',
+                description: 'text-sm text-azure-primary',
+                actionButton: 'bg-azure-primary text-white px-2 py-1 rounded',
+                cancelButton: 'text-gray-500',
+              },
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );

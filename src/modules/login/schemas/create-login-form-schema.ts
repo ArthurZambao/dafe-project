@@ -13,7 +13,7 @@ export const createLoginFormSchema = z.object({
     .max(64, 'Senha Inválida!')
     .nonempty('Senha inválida!'),
 
-  remember: z.boolean().optional(),
+  lembrar: z.boolean().optional(),
 });
 
 export type CreateLoginFormData = z.infer<typeof createLoginFormSchema>;

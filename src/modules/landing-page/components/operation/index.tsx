@@ -1,85 +1,91 @@
+import { FadeInUp } from '@/global/animations/fadeInUp';
 import Image from 'next/image';
 
 export function Operation() {
+  const sections = [
+    {
+      title: 'Cadastro simples',
+      text: (
+        <>
+          <span className="font-bold">O cadastro é rápido e fácil.</span>Criar uma conta no
+          aplicativo é fácil e leva apenas alguns minutos. Os alunos informam dados básicos, como
+          nome completo, turma e email institucional, garantindo uma identificação segura e
+          personalizada. Com o cadastro concluído, já podem acessar todas as funcionalidades da
+          plataforma e começar a interagir com a escola de forma prática e eficiente.
+        </>
+      ),
+      image: '/images/operation-image-1.png',
+    },
+    {
+      title: 'FeedBack Constante',
+      text: (
+        <>
+          <span className="font-bold">A sua opinião é fundamental.</span> Por meio de feedbacks
+          regulares, aprimoramos continuamente a plataforma, ajustando cada detalhe para torná-la
+          mais eficiente, transparente e alinhada às suas necessidades. Além disso, os formulários
+          de feedback periódicos garantem que cada aluno tenha voz ativa no processo de melhoria do
+          ambiente escolar. Suas sugestões e críticas são analisadas com atenção e transformadas em
+          ações concretas, promovendo um espaço mais justo, colaborativo e centrado no estudante.
+        </>
+      ),
+      image: '/images/operation-image-1.png',
+    },
+    {
+      title: 'Receba Comunicados',
+      text: (
+        <>
+          <span className="font-bold">Fique sempre por dentro das novidades da escola!</span>{' '}
+          Comunicados importantes, como avisos sobre eventos, reuniões, mudanças no calendário e
+          atualizações gerais, serão enviados diretamente para o seu celular ou computador. Assim,
+          você não perde nenhuma informação relevante e pode se organizar com facilidade e rapidez.
+        </>
+      ),
+      image: '/images/operation-image-1.png',
+    },
+  ];
+
   return (
-    <section className="text-white py-10 bg-[#007BFF] w-full rounded-tr-[8rem] sm:rounded-bl-[8rem]">
-      <h2 className="text-3xl font-bold text-center mt-20 mb-12 px-2 sm:px-0">
-        Como Funciona <br className='block sm:hidden' />a D.A.F.E
+    <section className="text-white py-10 bg-azure-primary w-full">
+      <h2 className="text-4xl sm:text-5xl font-bold text-center mt-20 mb-20 px-4">
+        Como funciona o <br className="block sm:hidden" /> D.A.F.E
       </h2>
 
-      <div className="flex justify-center gap-8 py-10 px-4 flex-col sm:flex-row">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-[20rem]">
-          <div className="w-full sm:w-1/2">
-            <Image
-              src="/images/operation-image-1.png"
-              alt="Logo D.A.F.E"
-              className="w-full h-auto rounded-2xl"
-              layout="responsive"
-              width={660}
-              height={360}
-            />
-          </div>
-          <div className="pt-4 text-center">
-            <h1 className="font-bold text-xl sm:text-4xl pb-4 sm:pb-10">Cadastro Simples:</h1>
-            <p className="text-sm sm:text-xl pb-6 sm:pb-0">
-              <span className="font-bold">O cadastro é rápido e fácil.</span> Os alunos criam sua{' '}
-              <br />
-              conta com informações básicas, como nome, turma e email, e{' '}
-              <br className="sm:block hidden" />
-              em poucos minutos estão prontos para começar a usar o aplicativo.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-center gap-8 py-10 px-4 flex-col sm:flex-row">
-        <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-8 sm:gap-[20rem]">
-          <div className="pt-4 text-center">
-            <h1 className="font-bold text-xl sm:text-4xl pb-4 sm:pb-10">FeedBack Constante:</h1>
-            <p className="text-sm sm:text-xl pb-6 sm:pb-0 px-2 sm:px-0">
-              Sua opinião nos guia: com <span className="font-bold">feedback constante</span>,
-              ajustamos
-              <br className="hidden sm:block" />
-              cada detalhe para oferecer uma plataforma cada 
-              <br className="hidden sm:block" />
-              vez mais eficiente, transparente e feita para você.
-            </p>
-          </div>
-          <div className="w-full sm:w-1/2">
-            <Image
-              src="/images/operation-image-2.png"
-              alt="Logo D.A.F.E"
-              className="w-full h-auto rounded-2xl"
-              layout="responsive"
-              width={660}
-              height={360}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-center gap-8 py-10 px-4 flex-col sm:flex-row">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-[20rem]">
-          <div className="w-full sm:w-1/2">
-            <Image
-              src="/images/operation-image-3.png"
-              alt="Logo D.A.F.E"
-              className="w-full h-auto rounded-2xl"
-              layout="responsive"
-              width={660}
-              height={360}
-            />
-          </div>
-          <div className="pt-4 text-center">
-            <h1 className="font-bold text-xl sm:text-4xl pb-4 sm:pb-10">Receba Comunicados:</h1>
-            <p className="text-sm sm:text-xl pb-6 sm:pb-0">
-              <span className="font-bold">Comunicados importantes da escola</span>, como eventos e
-              <br className="sm:block hidden" />
-              atualizações, serão enviados diretamente para seu <br className="sm:block hidden" />
-              celular ou computador, mantendo você sempre informado.
-            </p>
-          </div>
-        </div>
+      <div className="flex flex-col items-center gap-20 px-4 max-w-[100rem] mx-auto">
+        {sections.map((section, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <FadeInUp key={index} delay={index * 0.2}>
+              <div
+                className={`flex flex-col ${
+                  isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'
+                } items-center gap-10 sm:gap-[8rem] py-8`}
+              >
+                <div className="sm:w-1/2 px-2 text-center sm:text-left">
+                  <h3
+                    className={`text-xl sm:text-3xl font-bold mb-4 ${isEven ? 'text-left' : 'text-right'}`}
+                  >
+                    {section.title}
+                  </h3>
+                  <p
+                    className={`text-sm sm:text-lg leading-relaxed ${isEven ? 'text-left' : 'text-right'}`}
+                  >
+                    {section.text}
+                  </p>
+                </div>
+                <div className="relative w-full sm:w-1/2 h-64 sm:h-[300px]">
+                  <Image
+                    src={section.image}
+                    alt={`Ilustração - ${section.title}`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 640px) 100vw, 500px"
+                    priority
+                  />
+                </div>
+              </div>
+            </FadeInUp>
+          );
+        })}
       </div>
     </section>
   );

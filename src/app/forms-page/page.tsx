@@ -1,12 +1,15 @@
-'use client';
 
-import { ProtectedPage } from '@/global/components/protectedPage';
+import { AuthGate } from '@/global/components/authGate/authGate';
 import { FormsPageData } from '@/modules/forms-page/components/content';
 
-export default function CreateTopicPage() {
+export const metadata = {
+  title: 'Formulários',
+};
+
+export default function FormsPage() {
   return (
-    <ProtectedPage>
+    <AuthGate mode="auth">
       <FormsPageData />
-    </ProtectedPage>
+    </AuthGate>
   );
 }

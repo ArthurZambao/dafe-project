@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { CreateLoginFormData, createLoginFormSchema } from '../../schemas/create-login-form-schema';
 import { useForm } from 'react-hook-form';
@@ -5,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@/global/components/FormComponents/CheckBoxInput';
 import Link from 'next/link';
 import { useLogin } from '@/hooks/useLogin';
+import { AnimatedContent } from '@/global/animations/animatedContent';
+import { FadeInUp } from '@/global/animations/fadeInUp';
 
 export function LoginData() {
   const {
@@ -23,57 +27,70 @@ export function LoginData() {
   };
 
   return (
-    <div className="px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[40rem] my-10 px-5 py-20"
-      >
-        <h2 className="text-2xl sm:text-4xl text-center font-bold text-[#007BFF]">
+    <AnimatedContent inverse>
+      <div className="bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat px-6 sm:px-0 flex flex-col items-center justify-center min-h-screen z-0">
+        <h1 className="text-2xl sm:text-4xl text-center font-bold text-azure-footer">
           Entrar na sua conta
-        </h2>
-        <Input<CreateLoginFormData>
-          id="email"
-          type="text"
-          label="E-mail:"
-          placeholder="exemplo@gmail.com"
-          register={register}
-          error={errors.email}
-        />
+        </h1>
+        <FadeInUp>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className=" bg-white flex flex-col gap-5 border-2 border-azure-primary rounded-2xl mx-auto w-full sm:w-[40rem] my-10 px-5 pt-20"
+          >
+            <h2 className="text-2xl sm:text-5xl text-center font-extrabold text-azure-primary">
+              LOGO
+            </h2>
+            <Input<CreateLoginFormData>
+              id="email"
+              type="text"
+              label="E-mail:"
+              placeholder="exemplo@gmail.com"
+              register={register}
+              error={errors.email}
+            />
 
-        <Input<CreateLoginFormData>
-          id="senha"
-          label="Senha:"
-          type="password"
-          placeholder="**********"
-          showPasswordToggle={true}
-          register={register}
-          error={errors.senha}
-        />
+            <Input<CreateLoginFormData>
+              id="senha"
+              label="Senha:"
+              type="password"
+              placeholder="**********"
+              showPasswordToggle={true}
+              register={register}
+              error={errors.senha}
+            />
 
-        <Checkbox<CreateLoginFormData>
-          id="remember"
-          label="Continuar conectado"
-          register={register}
-          error={errors.remember}
-        />
+            <p className="pl-2 text-sm cursor-pointer hover:underline text-azure-primary">
+              Esqueci minha senha
+            </p>
 
-        <div className="flex flex-col justify-center pt-4">
-          <input
-            type="submit"
-            value={isSubmitting ? 'Entrando...' : 'Entrar'}
-            disabled={isSubmitting}
-            className={`cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white mx-8 sm:mx-20 py-4 rounded-tr-xl rounded-bl-xl transition-opacity ${
-              isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
-            }`}
-          />
-          <div className="text-center mt-4 text-[#007BFF]">
-            <Link href="/register">
-              <p className="hover:underline">Não possui Cadastro? Registre-se</p>
-            </Link>
-            <p className="cursor-pointer hover:underline">Esqueci minha senha</p>
-          </div>
-        </div>
-      </form>
-    </div>
+            <div className="mx-auto py-4">
+              <Checkbox<CreateLoginFormData>
+                id="lembrar"
+                label="Continuar conectado"
+                register={register}
+                error={errors.lembrar}
+              />
+            </div>
+            <div className="flex flex-col justify-center pt-4">
+              <input
+                type="submit"
+                value={isSubmitting ? 'Entrando...' : 'Entrar'}
+                disabled={isSubmitting}
+                className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
+                  }`}
+              />
+              <div className="text-center mt-10 text-[#1363B9] pt-8 pb-6">
+                <Link href="/register">
+                  <p className="hover:underline">
+                    Não possui Cadastro?{' '}
+                    <span className="text-azure-primary underline">Registre-se!</span>
+                  </p>
+                </Link>
+              </div>
+            </div>
+          </form>
+        </FadeInUp>
+      </div>
+    </AnimatedContent>
   );
 }

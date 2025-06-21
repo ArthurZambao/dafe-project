@@ -1,6 +1,6 @@
-'use client';
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
+import { PostButton } from '@/modules/forum-page/components/post-button';
 
 interface FilterProps {
   selectedFilter: string | null;
@@ -17,16 +17,19 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
   return (
     <>
       {/* Botão da barra de filtro */}
-      <div className="flex justify-between items-center py-10 px-6 sm:px-16 relative">
-        <h2 className="hidden sm:block text-[#007BFF] text-3xl sm:text-4xl font-semibold">
+      <div className="flex sm:justify-between items-start py-10 px-6 sm:px-16 relative">
+        <h2 className="hidden sm:block text-[#4A83C0] text-3xl sm:text-5xl font-semibold">
           Principais Assuntos
         </h2>
-        <button
-          onClick={handleToggle}
-          className="flex items-center gap-2 cursor-pointer bg-[#007BFF] text-xl sm:text-lg font-bold text-white px-10 py-2 rounded-tl-xl rounded-br-xl"
-        >
-          <SlidersHorizontal size={16} /> <span className="hidden sm:block">Filtrar Por</span>
-        </button>
+        <div className='flex items-center gap-10'>
+          <PostButton />
+          <button
+            onClick={handleToggle}
+            className="flex items-center gap-2 cursor-pointer text-xl sm:text-lg text-black py-2"
+          >
+            <span className="hidden sm:block">Filtrar Por</span><SlidersHorizontal size={16} />
+          </button>
+        </div>
       </div>
 
       {/* Modal de opções */}
@@ -48,8 +51,8 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
                     setSelectedFilter(option);
                     handleClose();
                   }}
-                  className={`px-6 py-4 rounded-tl-[2rem] rounded-br-[2rem] w-full font-semibold text-lg cursor-pointer
-                    ${selectedFilter === option ? 'bg-[#007BFF] text-white' : 'border border-[#007BFF] text-[#007BFF]'}`}
+                  className={`px-6 py-4 rounded-xl w-full font-semibold text-lg cursor-pointer btn-dafe-hover hover:text-white duration-300
+                    ${selectedFilter === option ? 'btn-dafe text-white' : 'border border-azure-primatext-azure-primary text-azure-primary'}`}
                 >
                   {option}
                 </button>
@@ -59,7 +62,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
                   setSelectedFilter(null);
                   handleClose();
                 }}
-                className="mt-6 font-bold border border-[#007BFF] text-[#007BFF] cursor-pointer rounded-tl-[20px] rounded-br-[20px] w-full py-3"
+                className="mt-6 font-bold border border-azure-primatext-azure-primary text-azure-primary cursor-pointer rounded-xl w-full btn-dafe-hover hover:text-white py-3 duration-300"
               >
                 Mostrar Todos
               </button>

@@ -1,13 +1,28 @@
-import { Input } from '@/global/components/FormComponents/FormInput';
-import { CreateComplaintData, createComplaintSchema } from '../../schemas/create-complaint-schema';
-import { TextArea } from '@/global/components/FormComponents/FormTextArea';
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Select } from '@/global/components/FormComponents/FormSelect';
-import { complaintOptions } from '../../constants/complaint-options';
+import { FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { AnimatedContent } from '@/global/animations/animatedContent';
+import { useState, useEffect } from 'react';
+import { CreateComplaintData, createComplaintSchema } from '../../schemas/create-complaint-schema';
+import { ComplaintsDraftData } from '@/types/draftsDatas';
+import { UlComplaintsPostDraftList } from '../ulComplaintsDraftList';
+import { Select } from '@/global/components/FormComponents/FormSelect';
+import { TextArea } from '@/global/components/FormComponents/FormTextArea';
+import { complaintOptions } from '../../constants/complaint-options';
+import { Input } from '@/global/components/FormComponents/FormInput';
 
 export function ComplaintsData() {
+  const [drafts, setDrafts] = useState<ComplaintsDraftData[]>([]);
+
+  const hoje = new Date();
+  const dataFormatada = hoje.toISOString().slice(0, 10);
+  const router = useRouter();
+
   const {
     register,
     formState: { errors },
@@ -17,71 +32,161 @@ export function ComplaintsData() {
     resolver: zodResolver(createComplaintSchema),
   });
 
+  useEffect(() => {
+    const saved = localStorage.getItem('complaintsDrafts');
+    if (saved) {
+      try {
+        const parsed: ComplaintsDraftData[] = JSON.parse(saved);
+        setDrafts(parsed);
+      } catch (err) {
+        console.error('Erro ao carregar rascunhos:', err);
+      }
+    }
+  }, []);
+
+  const saveDraftToLocalStorage = (data: CreateComplaintData) => {
+    const draftId = Date.now().toString();
+    const draft: ComplaintsDraftData = {
+      ...data,
+      id: draftId,
+      date: dataFormatada,
+    };
+
+    const updatedDrafts = [...drafts, draft];
+    localStorage.setItem('complaintsDrafts', JSON.stringify(updatedDrafts));
+    setDrafts(updatedDrafts);
+  };
+
+  const handleSaveDraft = () => {
+    handleSubmit((data) => {
+      saveDraftToLocalStorage(data);
+      toast.success('Rascunho salvo com sucesso!');
+      reset();
+    })();
+  };
+
+  const handleLoadDraft = (draft: ComplaintsDraftData) => {
+    reset(draft);
+    toast.info('Rascunho carregado.');
+  };
+
+  const deleteDraft = (draftId: string) => () => {
+    const updatedDrafts = drafts.filter((draft) => draft.id !== draftId);
+    localStorage.setItem('complaintsDrafts', JSON.stringify(updatedDrafts));
+    setDrafts(updatedDrafts);
+    toast.success('Rascunho excluído com sucesso!');
+  };
 
   const onSubmit = async (data: CreateComplaintData) => {
+    const finalData = { ...data, data: dataFormatada };
+
     try {
       await axios.post('http://localhost:3030/complaints', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log(data);    
+
+      localStorage.setItem(
+        'complaintsDrafts',
+        JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(finalData)))
+      );
+
+      router.push('/forum-page');
+      toast.success('Tópico criado com sucesso!');
       reset();
-
     } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-
+      let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const err = error as { response?: { data?: { message?: string | string[] } } };
+        const message = err.response?.data?.message;
+        backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
+      }
+      toast.error(backendMessage);
     }
   };
 
   return (
-    <div className="min-h-screen">
-      <h1 className=" text-4xl sm:text-6xl font-bold text-[#007BFF] text-center my-10">
-        Denunciar
-      </h1>
-
-      <div className="mx-6 sm:mx-0">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 border-4 border-[#007BFF] rounded-tr-3xl rounded-bl-3xl mx-auto w-full sm:w-[50rem] my-5 p-10"
-        >
-          <Input<CreateComplaintData>
-            id="titulo"
-            label="Título da denúncia:"
-            type="text"
-            placeholder="Titulo12345"
-            register={register}
-            error={errors.titulo}
-          />
-
-          <div className="w-full sm:w-[10rem]">
-            <Select<CreateComplaintData>
-              id="topico"
-              label="Tópico:"
-              register={register}
-              error={errors.topico}
-              selectOptions={complaintOptions}
-            />
+    <AnimatedContent inverse>
+      <div className="flex justify-center px-4 sm:px-10 min-h-screen">
+        <div className="w-full">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pt-8 px-2 sm:px-8">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
+              Fazer Denúncia
+            </h1>
+            <div>
+              <h2 className="text-base sm:text-lg font-semibold text-black mb-2">Rascunhos</h2>
+              <UlComplaintsPostDraftList
+                drafts={drafts}
+                handleLoadDraft={handleLoadDraft}
+                deleteDraft={deleteDraft}
+              />
+            </div>
           </div>
 
-          <TextArea<CreateComplaintData>
-            id="conteudo"
-            label="Sobre a denúncia:"
-            placeholder="Digite a sua denúncia aqui..."
-            register={register}
-            error={errors.conteudo}
-            rows={7}
-          />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="text-slate-gray px-4 py-10 p-10 w-full max-w-4xl mx-auto"
+          >
+            <div className="flex flex-col lg:flex-row gap-2">
+              <div className="w-full flex flex-col gap-2">
+                <Input<CreateComplaintData>
+                  id="titulo"
+                  label="Título:"
+                  type="text"
+                  maxlength={50}
+                  placeholder="Título da denúncia"
+                  register={register}
+                  error={errors.titulo}
+                />
+                <div className="w-auto inline-block">
+                  <Select<CreateComplaintData>
+                    id="topico"
+                    label="Tópico:"
+                    register={register}
+                    error={errors.topico}
+                    selectOptions={complaintOptions}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="py-6">
+              <TextArea<CreateComplaintData>
+                id="conteudo"
+                label="Conteúdo:"
+                maxlength={300}
+                placeholder="Digite sua denúncia aqui..."
+                register={register}
+                error={errors.conteudo}
+                rows={10}
+              />
+            </div>
 
-          <div className="flex justify-center pt-8">
-            <input
-              type="submit"
-              value="Fazer Denúncia"
-              className="cursor-pointer bg-[#007BFF] text-xl sm:text-3xl font-bold text-white px-8 sm:px-20 py-4 rounded-tr-xl rounded-bl-xl"
-            />
-          </div>
-        </form>
+            <div className="flex flex-col pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-end w-full">
+                <button
+                  type="button"
+                  onClick={handleSaveDraft}
+                  className="text-base sm:text-xl text-azure-primary px-4 sm:px-6 py-2 border-2 border-azure-primary rounded-xl"
+                >
+                  Salvar Rascunho
+                </button>
+                <input
+                  type="submit"
+                  value="Criar Assunto"
+                  className="btn-dafe btn-dafe-hover text-base sm:text-xl font-bold text-white px-5 sm:px-10 py-2 rounded-tl-xl rounded-br-xl"
+                />
+              </div>
+              <p className="text-center sm:text-right pt-4 pb-10 sm:pb-0">
+                Publicar em:{' '}
+                <span className="font-bold">
+                  <FormattedDate date={hoje} />
+                </span>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </AnimatedContent>
   );
 }

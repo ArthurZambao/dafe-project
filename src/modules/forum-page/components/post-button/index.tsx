@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export function CreatePostButton() {
+export function PostButton() {
   return (
-    <section className="flex justify-center pt-10 pb-40">
-      <Link href="/create-topic">
-        <button className="cursor-pointer bg-[#007BFF] text-4xl font-bold text-white px-12 sm:px-30 py-6 rounded-tl-xl rounded-br-xl">
+    <section className="flex justify-center">
+      <Link href="/forum-page/create-post">
+        <button className="cursor-pointer bg-azure-primary btn-dafe-hover text-xl font-bold text-white px-6 sm:px-12 py-2 btn-dafe">
           Criar Assunto
         </button>
       </Link>

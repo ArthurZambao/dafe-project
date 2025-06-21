@@ -1,1 +1,0 @@
-export const cursoOptions = ["Desenvolvimento de Sistemas", "Logística", "Administração", "Marketing", "Gestão de Recursos Humanos"]; 

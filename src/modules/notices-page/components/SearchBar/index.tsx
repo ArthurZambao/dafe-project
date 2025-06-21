@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 
 interface SearchBarProps {
@@ -21,7 +20,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         placeholder="Pesquisar notícias"
         value={searchTerm}
         onChange={handleChange}
-        className="w-full border border-[#007BFF] text-gray-700 placeholder-gray-400 px-4 py-2 rounded-full outline-none focus:ring-2 focus:ring-[#007BFF] transition"
+        className="w-full border border-azure-primary text-gray-700 placeholder-gray-400 px-4 py-2 rounded-full outline-none focus:ring-2 focus:ring-azure-primary transition"
       />
     </div>
   );
