@@ -54,7 +54,7 @@ export function TextArea<T extends FieldValues>({
           e.target.value = maskedValue;
           onChange(e);
         }}
-        className={`${error ? 'border-red-500' : 'border-azure-primary'} w-full px-4 py-2 text-sm tsm:text-base border border-azure-primary rounded-2xl outline-none justify-center`}
+        className={`${error ? 'border-red-500' : 'border-azure-primary'} text-xl border-b focus:outline-none focus:ring-0`}
       />
       {error && <span className="text-red-500 text-sm text-left ml-4">{error.message}</span>}
     </div>

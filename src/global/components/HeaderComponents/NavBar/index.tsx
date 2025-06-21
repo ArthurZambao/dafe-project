@@ -34,7 +34,6 @@ export function NavBar() {
     if (pathname === '/login') {
       return <NavItem href="/register" pathname={pathname}>Cadastrar-se</NavItem>;
     }
-    console.log(isAuthenticated)
     return <NavItem href="/login" pathname={pathname}>Entrar</NavItem>;
   };
 
