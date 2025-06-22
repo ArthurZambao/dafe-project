@@ -34,7 +34,7 @@ export function ForumPageData() {
       console.log('Posts fetched:', res.data);
       if (res.data.length === 0) {
         setMessage('Nenhum post encontrado.');
-      }else {
+      } else {
         setMessage(null);
       }
       setPosts(res.data);
@@ -48,7 +48,7 @@ export function ForumPageData() {
   };
 
   useEffect(() => {
-    fetchPosts(selectedPost); 
+    fetchPosts(selectedPost);
   }, [selectedPost]);
 
   return (
@@ -64,11 +64,10 @@ export function ForumPageData() {
       ) : error ? (
         <p className="text-center text-red-500 text-lg min-h-screen pt-10">{error}</p>
       ) : message ? (
-        <p className="text-center text-black text-lg min-h-screen pt-10">{message}</p>
+        <p className="text-center text-gray-500 text-lg min-h-screen pt-10">{message}</p>
       ) : (
         <PostList posts={posts} />
       )}
-
     </AnimatedContent>
   );
 }

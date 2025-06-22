@@ -1,5 +1,6 @@
-import { UseFormRegister } from "react-hook-form";
-import { CreateFormDataSchema } from "../../schemas/create-form-schema";
+// OptionInput.tsx
+import { UseFormRegister } from 'react-hook-form';
+import { CreateFormDataSchema } from '../../schemas/create-form-schema';
 
 interface OptionInputProps {
   register: UseFormRegister<CreateFormDataSchema>;
@@ -18,9 +19,10 @@ export const OptionInput = ({ register, index, qIndex, type }: OptionInputProps)
     ) : (
       <input
         type="radio"
-        {...register(`perguntas.${qIndex}.opcoes.${index}.checked` as const)}
-        value="true"
-        checked={undefined}
+        value={index}
+        {...register(`perguntas.${qIndex}.resposta` as const, {
+          valueAsNumber: true,
+        })}
       />
     )}
     <input

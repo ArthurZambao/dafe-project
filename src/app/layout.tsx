@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`antialiased ${inter.className}`}>
         <AuthProvider>
           <NavBar />
-          <main className="pt-22">{children}</main>
+          <main className="pt-26">{children}</main>
           <Footer />
           <Toaster
             position="bottom-right"

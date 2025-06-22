@@ -7,6 +7,8 @@ import { UserMenu } from '../UserMenu';
 import { useAuth } from '@/global/context/useAuth';
 import { NavBarMobile } from '../NavBarMobile';
 import { AnimatedButton } from '@/global/animations/animatedButton';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,23 +25,39 @@ export function NavBar() {
     if (isAuthenticated) {
       return (
         <>
-          <AnimatedButton onClick={toggleUserMenu}>
-            Perfil
-          </AnimatedButton>
+          <AnimatedButton onClick={toggleUserMenu}>Perfil</AnimatedButton>
           {isUserMenuOpen && <UserMenu toggleUserMenu={toggleUserMenu} />}
         </>
       );
     }
 
     if (pathname === '/login') {
-      return <NavItem href="/register" pathname={pathname}>Cadastrar-se</NavItem>;
+      return (
+        <NavItem href="/register" pathname={pathname}>
+          Cadastrar-se
+        </NavItem>
+      );
     }
-    return <NavItem href="/login" pathname={pathname}>Entrar</NavItem>;
+    return (
+      <NavItem href="/login" pathname={pathname}>
+        Entrar
+      </NavItem>
+    );
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary border-b-2 border-azure-primary flex justify-between p-6 items-center select-none">
-      <h1 className="text-3xl font-bold text-azure-primary flex items-center space-x-2">LOGO</h1>
+    <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary border-b-2 border-azure-primary flex justify-between items-center h-26 px-6 select-none">
+      <Link href="/" className="flex items-center h-full pt-4 sm:pt-0">
+        <Image
+          src="/icons/dafe-logo.svg"
+          alt="Logo do DAFE"
+          width={180}
+          height={100}
+          className="h-[100%] max-h-[100%] sm:h-[170%] sm:max-h-[170%] w-auto pt-0 sm:pt-4"
+          priority
+        />
+        <h1 className="text-lg sm:text-3xl font-semibold text-[#034ab9]">D.A.F.E</h1>
+      </Link>
 
       <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
         {isOpen ? '✖' : '☰'}
@@ -47,17 +65,23 @@ export function NavBar() {
 
       <nav>
         <ul className="hidden md:flex items-center space-x-2 lg:space-x-4 text-xl">
-          <NavItem href="/landing-page" pathname={pathname} onClick={closeUserMenu}>Início</NavItem>
+          <NavItem href="/landing-page" pathname={pathname} onClick={closeUserMenu}>
+            Início
+          </NavItem>
           <NavItem href="/forms-page" pathname={pathname} onClick={closeUserMenu}>
             <span className="hidden md:inline-block lg:hidden">Form.</span>
             <span className="inline-block md:hidden lg:inline-block">Formulário</span>
           </NavItem>
-          <NavItem href="/forum-page" pathname={pathname} onClick={closeUserMenu}>Fórum</NavItem>
-          <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>Notícias</NavItem>
-          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>Denúncias</NavItem>
-          <li>
-            {renderAuthLink()}
-          </li>
+          <NavItem href="/forum-page" pathname={pathname} onClick={closeUserMenu}>
+            Fórum
+          </NavItem>
+          <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>
+            Notícias
+          </NavItem>
+          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
+            Denúncias
+          </NavItem>
+          <li>{renderAuthLink()}</li>
         </ul>
       </nav>
 

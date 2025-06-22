@@ -40,7 +40,7 @@ export function TextForm({ register, errors }: TextFormProps) {
             placeholder="Digite a descrição aqui..."
             register={register}
             error={errors.descricao}
-            rows={5}
+            rows={2}
           />
         </div>
       </div>
