@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavItem } from '../NavItem';
 import { UserMenu } from '../UserMenu';
 import { useAuth } from '@/global/context/useAuth';
@@ -14,14 +14,19 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAuthReady } = useAuth();
+
+  useEffect(() => {
+    console.log('NavBar Render - isAuthenticated:', isAuthenticated, 'isAuthReady:', isAuthReady);
+  }, [isAuthenticated, isAuthReady]);
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
-
   const closeUserMenu = () => setIsUserMenuOpen(false);
 
   const renderAuthLink = () => {
+    if (!isAuthReady) return null;
+
     if (isAuthenticated) {
       return (
         <>
@@ -38,6 +43,7 @@ export function NavBar() {
         </NavItem>
       );
     }
+
     return (
       <NavItem href="/login" pathname={pathname}>
         Entrar

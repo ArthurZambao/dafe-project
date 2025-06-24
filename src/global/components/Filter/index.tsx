@@ -18,7 +18,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
     <>
       {/* Botão da barra de filtro */}
       <div className="flex sm:justify-between items-start py-10 px-6 sm:px-16 relative">
-        <h2 className="hidden sm:block text-[#4A83C0] text-3xl sm:text-5xl font-semibold">
+        <h2 className="hidden sm:block text-azure-secondary text-5xl font-semibold">
           Principais Assuntos
         </h2>
         <div className='flex items-center gap-10'>

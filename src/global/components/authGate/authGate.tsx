@@ -17,25 +17,29 @@ export function AuthGate({ children, mode, redirectTo }: AuthGateProps) {
   const [isAllowed, setIsAllowed] = useState(false);
 
   useEffect(() => {
-    const token = getValidToken();
+    const checkAuth = async () => {
+      const token = await getValidToken();
 
-    if (mode === 'auth') {
-      if (!token) {
-        router.replace(redirectTo || '/login');
-      } else {
-        setIsAllowed(true);
+      if (mode === 'auth') {
+        if (!token) {
+          router.replace(redirectTo || '/login');
+        } else {
+          setIsAllowed(true);
+        }
       }
-    }
 
-    if (mode === 'guest') {
-      if (token) {
-        router.replace(redirectTo || '/');
-      } else {
-        setIsAllowed(true);
+      if (mode === 'guest') {
+        if (token) {
+          router.replace(redirectTo || '/');
+        } else {
+          setIsAllowed(true);
+        }
       }
-    }
 
-    setIsChecking(false);
+      setIsChecking(false);
+    };
+
+    checkAuth();
   }, [mode, redirectTo, router]);
 
   if (isChecking || !isAllowed) {

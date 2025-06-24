@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
@@ -9,6 +8,8 @@ import { PostList } from '../post-list';
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { typePostList } from '@/types/typePostList';
+import { api } from '@/libs/api/axios';
+import { toast } from 'sonner';
 
 export function ForumPageData() {
   const [posts, setPosts] = useState<typePostList[]>([]);
@@ -16,7 +17,7 @@ export function ForumPageData() {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   const fetchPosts = async (postFilter: string | null) => {
     setLoading(true);
@@ -26,7 +27,7 @@ export function ForumPageData() {
         ? `http://localhost:3030/posts?topico=${postFilter}`
         : `http://localhost:3030/posts`;
 
-      const res = await axios.get(url, {
+      const res = await api.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,10 +39,9 @@ export function ForumPageData() {
         setMessage(null);
       }
       setPosts(res.data);
-      setError(null);
     } catch (error) {
       console.error('Erro ao buscar tópicos:', error);
-      setError('Erro ao carregar os tópicos.');
+      toast.error('Erro ao carregar os tópicos.');
     } finally {
       setLoading(false);
     }
