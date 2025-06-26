@@ -6,19 +6,17 @@ export function Operation() {
 
   return (
     <section className="text-white py-10 gradient-bg w-full">
-      <h2 className="text-4xl sm:text-5xl font-bold text-center mt-20 mb-20 px-4">
+      <h2 className="text-4xl sm:text-5xl font-bold text-center mt-14 mb-12 px-4">
         Como funciona o <br className="block sm:hidden" /> D.A.F.E
       </h2>
-
-      <div className="flex flex-col items-center gap-20 px-4 max-w-[100rem] mx-auto">
+      <div className="flex flex-col items-center gap-10 px-4 max-w-[100rem] mx-auto">
         {sections.map((section, index) => {
           const isEven = index % 2 === 0;
           return (
             <FadeInUp key={index} delay={index * 0.2}>
               <div
-                className={`flex flex-col ${
-                  isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'
-                } items-center gap-10 sm:gap-[8rem] py-8`}
+                className={`flex flex-col ${isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'
+                  } items-center sm:gap-[8rem] py-8`}
               >
                 <div className="sm:w-1/2 px-2 text-center sm:text-left">
                   <h3
@@ -32,16 +30,17 @@ export function Operation() {
                     {section.text}
                   </p>
                 </div>
-                <div className="relative w-full sm:w-1/2 h-64 sm:h-[300px]">
+                <div className="rounded-3xl overflow-hidden">
                   <Image
                     src={section.image}
                     alt={`Ilustração - ${section.title}`}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 640px) 100vw, 500px"
+                    width={600}
+                    height={360}
+                    className={`object-contain rounded-3xl ${isEven ? 'ml-32' : 'mr-32'}`}
                     priority
                   />
                 </div>
+
               </div>
             </FadeInUp>
           );

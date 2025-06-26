@@ -65,7 +65,7 @@ export function FormsPageData() {
           </div>
         </section>
 
-        {filteredForms.length === 0 && <p className="text-center">Nenhum Formulário encontrado.</p>}
+        {filteredForms.length === 0 && <p className=" text-sm sm:text-base text-slate-gray text-center">Nenhum Formulário encontrado.</p>}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-12 sm:mx-24">
           {filteredForms.map((form) => (
             <Link

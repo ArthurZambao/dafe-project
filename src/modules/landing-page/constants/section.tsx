@@ -10,7 +10,7 @@ export const sections = [
           plataforma e começar a interagir com a escola de forma prática e eficiente.
         </>
       ),
-image: '/images/operation-image-1.png',
+image: '/images/1.png',
     },
 {
   title: 'FeedBack Constante',
@@ -24,7 +24,7 @@ image: '/images/operation-image-1.png',
           ações concretas, promovendo um espaço mais justo, colaborativo e centrado no estudante.
         </>
       ),
-  image: '/images/operation-image-1.png',
+  image: '/images/2.png',
     },
 {
   title: 'Receba Comunicados',
@@ -36,6 +36,6 @@ image: '/images/operation-image-1.png',
     você não perde nenhuma informação relevante e pode se organizar com facilidade e rapidez.
         </>
       ),
-  image: '/images/operation-image-1.png',
+  image: '/images/3.png',
     },
   ];
