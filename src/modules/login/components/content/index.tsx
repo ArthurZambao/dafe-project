@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useLogin } from '@/hooks/useLogin';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { FadeInUp } from '@/global/animations/fadeInUp';
+import Image from 'next/image';
 
 export function LoginData() {
   const {
@@ -35,11 +36,17 @@ export function LoginData() {
         <FadeInUp>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className=" bg-white flex flex-col gap-5 border-2 border-azure-primary rounded-2xl mx-auto w-full sm:w-[40rem] my-10 px-5 pt-20"
+            className=" bg-white flex flex-col gap-5 border-2 border-azure-primary rounded-2xl sm:mx-auto w-full sm:w-[40rem] my-10 px-10 sm:px-5 pt-20"
           >
-            <h2 className="text-2xl sm:text-5xl text-center font-extrabold text-azure-primary">
-              LOGO
-            </h2>
+            <Image
+              src="/icons/dafe-logo.svg"
+              alt="Logo do DAFE"
+              width={180}
+              height={100}
+              className="h-auto max-h-[9rem] w-auto"
+              priority
+            />
+
             <Input<CreateLoginFormData>
               id="email"
               type="text"
@@ -71,15 +78,16 @@ export function LoginData() {
                 error={errors.lembrar}
               />
             </div>
-            <div className="flex flex-col justify-center pt-4">
+            <div className="flex flex-col justify-center pt-0 sm:pt-4">
               <input
                 type="submit"
                 value={isSubmitting ? 'Entrando...' : 'Entrar'}
                 disabled={isSubmitting}
-                className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
-                  }`}
+                className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${
+                  isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
+                }`}
               />
-              <div className="text-center mt-10 text-[#1363B9] pt-8 pb-6">
+              <div className="text-center mt-10 text-[#1363B9] pt-0 sm:pt-8 pb-6">
                 <Link href="/register">
                   <p className="hover:underline">
                     Não possui Cadastro?{' '}
