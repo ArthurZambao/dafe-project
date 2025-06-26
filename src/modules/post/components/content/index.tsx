@@ -55,11 +55,15 @@ export function PostPageData({ postId }: PostPageDataProps) {
     if (isInteracted || !post) return;
     try {
       const token = getValidToken();
+
       const response = await axios.patch(
-        `http://localhost:3030/posts/${post._id}`,
-        { interacao: post.interacao + 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
+        `http://localhost:3030/posts/${post._id}/interacao`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+
       setPost(response.data);
       setIsInteracted(true);
     } catch (err) {
@@ -67,6 +71,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
       setError('Erro ao interagir com o post.');
     }
   };
+
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +81,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
       const token = getValidToken();
       const response = await axios.post(
         `http://localhost:3030/comments/post/${post._id}`,
-        { conteudo: newComment, commentsCount: post.commentsCount + 1 },
+        { conteudo: newComment },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,7 +89,13 @@ export function PostPageData({ postId }: PostPageDataProps) {
           },
         }
       );
+
       setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
+
+      setPost((prevPost) =>
+        prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
+      );
+
       setNewComment('');
     } catch (err) {
       console.error('Erro ao postar comentário:', err);
@@ -101,7 +112,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
       <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
         <div className="flex gap-2 items-center">
           <div className="flex w-2 rounded-full p-6 bg-slate-gray"></div>
-          <div className='flex-col'>
+          <div className="flex-col">
             <p className="text-lg sm:text-xl font-semibold">{post.autor.usuario}</p>
             <p className="text-sm text-slate-gray">{formatarData(post.data)}</p>
           </div>

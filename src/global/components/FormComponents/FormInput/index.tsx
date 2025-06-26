@@ -1,20 +1,9 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
-import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import { Eye, EyeOff } from 'lucide-react';
-
-interface InputProps<T extends FieldValues> {
-  id: Path<T>;
-  label?: string;
-  type: string;
-  maxlength?: number;
-  placeholder: string;
-  register: UseFormRegister<T>;
-  error?: FieldError;
-  mask?: string;
-  showPasswordToggle?: boolean;
-}
+import { InputProps } from '@/types/formImput';
 
 export function Input<T extends FieldValues>({
   id,

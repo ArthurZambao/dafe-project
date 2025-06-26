@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="flex flex-col items-center bg-azure-footer text-white px-8 py-3 select-none">
-      <div className="w-full flex justify-between relative">
-        <Link href="/landing-page">
-          <Image width={220} height={220} src="/icons/dafe-logo.svg" alt="Dafe Logo" />
+    <footer className="flex flex-col items-center bg-azure-footer text-white px-12 py-3 select-none">
+      <div className="w-full flex justify-between items-center relative py-6 sm:py-0">
+        <Link href="/" className="flex items-center h-full">
+          <h1 className="text-2xl sm:text-4xl font-semibold">D.A.F.E</h1>
         </Link>
         <div className="flex space-x-4">
           <a href="https://www.instagram.com/projeto.dafe">

@@ -17,7 +17,7 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/modulo-options';
 
-export function RegisterData() {
+export function RegisterPageData() {
   const router = useRouter();
   const {
     register,

@@ -4,13 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 import { JwtPayload } from '@/types/jwt';
-
-interface AuthContextProps {
-  user: JwtPayload | null;
-  isAuthenticated: boolean;
-  logout: () => void;
-  setUserFromToken: (token: string) => void;
-}
+import { AuthContextProps } from '@/types/authContext';
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,

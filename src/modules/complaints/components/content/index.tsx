@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormattedDate } from '@/global/components/FormatedDate';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
@@ -21,7 +20,6 @@ export function ComplaintsData() {
 
   const hoje = new Date();
   const dataFormatada = hoje.toISOString().slice(0, 10);
-  const router = useRouter();
 
   const {
     register,
@@ -92,8 +90,7 @@ export function ComplaintsData() {
         JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(finalData)))
       );
 
-      router.push('/forum-page');
-      toast.success('Tópico criado com sucesso!');
+      toast.success('Denúncia enviada com sucesso!');
       reset();
     } catch (error) {
       let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
@@ -173,7 +170,7 @@ export function ComplaintsData() {
                 </button>
                 <input
                   type="submit"
-                  value="Criar Assunto"
+                  value="Fazer Denúncia"
                   className="btn-dafe btn-dafe-hover text-base sm:text-xl font-bold text-white px-5 sm:px-10 py-2 rounded-tl-xl rounded-br-xl"
                 />
               </div>

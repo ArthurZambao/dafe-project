@@ -1,10 +1,5 @@
+import { PostInfoSectionProps } from '@/types/postInfoSection';
 import { MessageSquareText, ThumbsUp } from 'lucide-react';
-
-interface PostInfoSectionProps {
-  interacao: number;
-  commentsCount: number;
-  addInterationFunc?: () => void;
-}
 
 export function PostInfoSection({
   interacao,
