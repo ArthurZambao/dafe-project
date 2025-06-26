@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { PostPageDataProps } from '@/types/post';
@@ -9,7 +10,6 @@ import Image from 'next/image';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
-import { api } from '@/libs/api/axios';
 
 export function PostPageData({ postId }: PostPageDataProps) {
   const [post, setPost] = useState<typePostList | null>(null);
@@ -28,10 +28,10 @@ export function PostPageData({ postId }: PostPageDataProps) {
         const token = getValidToken();
 
         const [postRes, commentsRes] = await Promise.all([
-          api.get(`http://localhost:3030/posts/${postId}`, {
+          axios.get(`http://localhost:3030/posts/${postId}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          api.get(`http://localhost:3030/comments/post/${postId}`, {
+          axios.get(`http://localhost:3030/comments/post/${postId}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -55,7 +55,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
     if (isInteracted || !post) return;
     try {
       const token = getValidToken();
-      const response = await api.patch(
+      const response = await axios.patch(
         `http://localhost:3030/posts/${post._id}`,
         { interacao: post.interacao + 1 },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -74,7 +74,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
 
     try {
       const token = getValidToken();
-      const response = await api.post(
+      const response = await axios.post(
         `http://localhost:3030/comments/post/${post._id}`,
         { conteudo: newComment, commentsCount: post.commentsCount + 1 },
         {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/global/context/useAuth';
-import { api } from '@/libs/api/axios';
 
 export function useLogin() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,16 +13,16 @@ export function useLogin() {
   interface LoginData {
     email: string;
     senha: string;
-    lembrar?: boolean; 
   }
 
   const login = async (data: LoginData, reset: () => void) => {
     setIsSubmitting(true);
     try {
-      const response = await api.post('/login-jwt', data); 
+      const response = await axios.post('http://localhost:3030/login-jwt', data, {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
       Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
-      localStorage.setItem('refreshToken', response.data.refreshToken);
       setUserFromToken(response.data.token);
       reset();
 
@@ -33,9 +33,7 @@ export function useLogin() {
       if (error && typeof error === 'object' && 'response' in error) {
         const err = error as { response?: { data?: { message?: string | string[] } } };
         const message = err.response?.data?.message;
-        backendMessage = Array.isArray(message)
-          ? message.join(' ')
-          : message || backendMessage;
+        backendMessage = Array.isArray(message) ? message.join(' ') : (message || backendMessage);
       }
       toast.error(backendMessage);
     } finally {

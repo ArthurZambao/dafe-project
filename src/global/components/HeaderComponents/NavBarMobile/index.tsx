@@ -1,11 +1,10 @@
-
-import { ReactElement } from "react";
+import { JSX } from "react";
 import { NavItem } from "../NavItem";
 
 interface NavBarMobileProps {
     pathname: string;
     toggleMenu: () => void;
-    renderAuthLink: () => ReactElement | null;
+    renderAuthLink: () => JSX.Element;
 }
 
 export function NavBarMobile({ pathname, toggleMenu, renderAuthLink }: NavBarMobileProps) {

@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { typePostList } from '@/types/typePostList';
+import { useAuth } from '@/global/context/useAuth';
 import { getValidToken } from '@/global/utils/auth';
 import { UserPostList } from '../../user-post-list';
-import { api } from '@/libs/api/axios';
-import { useCurrentUser } from '@/hooks/currentUser';
-import { JwtPayload } from '@/types/jwt';
 
 export function UserPosts() {
   const [posts, setPosts] = useState<typePostList[]>([]);
-  const user = useCurrentUser();
-  const currentUser = user as JwtPayload | undefined;
+  const { user } = useAuth();
 
   useEffect(() => {
     async function fetchUserPosts() {
       try {
         const token = getValidToken();
-        const response = await api.get(`http://localhost:3030/posts?autor=${currentUser!.id}`, {
+        const response = await axios.get(`http://localhost:3030/posts?autor=${user!.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -26,8 +24,8 @@ export function UserPosts() {
       }
     }
 
-    if (currentUser) fetchUserPosts();
-  }, [currentUser]);
+    if (user) fetchUserPosts();
+  }, [user]);
 
   async function handleDelete(postId: string) {
     const confirmDelete = confirm('Tem certeza que deseja excluir este post?');
@@ -35,7 +33,7 @@ export function UserPosts() {
 
     try {
       const token = getValidToken();
-      await api.delete(`http://localhost:3030/posts/${postId}`, {
+      await axios.delete(`http://localhost:3030/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +45,8 @@ export function UserPosts() {
       alert('Erro ao deletar post.');
     }
   }
-  if (!currentUser) return null;
 
-  return <UserPostList posts={posts} handleDelete={handleDelete} />;
+  if (!user) return null;
+
+  return <UserPostList posts={posts} handleDelete={handleDelete}/>
 }

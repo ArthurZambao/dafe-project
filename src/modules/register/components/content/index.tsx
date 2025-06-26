@@ -10,13 +10,12 @@ import {
 } from '../../schemas/create-register-form-schema';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 
-
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/modulo-options';
-import { api } from '@/libs/api/axios';
 
 export function RegisterPageData() {
   const router = useRouter();
@@ -42,7 +41,7 @@ export function RegisterPageData() {
     };
 
     try {
-      await api.post('http://localhost:3030/students', finalData, {
+      await axios.post('http://localhost:3030/students', finalData, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -3,6 +3,8 @@
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
@@ -14,8 +16,6 @@ import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/modulo-options';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { useAuth } from '@/global/context/useAuth';
-import { api } from '@/libs/api/axios';
-import { JwtPayload } from '@/types/jwt';
 
 export function EditUserData() {
   const router = useRouter();
@@ -44,7 +44,7 @@ export function EditUserData() {
     console.log(currentUser.id, finalData);
 
     try {
-      await api.patch(`http://localhost:3030/students/${currentUser.id}`, finalData, {
+      await axios.patch(`http://localhost:3030/students/${currentUser.id}`, finalData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -66,7 +66,8 @@ export function EditUserData() {
   };
 
   if (!user) return null;
-  const currentUser = user as JwtPayload;
+
+  const currentUser = user;
 
   return (
     <AnimatedContent inverse>

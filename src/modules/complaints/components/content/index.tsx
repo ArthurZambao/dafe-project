@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormattedDate } from '@/global/components/FormatedDate';
+import axios from 'axios';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
@@ -13,7 +14,6 @@ import { Select } from '@/global/components/FormComponents/FormSelect';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { complaintOptions } from '../../constants/complaint-options';
 import { Input } from '@/global/components/FormComponents/FormInput';
-import { api } from '@/libs/api/axios';
 
 export function ComplaintsData() {
   const [drafts, setDrafts] = useState<ComplaintsDraftData[]>([]);
@@ -79,7 +79,7 @@ export function ComplaintsData() {
     const finalData = { ...data, data: dataFormatada };
 
     try {
-      await api.post('http://localhost:3030/complaints', data, {
+      await axios.post('http://localhost:3030/complaints', data, {
         headers: {
           'Content-Type': 'application/json',
         },
