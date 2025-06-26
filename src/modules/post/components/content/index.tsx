@@ -55,11 +55,15 @@ export function PostPageData({ postId }: PostPageDataProps) {
     if (isInteracted || !post) return;
     try {
       const token = getValidToken();
+
       const response = await axios.patch(
-        `http://localhost:3030/posts/${post._id}`,
-        { interacao: post.interacao + 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
+        `http://localhost:3030/posts/${post._id}/interacao`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+
       setPost(response.data);
       setIsInteracted(true);
     } catch (err) {
@@ -67,6 +71,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
       setError('Erro ao interagir com o post.');
     }
   };
+
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
