@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { PostButton } from '@/modules/forum-page/components/post-button';
-
-interface FilterProps {
-  selectedFilter: string | null;
-  setSelectedFilter: (value: string | null) => void;
-  filterOptions: string[];
-}
+import { FilterProps } from '@/types/filter';
 
 export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: FilterProps) {
   const [isOpen, setIsOpen] = useState(false);

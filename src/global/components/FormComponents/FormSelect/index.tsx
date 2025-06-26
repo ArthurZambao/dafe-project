@@ -1,13 +1,5 @@
-import { FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
-
-interface SelectProps<T extends FieldValues> {
-  id: Path<T>;
-  label: string;
-  register: UseFormRegister<T>;
-  error?: FieldError;
-  selectOptions: string[];
-  primarySelectOption?: string;
-}
+import { SelectProps } from '@/types/formsTypes';
+import { FieldValues } from 'react-hook-form';
 
 export function Select<T extends FieldValues>({
   id,
@@ -48,4 +40,3 @@ export function Select<T extends FieldValues>({
     </div>
   );
 }
-

@@ -1,16 +1,6 @@
+import { TextAreaProps } from '@/types/formsTypes';
 import { ChangeEvent } from 'react';
-import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form';
-
-interface TextAreaProps<T extends FieldValues> {
-  id: Path<T>;
-  label: string;
-  maxlength?: number;
-  placeholder: string;
-  register: UseFormRegister<T>;
-  error?: FieldError;
-  mask?: string;
-  rows: number;
-}
+import {FieldValues} from 'react-hook-form';
 
 export function TextArea<T extends FieldValues>({
   id,

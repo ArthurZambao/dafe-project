@@ -3,13 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getValidToken } from '@/global/utils/auth';
-import { ReactNode } from 'react';
-
-interface AuthGateProps {
-  children: ReactNode;
-  mode: 'auth' | 'guest';
-  redirectTo?: string;
-}
+import { AuthGateProps } from '@/types/authGate';
 
 export function AuthGate({ children, mode, redirectTo }: AuthGateProps) {
   const router = useRouter();

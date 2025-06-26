@@ -1,11 +1,6 @@
-import { FieldError, UseFormRegister, FieldValues, Path } from 'react-hook-form';
+import { CheckboxProps } from '@/types/checkBox';
+import { FieldValues } from 'react-hook-form';
 
-interface CheckboxProps<T extends FieldValues> {
-  id: Path<T>;
-  label: string;
-  register: UseFormRegister<T>;
-  error?: FieldError;
-}
 
 export function Checkbox<T extends FieldValues>({ id, label, register, error }: CheckboxProps<T>) {
   return (
