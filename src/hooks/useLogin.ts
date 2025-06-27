@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/global/context/useAuth';
+import { api } from '@/libs/api/axios';
 
 export function useLogin() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,9 +18,7 @@ export function useLogin() {
   const login = async (data: LoginData, reset: () => void) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:3030/login-jwt', data, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await api.post('/login-jwt', data);
 
       Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
       setUserFromToken(response.data.token);

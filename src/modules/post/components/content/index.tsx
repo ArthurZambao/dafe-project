@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { PostPageDataProps } from '@/types/post';
 import { typePostList } from '@/types/typePostList';
@@ -10,6 +9,8 @@ import Image from 'next/image';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
+import { useAuth } from '@/global/context/useAuth';
+import { api } from '@/libs/api/axios';
 
 export function PostPageData({ postId }: PostPageDataProps) {
   const [post, setPost] = useState<typePostList | null>(null);
@@ -18,26 +19,28 @@ export function PostPageData({ postId }: PostPageDataProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInteracted, setIsInteracted] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (typeof postId !== 'string') return;
+    if (!user) return;
 
     async function fetchPostAndComments() {
       setLoading(true);
       try {
-        const token = getValidToken();
-
         const [postRes, commentsRes] = await Promise.all([
-          axios.get(`http://localhost:3030/posts/${postId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get(`http://localhost:3030/comments/post/${postId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+          api.get(`/posts/${postId}`),
+          api.get(`/comments/post/${postId}`),
         ]);
 
         setPost(postRes.data);
         setComments(commentsRes.data);
+
+        const interactedByIds: string[] =
+          postRes.data.interactedBy?.map((u: string) => u.toString()) || [];
+        if (interactedByIds.includes(user!.id)) {
+          setIsInteracted(true);
+        }
       } catch (err) {
         console.error(err);
         setError('Erro ao carregar o tópico ou os comentários.');
@@ -47,62 +50,48 @@ export function PostPageData({ postId }: PostPageDataProps) {
     }
 
     fetchPostAndComments();
-  }, [postId]);
+  }, [postId, user]);
 
   const formatarData = (data: string) => new Date(data).toLocaleDateString('pt-BR');
 
   const addInteration = async () => {
     if (isInteracted || !post) return;
+
     try {
-      const token = getValidToken();
-
-      const response = await axios.patch(
-        `http://localhost:3030/posts/${post._id}/interacao`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
+      const response = await api.patch(`/posts/${post._id}/interacao`);
       setPost(response.data);
       setIsInteracted(true);
-    } catch (err) {
-      console.error('Erro ao interagir com o post:', err);
-      setError('Erro ao interagir com o post.');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        setIsInteracted(true);
+      } else {
+        console.error('Erro ao interagir com o post:', err);
+        setError('Erro ao interagir com o post.');
+      }
     }
   };
-
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newComment.trim() || !post) return;
+  e.preventDefault();
+  if (!newComment.trim() || !post) return;
 
-    try {
-      const token = getValidToken();
-      const response = await axios.post(
-        `http://localhost:3030/comments/post/${post._id}`,
-        { conteudo: newComment },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+  try {
+    const response = await api.post(`/comments/post/${post._id}`, {
+      conteudo: newComment,
+    });
 
-      setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
+    setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
+    setPost((prevPost) =>
+      prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
+    );
+    setNewComment('');
+  } catch (err) {
+    console.error('Erro ao postar comentário:', err);
+    setError('Erro ao postar comentário.');
+  }
+};
 
-      setPost((prevPost) =>
-        prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
-      );
-
-      setNewComment('');
-    } catch (err) {
-      console.error('Erro ao postar comentário:', err);
-      setError('Erro ao postar comentário.');
-    }
-  };
-
+  if (!user) return null;
   if (loading) return <p className="p-10 text-xl min-h-screen">Carregando tópico...</p>;
   if (error) return <p className="p-10 text-xl text-red-500 min-h-screen">{error}</p>;
   if (!post) return <p className="p-10 text-xl min-h-screen">Tópico não encontrado.</p>;
@@ -143,6 +132,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
           interacao={post.interacao}
           addInterationFunc={addInteration}
           commentsCount={post.commentsCount}
+          isInteracted={isInteracted}
         />
 
         <div className="border-t-1 border-slate-gray">

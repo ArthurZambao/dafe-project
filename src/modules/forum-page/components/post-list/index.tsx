@@ -58,7 +58,7 @@ export function PostList({ posts }: PostListProps) {
               <p className="leading-relaxed pt-6 text-sm sm:text-base lg:text-lg text-slate-gray text-center sm:text-left break-words w-full">
                 {post.descricao}
               </p>
-              <PostInfoSection interacao={post.interacao} commentsCount={post.commentsCount} />
+              <PostInfoSection interacao={post.interacao} commentsCount={post.commentsCount} isInteracted={false} />
             </div>
           </div>
         </FadeInUp>

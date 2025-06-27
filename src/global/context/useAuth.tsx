@@ -3,8 +3,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
-import { JwtPayload } from '@/types/jwt';
+
 import { AuthContextProps } from '@/types/authContext';
+import { CustomJwtPayload } from '@/types/customJwt';
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,
@@ -14,13 +15,13 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<JwtPayload | null>(null);
+  const [user, setUser] = useState<CustomJwtPayload | null>(null);
 
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
       try {
-        const decoded = jwtDecode<JwtPayload>(token);
+        const decoded = jwtDecode<CustomJwtPayload>(token);
         const now = Date.now() / 1000;
 
         if (!decoded.exp || decoded.exp > now) {
@@ -42,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   function setUserFromToken(token: string) {
     try {
-      const decoded = jwtDecode<JwtPayload>(token);
+      const decoded = jwtDecode<CustomJwtPayload>(token);
       setUser(decoded);
     } catch {
       setUser(null);

@@ -3,7 +3,8 @@
 import { ChangeEvent, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { Eye, EyeOff } from 'lucide-react';
-import { InputProps } from '@/types/formImput';
+import { InputProps } from '@/types/formsTypes';
+
 
 export function Input<T extends FieldValues>({
   id,

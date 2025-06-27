@@ -1,4 +1,5 @@
-import { CheckboxProps } from '@/types/checkBox';
+
+import { CheckboxProps } from '@/types/formsTypes';
 import { FieldValues } from 'react-hook-form';
 
 

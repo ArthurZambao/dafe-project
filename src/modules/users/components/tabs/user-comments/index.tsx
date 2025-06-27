@@ -1,9 +1,8 @@
 import { useAuth } from '@/global/context/useAuth';
-import { getValidToken } from '@/global/utils/auth';
 import { typeComments } from '@/types/typeComments';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { UserCommentList } from '../../user-comment-list';
+import { api } from '@/libs/api/axios';
 
 export function UserComments() {
   const [comments, setComments] = useState<typeComments[]>([]);
@@ -12,12 +11,8 @@ export function UserComments() {
   useEffect(() => {
     async function fetchUserComments() {
       try {
-        const token = getValidToken();
-        const response = await axios.get(`http://localhost:3030/comments/aluno/${user!.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await api.get(`/comments/aluno/${user!.id}`);
+
         setComments(response.data);
       } catch (error) {
         console.error('Erro ao buscar os posts:', error);
@@ -32,12 +27,7 @@ export function UserComments() {
     if (!confirmDelete) return;
 
     try {
-      const token = getValidToken();
-      await axios.delete(`http://localhost:3030/comments/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await api.delete(`/comments/${commentId}`);
 
       setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
     } catch (error) {

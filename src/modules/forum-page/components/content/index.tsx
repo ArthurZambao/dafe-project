@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
 import { PostList } from '../post-list';
-import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { typePostList } from '@/types/typePostList';
+import { api } from '@/libs/api/axios';
 
 export function ForumPageData() {
   const [posts, setPosts] = useState<typePostList[]>([]);
@@ -21,16 +20,9 @@ export function ForumPageData() {
   const fetchPosts = async (postFilter: string | null) => {
     setLoading(true);
     try {
-      const token = getValidToken();
-      const url = postFilter
-        ? `http://localhost:3030/posts?topico=${postFilter}`
-        : `http://localhost:3030/posts`;
+      const endpoint = postFilter ? `/posts?topico=${postFilter}` : `/posts`;
 
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await api.get(endpoint);
       console.log('Posts fetched:', res.data);
       if (res.data.length === 0) {
         setMessage('Nenhum post encontrado.');

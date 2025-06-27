@@ -1,4 +1,4 @@
-export interface JwtPayload {
+export interface CustomJwtPayload {
   nome: string;
   email: string;
   usuario: string;

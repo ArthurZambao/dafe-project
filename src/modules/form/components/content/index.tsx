@@ -65,7 +65,7 @@ export function FormPageData({ formId }: FormProps) {
   const handleSubmit = () => {
     console.log(`Gabarito das Respotas: ${JSON.stringify(respostas, null, 2)}`);
     router.push('/forms-page');
-    toast.success('Formulário Respondido Com Sucesso!');
+    toast.success('Formulário respondido com sucesso!');
   };
 
   return (
