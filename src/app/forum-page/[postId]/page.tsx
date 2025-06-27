@@ -3,6 +3,8 @@
 import type { Metadata } from 'next';
 import { PostPageData } from '@/modules/post/components/content';
 import { AuthGate } from '@/global/components/authGate/authGate';
+import { api } from '@/libs/api/axios';
+
 
 export const dynamic = 'force-dynamic';
 
@@ -15,10 +17,12 @@ export async function generateMetadata({
   const postId = awaitedParams.postId;
 
   try {
-    const res = await fetch(`http://localhost:3030/posts/${postId}`, {
-      cache: 'no-store',
+    const { data: post } = await api.get(`/posts/${postId}`, {
+      
+      headers: {
+        'Cache-Control': 'no-store',
+      },
     });
-    const post = await res.json();
 
     return {
       title: post.titulo ?? 'Postagem',

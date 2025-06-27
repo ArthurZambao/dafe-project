@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { typePostList } from '@/types/typePostList';
 import { useAuth } from '@/global/context/useAuth';
-import { getValidToken } from '@/global/utils/auth';
 import { UserPostList } from '../../user-post-list';
+import { api } from '@/libs/api/axios';
+
 
 export function UserPosts() {
   const [posts, setPosts] = useState<typePostList[]>([]);
@@ -12,12 +12,7 @@ export function UserPosts() {
   useEffect(() => {
     async function fetchUserPosts() {
       try {
-        const token = getValidToken();
-        const response = await axios.get(`http://localhost:3030/posts?autor=${user!.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await api.get(`/posts?autor=${user!.id}`);
         setPosts(response.data);
       } catch (error) {
         console.error('Erro ao buscar os posts:', error);
@@ -32,13 +27,7 @@ export function UserPosts() {
     if (!confirmDelete) return;
 
     try {
-      const token = getValidToken();
-      await axios.delete(`http://localhost:3030/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      await api.delete(`/posts/${postId}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (error) {
       console.error('Erro ao deletar post:', error);
@@ -48,5 +37,5 @@ export function UserPosts() {
 
   if (!user) return null;
 
-  return <UserPostList posts={posts} handleDelete={handleDelete}/>
+  return <UserPostList posts={posts} handleDelete={handleDelete} />;
 }

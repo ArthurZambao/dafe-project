@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { CreateFormData, createFormSchema } from '../../schemas/create-form.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CurrentTime, FormattedDate } from '@/global/components/FormatedDate';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { getValidToken } from '@/global/utils/auth';
@@ -15,6 +14,7 @@ import { MediaForm } from '../media-form';
 
 import { PostDraftData } from '@/types/draftsDatas';
 import { UlPostDraftList } from '../ulDraftList';
+import { api } from '@/libs/api/axios';
 
 export function CreatePostData() {
   const hoje = new Date();
@@ -83,9 +83,8 @@ export function CreatePostData() {
     const token = getValidToken();
 
     try {
-      await axios.post('http://localhost:3030/posts', finalData, {
+      await api.post('/posts', finalData, {
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -98,8 +97,8 @@ export function CreatePostData() {
       router.push('/forum-page');
       toast.success('Tópico criado com sucesso!', {
         description: (
-          <p className='flex'>
-            Criado às {" "} <CurrentTime />
+          <p className="flex">
+            Criado às <CurrentTime />
           </p>
         ),
       });
