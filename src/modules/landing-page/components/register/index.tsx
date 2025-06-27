@@ -31,9 +31,9 @@ export function Register() {
           <Image
             src="/images/register-image.png"
             alt="imagem de registro"
-            width={500}
-            height={400}
-            className="object-contain max-w-[300px] w-full h-auto"
+            width={900}
+            height={680}
+            className="object-contain max-w-[800px] w-full h-auto"
             priority
           />
         </div>
