@@ -1,1 +1,1 @@
-export const complaintOptions = ["Alunos", "professores", "Funcionários", "Coordenação", "Direção"];
+export const complaintOptions = ["Alunos", "Professores", "Funcionários", "Coordenação", "Direção"];

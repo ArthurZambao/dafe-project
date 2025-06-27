@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Filter } from '@/global/components/Filter';
 import { forumFilterOptions } from '../../../../global/constants/forumFilterOptions';
 import { PostList } from '../post-list';
-import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { typePostList } from '@/types/typePostList';
 import { api } from '@/libs/api/axios';
@@ -21,15 +20,9 @@ export function ForumPageData() {
   const fetchPosts = async (postFilter: string | null) => {
     setLoading(true);
     try {
-      const token = getValidToken();
       const endpoint = postFilter ? `/posts?topico=${postFilter}` : `/posts`;
 
-      const res = await api.get(endpoint, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const res = await api.get(endpoint);
       console.log('Posts fetched:', res.data);
       if (res.data.length === 0) {
         setMessage('Nenhum post encontrado.');
