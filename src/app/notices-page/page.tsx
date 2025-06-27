@@ -1,4 +1,4 @@
-import { NoticesPageData } from '@/modules/notices-page/components/content';
+import { NoticesPageData } from "@/modules/notices-page/components/content";
 
 export const metadata = {
   title: 'Notícias',

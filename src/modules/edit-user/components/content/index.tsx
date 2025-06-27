@@ -20,7 +20,7 @@ import { useAuth } from '@/global/context/useAuth';
 export function EditUserData() {
   const router = useRouter();
   const { user } = useAuth();
-
+  console.log(user)
   const {
     register,
     formState: { errors },

@@ -1,7 +1,8 @@
-import { JwtPayload } from "jwt-decode";
+import { CustomJwtPayload } from "./customJwt";
+
 
 export interface AuthContextProps {
-  user: JwtPayload | null;
+  user: CustomJwtPayload | null;
   isAuthenticated: boolean;
   logout: () => void;
   setUserFromToken: (token: string) => void;

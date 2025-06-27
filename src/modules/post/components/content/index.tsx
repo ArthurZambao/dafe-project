@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
+import { useAuth } from '@/global/context/useAuth';
 
 export function PostPageData({ postId }: PostPageDataProps) {
   const [post, setPost] = useState<typePostList | null>(null);
@@ -18,9 +19,11 @@ export function PostPageData({ postId }: PostPageDataProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isInteracted, setIsInteracted] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (typeof postId !== 'string') return;
+    if (!user) return;
 
     async function fetchPostAndComments() {
       setLoading(true);
@@ -38,6 +41,12 @@ export function PostPageData({ postId }: PostPageDataProps) {
 
         setPost(postRes.data);
         setComments(commentsRes.data);
+
+        // ✅ Verifica se o usuário já interagiu
+        const interactedByIds: string[] = postRes.data.interactedBy?.map((u: string) => u.toString()) || [];
+        if (interactedByIds.includes(user!.id)) {
+          setIsInteracted(true);
+        }
       } catch (err) {
         console.error(err);
         setError('Erro ao carregar o tópico ou os comentários.');
@@ -47,12 +56,13 @@ export function PostPageData({ postId }: PostPageDataProps) {
     }
 
     fetchPostAndComments();
-  }, [postId]);
+  }, [postId, user]);
 
   const formatarData = (data: string) => new Date(data).toLocaleDateString('pt-BR');
 
   const addInteration = async () => {
     if (isInteracted || !post) return;
+
     try {
       const token = getValidToken();
 
@@ -66,12 +76,15 @@ export function PostPageData({ postId }: PostPageDataProps) {
 
       setPost(response.data);
       setIsInteracted(true);
-    } catch (err) {
-      console.error('Erro ao interagir com o post:', err);
-      setError('Erro ao interagir com o post.');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        setIsInteracted(true);
+      } else {
+        console.error('Erro ao interagir com o post:', err);
+        setError('Erro ao interagir com o post.');
+      }
     }
   };
-
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,11 +104,9 @@ export function PostPageData({ postId }: PostPageDataProps) {
       );
 
       setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
-
       setPost((prevPost) =>
         prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
       );
-
       setNewComment('');
     } catch (err) {
       console.error('Erro ao postar comentário:', err);
@@ -103,6 +114,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
     }
   };
 
+  if (!user) return null;
   if (loading) return <p className="p-10 text-xl min-h-screen">Carregando tópico...</p>;
   if (error) return <p className="p-10 text-xl text-red-500 min-h-screen">{error}</p>;
   if (!post) return <p className="p-10 text-xl min-h-screen">Tópico não encontrado.</p>;
@@ -143,6 +155,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
           interacao={post.interacao}
           addInterationFunc={addInteration}
           commentsCount={post.commentsCount}
+          isInteracted={isInteracted}
         />
 
         <div className="border-t-1 border-slate-gray">
