@@ -35,6 +35,8 @@ export const createRegisterFormSchema = z
       .min(1, 'Série inválida!')
       .max(20, 'Série inválida!'),
 
+    role: z.enum(['student', 'professor']),
+
     senha: z
       .string()
       .min(8, 'A senha deve ter no mínimo 8 caracteres.')

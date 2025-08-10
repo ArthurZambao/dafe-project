@@ -44,7 +44,7 @@ export function EditUserData() {
     console.log(currentUser.id, finalData);
 
     try {
-      await api.patch(`/students/${currentUser.id}`, finalData);
+      await api.patch(`/users/${currentUser.id}`, finalData);
 
       reset();
       router.push('/users');

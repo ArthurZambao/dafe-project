@@ -16,17 +16,29 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/modulo-options';
 import { api } from '@/libs/api/axios';
+import { useEffect, useState } from 'react';
 
 export function RegisterPageData() {
   const router = useRouter();
+  const [role, setRole] = useState<'student' | 'professor'>('student');
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
+    setValue,
   } = useForm<CreateRegisterFormData>({
     resolver: zodResolver(createRegisterFormSchema),
   });
+
+  useEffect(() => {
+    setValue('role', role, { shouldValidate: true, shouldDirty: true });
+  }, [role, setValue]);
+
+  const handleRoleChange = (value: 'student' | 'professor') => {
+    setRole(value);
+    setValue('role', value, { shouldValidate: true, shouldDirty: true });
+  };
 
   const onSubmit = async (data: CreateRegisterFormData) => {
     const moduloMapping: { [key: string]: number } = {
@@ -41,9 +53,7 @@ export function RegisterPageData() {
     };
 
     try {
-      await api.post('/students', finalData); 
-
-      reset();
+      await api.post('/users', finalData);
 
       router.push('/users');
       toast.success('Cadastro realizado com sucesso!');
@@ -70,6 +80,26 @@ export function RegisterPageData() {
             Cadastrar-se
           </h2>
 
+          <section className="flex-col justify-center mx-auto">
+            <h3 className="text-center">Quem você é?</h3>
+            <div className="flex gap-4 py-2">
+              <button
+                type="button"
+                className={`text-xl px-2 ${role === 'student' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
+                onClick={() => handleRoleChange('student')}
+              >
+                Sou Aluno
+              </button>
+              <button
+                type="button"
+                className={`text-xl px-2 ${role === 'professor' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
+                onClick={() => handleRoleChange('professor')}
+              >
+                Sou Professor
+              </button>
+            </div>
+          </section>
+
           <Input<CreateRegisterFormData>
             id="nome"
             type="text"
@@ -78,7 +108,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.nome}
           />
-
           <Input<CreateRegisterFormData>
             id="usuario"
             label="Nome de Usuário:"
@@ -87,7 +116,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.usuario}
           />
-
           <Input<CreateRegisterFormData>
             id="email"
             label="E-mail:"
@@ -96,7 +124,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.email}
           />
-
           <Input<CreateRegisterFormData>
             id="instituicao"
             label="Intituição de Ensino:"
@@ -105,7 +132,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.instituicao}
           />
-
           <div className="flex flex-col sm:flex-row gap-5">
             <Select<CreateRegisterFormData>
               id="curso"
@@ -123,7 +149,6 @@ export function RegisterPageData() {
               selectOptions={moduloOptions}
             />
           </div>
-
           <Input<CreateRegisterFormData>
             id="senha"
             label="Senha:"
@@ -132,7 +157,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.senha}
           />
-
           <Input<CreateRegisterFormData>
             id="confirmarSenha"
             label="Confirmar Senha:"
@@ -141,7 +165,6 @@ export function RegisterPageData() {
             register={register}
             error={errors.confirmarSenha}
           />
-
           <div className="flex flex-col justify-center pt-4">
             <input
               type="submit"
