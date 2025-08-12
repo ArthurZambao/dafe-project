@@ -132,23 +132,27 @@ export function RegisterPageData() {
             register={register}
             error={errors.instituicao}
           />
-          <div className="flex flex-col sm:flex-row gap-5">
-            <Select<CreateRegisterFormData>
-              id="curso"
-              label="Curso:"
-              register={register}
-              error={errors.curso}
-              selectOptions={cursoOptions}
-            />
 
-            <Select<CreateRegisterFormData>
-              id="modulo"
-              label="Ano Escolar:"
-              register={register}
-              error={errors.modulo}
-              selectOptions={moduloOptions}
-            />
-          </div>
+          {role === 'student' && (
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Select<CreateRegisterFormData>
+                id="curso"
+                label="Curso:"
+                register={register}
+                error={errors.curso}
+                selectOptions={cursoOptions}
+              />
+
+              <Select<CreateRegisterFormData>
+                id="modulo"
+                label="Ano Escolar:"
+                register={register}
+                error={errors.modulo}
+                selectOptions={moduloOptions}
+              />
+            </div>
+          )}
+          
           <Input<CreateRegisterFormData>
             id="senha"
             label="Senha:"

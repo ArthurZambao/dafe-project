@@ -10,6 +10,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
   const handleClose = () => setIsOpen(false);
 
   return (
+    
     <>
       {/* Botão da barra de filtro */}
       <div className="flex justify-center sm:justify-between items-start py-10 px-6 sm:px-16 relative">
