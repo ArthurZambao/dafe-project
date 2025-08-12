@@ -47,10 +47,32 @@ export function RegisterPageData() {
       '3º ano': 3,
     };
 
-    const finalData = {
-      ...data,
-      modulo: moduloMapping[data.modulo] ?? data.modulo,
-    };
+    let finalData;
+
+    if (data.role === 'student') {
+      finalData = {
+        nome: data.nome,
+        usuario: data.usuario,
+        email: data.email,
+        instituicao: data.instituicao,
+        role: data.role,
+        senha: data.senha,
+        studentDetails: {
+          curso: data.curso,
+          modulo: moduloMapping[data.modulo] as number,
+        },
+      };
+    } else {
+      // Para o professor, o objeto studentDetails não é necessário
+      finalData = {
+        nome: data.nome,
+        usuario: data.usuario,
+        email: data.email,
+        instituicao: data.instituicao,
+        role: data.role,
+        senha: data.senha,
+      };
+    }
 
     try {
       await api.post('/users', finalData);
@@ -152,7 +174,7 @@ export function RegisterPageData() {
               />
             </div>
           )}
-          
+
           <Input<CreateRegisterFormData>
             id="senha"
             label="Senha:"
