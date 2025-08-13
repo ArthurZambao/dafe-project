@@ -47,16 +47,16 @@ export function NavBar() {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary border-b-2 border-azure-primary flex justify-between items-center h-26 px-6 select-none">
-      <Link href="/" className="flex items-center h-full pt-4 sm:pt-0">
+      <Link href="/" className=" -ml-6 sm:-ml-10 flex items-center h-full pt-4 sm:pt-0">
         <Image
           src="/icons/dafe-logo.svg"
           alt="Logo do DAFE"
           width={180}
           height={100}
-          className="h-[100%] max-h-[100%] sm:h-[170%] sm:max-h-[170%] w-auto pt-0 sm:pt-4"
+          className="h-[130%] max-h-[130%] sm:h-[170%] sm:max-h-[170%] w-auto pt-0 sm:pt-4"
           priority
         />
-        <h1 className="text-lg sm:text-3xl font-semibold text-[#034ab9]">D.A.F.E</h1>
+        <h1 className="-ml-4 sm:-ml-6 text-lg md:text-2xl lg:text-3xl font-semibold text-[#034ab9]">D.A.F.E</h1>
       </Link>
 
       <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
@@ -64,7 +64,7 @@ export function NavBar() {
       </button>
 
       <nav>
-        <ul className="hidden md:flex items-center space-x-2 lg:space-x-4 text-xl">
+        <ul className="hidden md:flex items-center  md:text-base lg:text-xl">
           <NavItem href="/landing-page" pathname={pathname} onClick={closeUserMenu}>
             Início
           </NavItem>
@@ -81,7 +81,7 @@ export function NavBar() {
           <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
             Denúncias
           </NavItem>
-          <li>{renderAuthLink()}</li>
+          <li className='pl-2'>{renderAuthLink()}</li>
         </ul>
       </nav>
 

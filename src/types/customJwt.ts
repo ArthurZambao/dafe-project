@@ -7,4 +7,5 @@ export interface CustomJwtPayload {
   modulo: string;
   curso: string;
   exp?: number;
+  role: 'student' | 'teacher' | 'admin' | 'manager';
 }

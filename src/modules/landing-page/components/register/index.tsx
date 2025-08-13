@@ -7,9 +7,9 @@ export function Register() {
     <FadeInUp delay={0.7}>
       <section className="flex flex-col sm:flex-row mt-10 sm:mt-15 mb-15 sm:mb-20 justify-center gap-20 px-6 sm:px-10 lg:px-0 max-w-6xl mx-auto">
         <div className="flex flex-col gap-8 sm:w-1/2">
-          <h1 className="text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-2xl sm:text-3xl font-bold">
+          <h2 className="text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-2xl sm:text-3xl font-bold">
             FAÇA SEU REGISTRO <span className="text-slate-gray">AGORA</span>!
-          </h1>
+          </h2>
           <p className="text-slate-gray leading-relaxed text-base sm:text-lg font-semibold">
             Não perca a chance de fazer a diferença na sua escola! Com o D.A.F.E, sua voz será
             ouvida de forma contínua e direta. Cadastre-se agora e comece a compartilhar suas

@@ -46,9 +46,9 @@ export function CreateNoticesData() {
     <div className="p-4 sm:p-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <section className="flex justify-between items-center pb-10 mx-0 sm:mx-10">
         <Link href="/notices-page" className="inline-flex">
-          <h1 className="inline-flex gap-2 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
+          <h2 className="inline-flex gap-2 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
             <ArrowLeft /> Notícias
-          </h1>
+          </h2>
         </Link>
         <button
           onClick={() => {

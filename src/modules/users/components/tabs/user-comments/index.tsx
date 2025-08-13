@@ -11,7 +11,7 @@ export function UserComments() {
   useEffect(() => {
     async function fetchUserComments() {
       try {
-        const response = await api.get(`/comments/aluno/${user!.id}`);
+        const response = await api.get(`/comments/User/${user!.id}`);
 
         setComments(response.data);
       } catch (error) {

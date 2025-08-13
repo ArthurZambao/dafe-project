@@ -36,9 +36,9 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
             onClick={handleClose}
           />
           <div className="fixed bottom-0 left-0 right-0 bg-white z-50 flex flex-col items-center p-6 shadow-lg h-[70vh] max-h-[70vh] overflow-auto rounded-t-3xl">
-            <h1 className="text-[#2D2D2D] text-2xl sm:text-3xl font-bold mt-2 mb-6 text-center">
+            <h2 className="text-[#2D2D2D] text-2xl sm:text-3xl font-bold mt-2 mb-6 text-center">
               Filtrar Por
-            </h1>
+            </h2>
             <div className="space-y-4 w-full max-w-md mx-auto">
               {filterOptions.map((option) => (
                 <button

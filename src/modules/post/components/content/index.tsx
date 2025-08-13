@@ -108,7 +108,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
         </div>
 
         <div className="flex-col gap-10 items-center">
-          <h1 className="text-xl sm:text-3xl text-azure-primary break-words">{post.titulo}</h1>
+          <h2 className="text-xl sm:text-3xl text-azure-primary break-words">{post.titulo}</h2>
           <p className="text-xs sm:text-sm text-slate-gray">
             Tópico: <span className="font-semibold">{post.topico}</span>
           </p>

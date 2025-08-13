@@ -119,9 +119,9 @@ export function CreatePostData() {
       <div className="flex justify-center px-4 sm:px-10 min-h-screen">
         <div className="w-full">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pt-8 px-2 sm:px-8">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
               Criar Assunto
-            </h1>
+            </h2>
             <div>
               <h2 className="text-base text-center sm:text-lg font-semibold text-black mb-2">
                 Rascunhos

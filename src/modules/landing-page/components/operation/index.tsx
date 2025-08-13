@@ -34,8 +34,8 @@ export function Operation() {
                   <Image
                     src={section.image}
                     alt={`Ilustração - ${section.title}`}
-                    width={600}
-                    height={360}
+                    width={660}
+                    height={396}
                     className={`object-contain rounded-3xl ${isEven ? 'pl-0 sm:pl-32' : 'pr-0 sm:pr-32'}`}
                     priority
                   />
