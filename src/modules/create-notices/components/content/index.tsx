@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CreateNoticeDataSchema, createNoticeSchema } from '../../schemas/create-notices-schema';
+import { CreateNoticesHeaderCard } from '../create-notices-header-card';
 
 export function CreateNoticesData() {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -44,24 +45,7 @@ export function CreateNoticesData() {
 
   return (
     <div className="p-4 sm:p-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
-      <section className="flex justify-between items-center pb-10 mx-0 sm:mx-10">
-        <Link href="/notices-page" className="inline-flex">
-          <h2 className="inline-flex gap-2 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
-            <ArrowLeft /> Notícias
-          </h2>
-        </Link>
-        <button
-          onClick={() => {
-            if (formRef.current) {
-              formRef.current.requestSubmit();
-            }
-          }}
-          className="btn-dafe btn-dafe-hover text-white px-2 sm:px-4 py-2"
-        >
-          Publicar Notícia
-        </button>
-      </section>
-
+      <CreateNoticesHeaderCard formRef={formRef} />
       <section>
         <form
           ref={formRef}

@@ -52,7 +52,6 @@ export function FormsPageData() {
           setSelectedFilter={setSelectedFilter}
           filterOptions={filterOptions}
         />
-
         <FormsList filteredForms={filteredForms} />
       </div>
     </AnimatedContent>
