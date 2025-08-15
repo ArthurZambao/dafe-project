@@ -37,15 +37,30 @@ export function EditUserData() {
       '3º ano': 3,
     };
 
-    const finalData = {
-      ...data,
-      modulo: moduloMapping[data.modulo] ?? data.modulo,
-    };
-    console.log(currentUser.id, finalData);
+    const finalData =
+      currentUser.role === 'student'
+        ? {
+          nome: data.nome,
+          usuario: data.usuario,
+          email: data.email,
+          instituicao: data.instituicao,
+          senha: data.senha,
+          studentDetails: {
+            curso: data.curso,
+            modulo: moduloMapping[data.modulo!] ?? data.modulo,
+          },
+        }
+        : {
+          nome: data.nome,
+          usuario: data.usuario,
+          email: data.email,
+          instituicao: data.instituicao,
+          senha: data.senha,
+        };
+
 
     try {
       await api.patch(`/users/${currentUser.id}`, finalData);
-
       reset();
       router.push('/users');
       toast.success('Usuário Atualizado com sucesso!');
@@ -60,6 +75,7 @@ export function EditUserData() {
       toast.error(backendMessage);
     }
   };
+
 
   if (!user) return null;
 

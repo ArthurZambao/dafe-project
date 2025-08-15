@@ -26,14 +26,9 @@ export const createEditUserFormSchema = z
       .max(100, 'Instituição inválida!'),
 
     curso: z
-      .string()
-      .min(2, 'Curso inválido!')
-      .max(100, 'Curso inválido!'),
-
+      .string().optional(),
     modulo: z
-      .string()
-      .min(1, 'Série inválida!')
-      .max(20, 'Série inválida!'),
+      .string().optional(),
 
     senha: z
       .string()

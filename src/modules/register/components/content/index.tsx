@@ -63,7 +63,6 @@ export function RegisterPageData() {
         },
       };
     } else {
-      // Para o professor, o objeto studentDetails não é necessário
       finalData = {
         nome: data.nome,
         usuario: data.usuario,
