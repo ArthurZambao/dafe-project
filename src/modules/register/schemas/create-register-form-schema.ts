@@ -11,7 +11,7 @@ const baseSchema = {
     .string()
     .min(3, 'O nome de usuário deve ter pelo menos 3 caracteres.')
     .max(20, 'O nome de usuário deve ter no máximo 20 caracteres.')
-    .regex(/^[a-zA-Z0-9_]+$/, 'O nome de usuário só pode conter letras!'),
+    .regex(/^[a-zA-Z0-9_]+$/, 'O nome de usuário só pode conter letras, números e _.'),
 
   email: z
     .string()
@@ -36,12 +36,14 @@ const baseSchema = {
   confirmarSenha: z.string(),
 };
 
-// Schema para aluno (curso e modulo obrigatórios)
+// Schema para aluno (curso e modulo obrigatórios e matricula e periodo opcionais)
 const studentSchema = z
   .object({
     role: z.literal('student'),
     curso: z.string({ required_error: 'Curso é obrigatório.' }),
     modulo: z.string({ required_error: 'Ano escolar é obrigatório.' }),
+    matricula: z.coerce.number().optional(),
+    periodo: z.string().optional(),
   })
   .merge(z.object(baseSchema))
   .refine((data) => data.senha === data.confirmarSenha, {
@@ -49,12 +51,14 @@ const studentSchema = z
     path: ['confirmarSenha'],
   });
 
-// Schema para professor (curso e modulo opcionais)
+// Schema para professor (curso e modulo opcionais e matricula e periodo obrigatórios)
 const professorSchema = z
   .object({
     role: z.literal('professor'),
     curso: z.string().optional(),
     modulo: z.string().optional(),
+    matricula: z.coerce.number({ required_error: 'Matrícula é obrigatória.' }),
+    periodo: z.string({ required_error: 'Período é obrigatório.' }),
   })
   .merge(z.object(baseSchema))
   .refine((data) => data.senha === data.confirmarSenha, {

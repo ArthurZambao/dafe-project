@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { cursoOptions } from '@/global/constants/curso-options';
-import { moduloOptions } from '@/global/constants/modulo-options';
+import { moduloOptions, periodoOptions } from '@/global/constants/register-select-options';
 import { api } from '@/libs/api/axios';
 import { useEffect, useState } from 'react';
 
@@ -70,6 +70,10 @@ export function RegisterPageData() {
         instituicao: data.instituicao,
         role: data.role,
         senha: data.senha,
+        professorDetails: {
+          matricula: data.matricula,
+          periodo: data.periodo,
+        },
       };
     }
 
@@ -154,7 +158,7 @@ export function RegisterPageData() {
             error={errors.instituicao}
           />
 
-          {role === 'student' && (
+          {role === 'student' ? (
             <div className="flex flex-col sm:flex-row gap-5">
               <Select<CreateRegisterFormData>
                 id="curso"
@@ -163,13 +167,30 @@ export function RegisterPageData() {
                 error={errors.curso}
                 selectOptions={cursoOptions}
               />
-
               <Select<CreateRegisterFormData>
                 id="modulo"
                 label="Ano Escolar:"
                 register={register}
                 error={errors.modulo}
                 selectOptions={moduloOptions}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Input<CreateRegisterFormData>
+                id="matricula"
+                label="Matrícula:"
+                type="number"
+                placeholder="86532"
+                register={register}
+                error={errors.matricula}
+              />
+              <Select<CreateRegisterFormData>
+                id="periodo"
+                label="Período:"
+                register={register}
+                error={errors.periodo}
+                selectOptions={periodoOptions}
               />
             </div>
           )}

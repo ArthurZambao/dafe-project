@@ -12,7 +12,7 @@ import {
   createEditUserFormSchema,
 } from '../../schemas/create-edit-user-form-schema';
 import { cursoOptions } from '@/global/constants/curso-options';
-import { moduloOptions } from '@/global/constants/modulo-options';
+import { moduloOptions } from '@/global/constants/register-select-options';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { useAuth } from '@/global/context/useAuth';
 import { api } from '@/libs/api/axios';
