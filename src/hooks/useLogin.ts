@@ -5,25 +5,21 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/global/context/useAuth';
-import { api } from '@/libs/api/axios';
+import { LoginData, loginRequest } from '@/services/auth/authService';
+
 
 export function useLogin() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { setUserFromToken } = useAuth();
 
-  interface LoginData {
-    email: string;
-    senha: string;
-  }
-
   const login = async (data: LoginData, reset: () => void) => {
     setIsSubmitting(true);
     try {
-      const response = await api.post('/login-jwt', data);
+      const response = await loginRequest(data);
 
-      Cookies.set('token', response.data.token, { expires: 7, sameSite: 'lax' });
-      setUserFromToken(response.data.token);
+      Cookies.set('token', response.token, { expires: 7, sameSite: 'lax' });
+      setUserFromToken(response.token);
       reset();
 
       router.push('/forum-page');

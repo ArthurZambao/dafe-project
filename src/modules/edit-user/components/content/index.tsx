@@ -1,85 +1,70 @@
 'use client';
 
 import { Input } from '@/global/components/FormComponents/FormInput';
+import { Select } from '@/global/components/FormComponents/FormSelect';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
-import {
-  CreateEditUserFormData,
-  createEditUserFormSchema,
-} from '../../schemas/create-edit-user-form-schema';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/register-select-options';
-import { Select } from '@/global/components/FormComponents/FormSelect';
+import { CreateEditUserFormData, createEditUserFormSchema } from '../../schemas/create-edit-user-form-schema';
 import { useAuth } from '@/global/context/useAuth';
-import { api } from '@/libs/api/axios';
+import { updateUser } from '@/services/users/userService';
 
 export function EditUserData() {
   const router = useRouter();
   const { user } = useAuth();
-  console.log(user);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<CreateEditUserFormData>({
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateEditUserFormData>({
     resolver: zodResolver(createEditUserFormSchema),
   });
 
+  if (!user) return null;
+  const currentUser = user;
+
+  const moduloMapping: Record<string, number> = { '1º ano': 1, '2º ano': 2, '3º ano': 3 };
+
   const onSubmit = async (data: CreateEditUserFormData) => {
-    const moduloMapping: { [key: string]: number } = {
-      '1º ano': 1,
-      '2º ano': 2,
-      '3º ano': 3,
-    };
-
-    const finalData =
-      currentUser.role === 'student'
-        ? {
-          nome: data.nome,
-          usuario: data.usuario,
-          email: data.email,
-          instituicao: data.instituicao,
-          senha: data.senha,
-          studentDetails: {
-            curso: data.curso,
-            modulo: moduloMapping[data.modulo!] ?? data.modulo,
-          },
-        }
-        : {
-          nome: data.nome,
-          usuario: data.usuario,
-          email: data.email,
-          instituicao: data.instituicao,
-          senha: data.senha,
-        };
-
-
     try {
-      await api.patch(`/users/${currentUser.id}`, finalData);
+      // Campos comuns
+      const baseData = {
+        nome: data.nome,
+        usuario: data.usuario,
+        email: data.email,
+        instituicao: data.instituicao,
+        senha: data.senha,
+      };
+
+      // Campos específicos por role
+      const roleData =
+        currentUser.role === 'student'
+          ? {
+              studentDetails: {
+                curso: data.curso,
+                modulo: moduloMapping[data.modulo!] ?? 1,
+              },
+            }
+          : {};
+
+      const finalData = { ...baseData, ...roleData };
+
+      await updateUser(currentUser.id, finalData);
+
       reset();
       router.push('/users');
-      toast.success('Usuário Atualizado com sucesso!');
+      toast.success('Usuário atualizado com sucesso!');
     } catch (error) {
-      let backendMessage = 'Erro ao Atualizar Usuário. Por favor, tente novamente mais tarde.';
+      let backendMessage = 'Erro ao atualizar usuário. Por favor, tente novamente mais tarde.';
       if (error && typeof error === 'object' && 'response' in error) {
         const err = error as { response?: { data?: { message?: string | string[] } } };
         const message = err.response?.data?.message;
         backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
       }
-
       toast.error(backendMessage);
     }
   };
-
-
-  if (!user) return null;
-
-  const currentUser = user;
 
   return (
     <AnimatedContent inverse>
@@ -128,25 +113,27 @@ export function EditUserData() {
             error={errors.instituicao}
           />
 
-          <div className="flex flex-col sm:flex-row gap-5">
-            <Select<CreateEditUserFormData>
-              id="curso"
-              label="Curso:"
-              register={register}
-              error={errors.curso}
-              selectOptions={cursoOptions}
-              primarySelectOption={currentUser.curso}
-            />
+          {currentUser.role === 'student' && (
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Select<CreateEditUserFormData>
+                id="curso"
+                label="Curso:"
+                register={register}
+                error={errors.curso}
+                selectOptions={cursoOptions}
+                primarySelectOption={currentUser.curso}
+              />
 
-            <Select<CreateEditUserFormData>
-              id="modulo"
-              label="Ano Escolar:"
-              register={register}
-              error={errors.modulo}
-              selectOptions={moduloOptions}
-              primarySelectOption={`${currentUser.modulo}º ano`}
-            />
-          </div>
+              <Select<CreateEditUserFormData>
+                id="modulo"
+                label="Ano Escolar:"
+                register={register}
+                error={errors.modulo}
+                selectOptions={moduloOptions}
+                primarySelectOption={`${currentUser.modulo}º ano`}
+              />
+            </div>
+          )}
 
           <Input<CreateEditUserFormData>
             id="senha"
@@ -155,15 +142,6 @@ export function EditUserData() {
             placeholder="***********"
             register={register}
             error={errors.senha}
-          />
-
-          <Input<CreateEditUserFormData>
-            id="confirmarSenha"
-            label="Confirmar Senha:"
-            type="password"
-            placeholder="***********"
-            register={register}
-            error={errors.confirmarSenha}
           />
 
           <div className="flex flex-col justify-center pt-4">

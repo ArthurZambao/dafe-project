@@ -38,12 +38,7 @@ export const createEditUserFormSchema = z
       .regex(/[a-z]/, 'A senha deve conter ao menos uma letra minúscula.')
       .regex(/[0-9]/, 'A senha deve conter ao menos um número.')
       .regex(/[^A-Za-z0-9]/, 'A senha deve conter ao menos um caractere especial.'),
-
-    confirmarSenha: z.string(),
   })
-  .refine((data) => data.senha === data.confirmarSenha, {
-    message: 'As senhas não coincidem!',
-    path: ['confirmarSenha'],
-  });
+  
 
 export type CreateEditUserFormData = z.infer<typeof createEditUserFormSchema>;

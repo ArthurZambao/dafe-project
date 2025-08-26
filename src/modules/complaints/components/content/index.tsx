@@ -8,13 +8,12 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
 import { CreateComplaintData, createComplaintSchema } from '../../schemas/create-complaint-schema';
 import { ComplaintsDraftData } from '@/types/draftsDatas';
-import { UlComplaintsPostDraftList } from '../ulComplaintsDraftList';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { complaintOptions } from '../../constants/complaint-options';
 import { Input } from '@/global/components/FormComponents/FormInput';
-import { api } from '@/libs/api/axios';
 import { ComplaintsHeaderCard } from '../complaints-header-card';
+import { createComplaint } from '@/api/complaints';
 
 export function ComplaintsData() {
   const [drafts, setDrafts] = useState<ComplaintsDraftData[]>([]);
@@ -80,7 +79,7 @@ export function ComplaintsData() {
     const finalData = { ...data, data: dataFormatada };
 
     try {
-      await api.post('/complaints', data);
+      await createComplaint(finalData);
 
       localStorage.setItem(
         'complaintsDrafts',

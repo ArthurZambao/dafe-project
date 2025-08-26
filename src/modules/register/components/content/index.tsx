@@ -1,22 +1,20 @@
 'use client';
 
 import { Input } from '@/global/components/FormComponents/FormInput';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import {
-  CreateRegisterFormData,
-  createRegisterFormSchema,
-} from '../../schemas/create-register-form-schema';
 import { Select } from '@/global/components/FormComponents/FormSelect';
-
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions, periodoOptions } from '@/global/constants/register-select-options';
-import { api } from '@/libs/api/axios';
+import {
+  CreateRegisterFormData,
+  createRegisterFormSchema,
+} from '../../schemas/create-register-form-schema';
 import { useEffect, useState } from 'react';
+import { createUser } from '@/services/users/userService';
 
 export function RegisterPageData() {
   const router = useRouter();
@@ -24,13 +22,14 @@ export function RegisterPageData() {
 
   const {
     register,
-    formState: { errors },
     handleSubmit,
+    formState: { errors },
     setValue,
   } = useForm<CreateRegisterFormData>({
     resolver: zodResolver(createRegisterFormSchema),
   });
 
+  // Atualiza o campo role no form sempre que mudar
   useEffect(() => {
     setValue('role', role, { shouldValidate: true, shouldDirty: true });
   }, [role, setValue]);
@@ -40,45 +39,38 @@ export function RegisterPageData() {
     setValue('role', value, { shouldValidate: true, shouldDirty: true });
   };
 
+  const moduloMapping: Record<string, number> = { '1º ano': 1, '2º ano': 2, '3º ano': 3 };
+
   const onSubmit = async (data: CreateRegisterFormData) => {
-    const moduloMapping: { [key: string]: number } = {
-      '1º ano': 1,
-      '2º ano': 2,
-      '3º ano': 3,
-    };
-
-    let finalData;
-
-    if (data.role === 'student') {
-      finalData = {
-        nome: data.nome,
-        usuario: data.usuario,
-        email: data.email,
-        instituicao: data.instituicao,
-        role: data.role,
-        senha: data.senha,
-        studentDetails: {
-          curso: data.curso,
-          modulo: moduloMapping[data.modulo] as number,
-        },
-      };
-    } else {
-      finalData = {
-        nome: data.nome,
-        usuario: data.usuario,
-        email: data.email,
-        instituicao: data.instituicao,
-        role: data.role,
-        senha: data.senha,
-        professorDetails: {
-          matricula: data.matricula,
-          periodo: data.periodo,
-        },
-      };
-    }
-
     try {
-      await api.post('/users', finalData);
+      const baseData = {
+        nome: data.nome,
+        usuario: data.usuario,
+        email: data.email,
+        instituicao: data.instituicao,
+        role: data.role,
+        senha: data.senha,
+        confirmarSenha: data.confirmarSenha,
+      };
+
+      const roleData =
+        data.role === 'student'
+          ? {
+              studentDetails: {
+                curso: data.curso,
+                modulo: moduloMapping[data.modulo] ?? 1,
+              },
+            }
+          : {
+              professorDetails: {
+                matricula: data.matricula,
+                periodo: data.periodo,
+              },
+            };
+
+      const finalData = { ...baseData, ...roleData };
+
+      await createUser(finalData);
 
       router.push('/users');
       toast.success('Cadastro realizado com sucesso!');
@@ -89,7 +81,6 @@ export function RegisterPageData() {
         const message = err.response?.data?.message;
         backendMessage = Array.isArray(message) ? message.join(' ') : message || backendMessage;
       }
-
       toast.error(backendMessage);
     }
   };
@@ -105,6 +96,7 @@ export function RegisterPageData() {
             Cadastrar-se
           </h2>
 
+          {/* Seletor de Role */}
           <section className="flex-col justify-center mx-auto">
             <h3 className="text-center">Quem você é?</h3>
             <div className="flex gap-4 py-2">
@@ -125,6 +117,7 @@ export function RegisterPageData() {
             </div>
           </section>
 
+          {/* Campos Comuns */}
           <Input<CreateRegisterFormData>
             id="nome"
             type="text"
@@ -158,6 +151,7 @@ export function RegisterPageData() {
             error={errors.instituicao}
           />
 
+          {/* Campos Específicos */}
           {role === 'student' ? (
             <div className="flex flex-col sm:flex-row gap-5">
               <Select<CreateRegisterFormData>
@@ -180,7 +174,7 @@ export function RegisterPageData() {
               <Input<CreateRegisterFormData>
                 id="matricula"
                 label="Matrícula:"
-                type="number"
+                type="text"
                 placeholder="86532"
                 register={register}
                 error={errors.matricula}
@@ -195,6 +189,7 @@ export function RegisterPageData() {
             </div>
           )}
 
+          {/* Senhas */}
           <Input<CreateRegisterFormData>
             id="senha"
             label="Senha:"
@@ -211,17 +206,13 @@ export function RegisterPageData() {
             register={register}
             error={errors.confirmarSenha}
           />
+
           <div className="flex flex-col justify-center pt-4">
             <input
               type="submit"
               value="Cadastrar-se"
               className="cursor-pointer bg-azure-primary text-lg sm:text-2xl font-bold text-white mx-4 sm:mx-20 py-3 sm:py-4 rounded-tr-xl rounded-bl-xl"
             />
-            <div className="text-center mt-4 text-azure-primary">
-              <Link href="/login">
-                <p className="hover:underline">Já possui Cadastro? Entre por aqui</p>
-              </Link>
-            </div>
           </div>
         </form>
       </div>
