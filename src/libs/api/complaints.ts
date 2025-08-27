@@ -1,14 +1,6 @@
 import { api } from "@/libs/http/axios";
 import { CreateComplaintData } from "@/modules/complaints/schemas/create-complaint-schema";
-
-// Tipos opcionais (se o backend devolver algo mais elaborado)
-export type ComplaintResponse = {
-  id: string;
-  titulo: string;
-  conteudo: string;
-  topico: string;
-  data: string;
-};
+import { ComplaintResponse } from "@/types/complaints";
 
 export async function createComplaint(data: CreateComplaintData) {
   const res = await api.post<ComplaintResponse>("/complaints", data);

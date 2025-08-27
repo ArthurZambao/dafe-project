@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function CreatePostPage() {
   return (
-    <AuthGate mode="auth">
+    <AuthGate mode="auth" role="student">
       <CreatePostData />
     </AuthGate>
   );

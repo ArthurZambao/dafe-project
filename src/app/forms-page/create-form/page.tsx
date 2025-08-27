@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function CreateFormPage() {
   return (
-    <AuthGate mode="auth">
+    <AuthGate mode="auth" role="professor">
       <CreateFormData />
     </AuthGate>
   );

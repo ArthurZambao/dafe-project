@@ -1,9 +1,12 @@
-import { ComplaintsData } from "@/modules/complaints/components/content";
+import { AuthGate } from '@/global/components/authGate/authGate';
+import { ComplaintsData } from '@/modules/complaints/components/content';
 
 export const metadata = {
   title: 'Denúncias',
 };
 
 export default function CreateTopicPage() {
-  return <ComplaintsData />;
+  <AuthGate mode="auth" role="student">
+    return <ComplaintsData />;
+  </AuthGate>;
 }
