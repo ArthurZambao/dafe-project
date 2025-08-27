@@ -13,7 +13,7 @@ import { MediaForm } from '../media-form';
 
 import { PostDraftData } from '@/types/draftsDatas';
 import { UlPostDraftList } from '../ulDraftList';
-import { createPost } from '@/services/posts/postsService';
+import { createPost } from '@/libs/services/posts/postsService';
 
 export function CreatePostData() {
   const hoje = new Date();

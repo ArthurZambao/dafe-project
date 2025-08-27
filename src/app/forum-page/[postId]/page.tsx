@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { PostPageData } from "@/modules/post/components/content";
 import { AuthGate } from "@/global/components/authGate/authGate";
-import { getPostById } from "@/api/posts"; 
+import { getPostById } from "@/libs/api/posts"; 
 
 export const dynamic = "force-dynamic";
 

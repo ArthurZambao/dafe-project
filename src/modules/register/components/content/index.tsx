@@ -14,7 +14,7 @@ import {
   createRegisterFormSchema,
 } from '../../schemas/create-register-form-schema';
 import { useEffect, useState } from 'react';
-import { createUser } from '@/services/users/userService';
+import { createUser } from '@/libs/services/users/userService';
 
 export function RegisterPageData() {
   const router = useRouter();

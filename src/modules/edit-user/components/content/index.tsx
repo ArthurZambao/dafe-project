@@ -11,7 +11,7 @@ import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/register-select-options';
 import { CreateEditUserFormData, createEditUserFormSchema } from '../../schemas/create-edit-user-form-schema';
 import { useAuth } from '@/global/context/useAuth';
-import { updateUser } from '@/services/users/userService';
+import { updateUser } from '@/libs/services/users/userService';
 
 export function EditUserData() {
   const router = useRouter();

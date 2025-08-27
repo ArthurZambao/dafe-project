@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { typePostList } from '@/types/typePostList';
 import { useAuth } from '@/global/context/useAuth';
 import { UserPostList } from '../../user-post-list';
-import { deletePost, getUserPosts } from '@/services/posts/postsService';
+import { deletePost, getUserPosts } from '@/libs/services/posts/postsService';
 
 export function UserPosts() {
   const [posts, setPosts] = useState<typePostList[]>([]);

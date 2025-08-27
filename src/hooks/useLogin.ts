@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/global/context/useAuth';
-import { LoginData, loginRequest } from '@/services/auth/authService';
+import { LoginData, loginRequest } from '@/libs/services/auth/authService';
 
 
 export function useLogin() {

@@ -2,7 +2,7 @@ import { useAuth } from '@/global/context/useAuth';
 import { typeComments } from '@/types/typeComments';
 import { useEffect, useState } from 'react';
 import { UserCommentList } from '../../user-comment-list';
-import { deleteComment, getUserComments } from '@/services/comments/commentsServices';
+import { deleteComment, getUserComments } from '@/libs/services/comments/commentsServices';
 
 export function UserComments() {
   const [comments, setComments] = useState<typeComments[]>([]);

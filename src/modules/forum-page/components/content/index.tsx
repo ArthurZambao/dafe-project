@@ -7,7 +7,7 @@ import { forumFilterOptions } from '../../../../global/constants/forumFilterOpti
 import { PostList } from '../post-list';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { typePostList } from '@/types/typePostList';
-import { getPosts } from '@/services/posts/postsService';
+import { getPosts } from '@/libs/services/posts/postsService';
 
 export function ForumPageData() {
   const [posts, setPosts] = useState<typePostList[]>([]);
