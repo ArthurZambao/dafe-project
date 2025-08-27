@@ -37,6 +37,7 @@ export default function RootLayout({
           <Toaster
             position="bottom-right"
             theme="light"
+            richColors
             toastOptions={{
               classNames: {
                 toast: 'bg-white text-azure-primary border border-gray-200 shadow-lg',

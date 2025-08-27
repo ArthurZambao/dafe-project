@@ -33,7 +33,6 @@ export function AuthGate({ children, mode, role, redirectTo }: AuthGateProps) {
     if (mode === 'guest') {
       if (token) {
         router.replace(redirectTo || '/');
-        toast.error('Você já está logado.');
       } else {
         setIsAllowed(true);
       }

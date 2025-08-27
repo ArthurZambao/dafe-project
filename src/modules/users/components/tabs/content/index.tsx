@@ -5,14 +5,16 @@ import { UserComments } from '../user-comments';
 import { UserPosts } from '../user-posts';
 import { UserComplaints } from '../user-complaints';
 import { UserForms } from '../user-forms';
-
+import { useAuth } from '@/global/context/useAuth';
 
 export function Tabs() {
   const [activeTab, setActiveTab] = useState<'comentarios' | 'posts' | 'denuncias' | 'formularios'>(
     'comentarios'
   );
+  const { user } = useAuth();
 
-  
+  if (!user) return null;
+
   return (
     <>
       <div className="flex overflow-x-auto no-scrollbar gap-6 text-xl text-azure-primary font-medium border-b border-gray-300 px-2 sm:justify-center">
@@ -44,9 +46,9 @@ export function Tabs() {
 
       <div className="mt-6 w-full">
         {activeTab === 'comentarios' && <UserComments />}
-        {activeTab === 'posts' && <UserPosts />}
-        {activeTab === 'denuncias' && <UserComplaints/>}
-        {activeTab === 'formularios' && <UserForms/>}
+        {activeTab === 'posts' && user.role === 'student' && <UserPosts />}
+        {activeTab === 'denuncias' && <UserComplaints />}
+        {activeTab === 'formularios' && <UserForms />}
       </div>
     </>
   );
