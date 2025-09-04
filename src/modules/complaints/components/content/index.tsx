@@ -13,7 +13,7 @@ import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { complaintOptions } from '../../constants/complaint-options';
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { ComplaintsHeaderCard } from '../complaints-header-card';
-import { createComplaint } from '@/libs/api/complaints';
+import { createComplaint } from '@/libs/api/complaints/complaints';
 
 export function ComplaintsData() {
   const [drafts, setDrafts] = useState<ComplaintsDraftData[]>([]);

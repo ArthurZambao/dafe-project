@@ -1,8 +1,7 @@
-// app/forum-page/[postId]/page.tsx
 import type { Metadata } from "next";
 import { PostPageData } from "@/modules/post/components/content";
 import { AuthGate } from "@/global/components/authGate/authGate";
-import { getPostById } from "@/libs/api/posts"; 
+import { getPostById } from "@/libs/api/posts/posts"; 
 
 export const dynamic = "force-dynamic";
 
