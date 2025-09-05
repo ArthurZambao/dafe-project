@@ -10,7 +10,7 @@ import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
 import { useAuth } from '@/global/context/useAuth';
-import { api } from '@/libs/api/axios';
+import { api } from '@/libs/http/axios';
 
 export function PostPageData({ postId }: PostPageDataProps) {
   const [post, setPost] = useState<typePostList | null>(null);
@@ -108,7 +108,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
         </div>
 
         <div className="flex-col gap-10 items-center">
-          <h1 className="text-xl sm:text-3xl text-azure-primary break-words">{post.titulo}</h1>
+          <h2 className="text-xl sm:text-3xl text-azure-primary break-words">{post.titulo}</h2>
           <p className="text-xs sm:text-sm text-slate-gray">
             Tópico: <span className="font-semibold">{post.topico}</span>
           </p>

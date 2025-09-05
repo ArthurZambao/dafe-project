@@ -85,9 +85,9 @@ export function CreateFormData() {
       <AnimatedContent inverse>
         <section className="flex justify-between items-center pb-10 mx-0 sm:mx-10">
           <Link href="/forms-page" className="inline-flex">
-            <h1 className="inline-flex gap-2 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
+            <h2 className="inline-flex gap-2 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
               <ArrowLeft /> Formulários
-            </h1>
+            </h2>
           </Link>
           <button
             onClick={() => formRef.current?.requestSubmit()}

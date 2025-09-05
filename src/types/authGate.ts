@@ -4,4 +4,5 @@ export interface AuthGateProps {
   children: ReactNode;
   mode: 'auth' | 'guest';
   redirectTo?: string;
+  role?: 'professor' | 'student';
 }

@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CurrentTime, FormattedDate } from '@/global/components/FormatedDate';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { getValidToken } from '@/global/utils/auth';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
 import { TextForm } from '../text-form';
@@ -14,7 +13,7 @@ import { MediaForm } from '../media-form';
 
 import { PostDraftData } from '@/types/draftsDatas';
 import { UlPostDraftList } from '../ulDraftList';
-import { api } from '@/libs/api/axios';
+import { createPost } from '@/libs/services/posts/postsService';
 
 export function CreatePostData() {
   const hoje = new Date();
@@ -80,14 +79,9 @@ export function CreatePostData() {
 
   const onSubmit = async (data: CreateFormData) => {
     const finalData = { ...data, data: dataFormatada };
-    const token = getValidToken();
 
     try {
-      await api.post('/posts', finalData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await createPost(finalData);
 
       localStorage.setItem(
         'forumDrafts',
@@ -119,9 +113,9 @@ export function CreatePostData() {
       <div className="flex justify-center px-4 sm:px-10 min-h-screen">
         <div className="w-full">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pt-8 px-2 sm:px-8">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
               Criar Assunto
-            </h1>
+            </h2>
             <div>
               <h2 className="text-base text-center sm:text-lg font-semibold text-black mb-2">
                 Rascunhos

@@ -2,7 +2,7 @@ import { useAuth } from '@/global/context/useAuth';
 import { typeComments } from '@/types/typeComments';
 import { useEffect, useState } from 'react';
 import { UserCommentList } from '../../user-comment-list';
-import { api } from '@/libs/api/axios';
+import { deleteComment, getUserComments } from '@/libs/services/comments/commentsServices';
 
 export function UserComments() {
   const [comments, setComments] = useState<typeComments[]>([]);
@@ -10,26 +10,26 @@ export function UserComments() {
 
   useEffect(() => {
     async function fetchUserComments() {
-      try {
-        const response = await api.get(`/comments/aluno/${user!.id}`);
+      if (!user) return;
 
-        setComments(response.data);
+      try {
+        const data = await getUserComments(user.id);
+        setComments(data);
       } catch (error) {
-        console.error('Erro ao buscar os posts:', error);
+        console.error('Erro ao buscar os comentários:', error);
       }
     }
 
-    if (user) fetchUserComments();
+    fetchUserComments();
   }, [user]);
 
   async function handleDelete(commentId: string) {
-    const confirmDelete = confirm('Tem certeza que deseja excluir este post?');
+    const confirmDelete = confirm('Tem certeza que deseja excluir este comentário?');
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/comments/${commentId}`);
-
-      setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+      await deleteComment(commentId);
+      setComments((prev) => prev.filter((c) => c._id !== commentId));
     } catch (error) {
       console.error('Erro ao deletar comentário:', error);
       alert('Erro ao deletar comentário.');

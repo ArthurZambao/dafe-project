@@ -2,24 +2,25 @@ import { useEffect, useState } from 'react';
 import { typePostList } from '@/types/typePostList';
 import { useAuth } from '@/global/context/useAuth';
 import { UserPostList } from '../../user-post-list';
-import { api } from '@/libs/api/axios';
-
+import { deletePost, getUserPosts } from '@/libs/services/posts/postsService';
 
 export function UserPosts() {
   const [posts, setPosts] = useState<typePostList[]>([]);
   const { user } = useAuth();
 
   useEffect(() => {
-    async function fetchUserPosts() {
+    if (!user) return;
+
+    const fetchPosts = async () => {
       try {
-        const response = await api.get(`/posts?autor=${user!.id}`);
-        setPosts(response.data);
+        const data = await getUserPosts(user.id);
+        setPosts(data);
       } catch (error) {
         console.error('Erro ao buscar os posts:', error);
       }
-    }
+    };
 
-    if (user) fetchUserPosts();
+    fetchPosts();
   }, [user]);
 
   async function handleDelete(postId: string) {
@@ -27,7 +28,7 @@ export function UserPosts() {
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/posts/${postId}`);
+      await deletePost(postId);
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
     } catch (error) {
       console.error('Erro ao deletar post:', error);

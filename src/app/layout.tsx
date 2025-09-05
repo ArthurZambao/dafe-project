@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <head>
         <link rel="icon" href="/icons/dafe-logo.svg" type="image/svg+xml" />
+        <link rel="preload" href="/icons/dafe-logo.svg" as="image" />
       </head>
       <body className={`antialiased ${inter.className}`}>
         <AuthProvider>
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Toaster
             position="bottom-right"
             theme="light"
+            richColors
             toastOptions={{
               classNames: {
                 toast: 'bg-white text-azure-primary border border-gray-200 shadow-lg',

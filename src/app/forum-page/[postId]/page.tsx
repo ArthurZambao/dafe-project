@@ -1,12 +1,9 @@
-// app/forum-page/[postId]/page.tsx
+import type { Metadata } from "next";
+import { PostPageData } from "@/modules/post/components/content";
+import { AuthGate } from "@/global/components/authGate/authGate";
+import { getPostById } from "@/libs/api/posts/posts"; 
 
-import type { Metadata } from 'next';
-import { PostPageData } from '@/modules/post/components/content';
-import { AuthGate } from '@/global/components/authGate/authGate';
-import { api } from '@/libs/api/axios';
-
-
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -17,19 +14,13 @@ export async function generateMetadata({
   const postId = awaitedParams.postId;
 
   try {
-    const { data: post } = await api.get(`/posts/${postId}`, {
-      
-      headers: {
-        'Cache-Control': 'no-store',
-      },
-    });
-
+    const post = await getPostById(postId); 
     return {
-      title: post.titulo ?? 'Postagem',
+      title: post.titulo ?? "Postagem",
     };
   } catch {
     return {
-      title: 'Postagem',
+      title: "Postagem",
     };
   }
 }

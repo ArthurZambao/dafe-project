@@ -13,3 +13,12 @@ export type PostType = {
 export type PostPageDataProps = {
   postId: string;
 };
+
+export type PostApiType = {
+  id: string;
+  titulo: string;
+  conteudo: string;
+  autor: { id: string; nome: string };
+  createdAt: string;
+  updatedAt: string;
+};

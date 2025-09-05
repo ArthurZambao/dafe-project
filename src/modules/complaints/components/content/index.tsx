@@ -8,12 +8,12 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
 import { CreateComplaintData, createComplaintSchema } from '../../schemas/create-complaint-schema';
 import { ComplaintsDraftData } from '@/types/draftsDatas';
-import { UlComplaintsPostDraftList } from '../ulComplaintsDraftList';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { complaintOptions } from '../../constants/complaint-options';
 import { Input } from '@/global/components/FormComponents/FormInput';
-import { api } from '@/libs/api/axios';
+import { ComplaintsHeaderCard } from '../complaints-header-card';
+import { createComplaint } from '@/libs/api/complaints/complaints';
 
 export function ComplaintsData() {
   const [drafts, setDrafts] = useState<ComplaintsDraftData[]>([]);
@@ -79,7 +79,7 @@ export function ComplaintsData() {
     const finalData = { ...data, data: dataFormatada };
 
     try {
-      await api.post('/complaints', data);
+      await createComplaint(finalData);
 
       localStorage.setItem(
         'complaintsDrafts',
@@ -103,20 +103,7 @@ export function ComplaintsData() {
     <AnimatedContent inverse>
       <div className="flex justify-center px-4 sm:px-10 min-h-screen">
         <div className="w-full">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pt-8 px-2 sm:px-8">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-azure-secondary">
-              Fazer Denúncia
-            </h1>
-            <div>
-              <h2 className="text-base sm:text-lg font-semibold text-black mb-2">Rascunhos</h2>
-              <UlComplaintsPostDraftList
-                drafts={drafts}
-                handleLoadDraft={handleLoadDraft}
-                deleteDraft={deleteDraft}
-              />
-            </div>
-          </div>
-
+          <ComplaintsHeaderCard drafts={drafts} handleLoadDraft={handleLoadDraft} deleteDraft={deleteDraft} />
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="text-slate-gray px-4 py-10 p-10 w-full max-w-4xl mx-auto"

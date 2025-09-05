@@ -4,7 +4,9 @@ export interface CustomJwtPayload {
   usuario: string;
   instituicao: string;
   id: string;
-  modulo: string;
-  curso: string;
+  modulo?: string;
+  curso?: string;
+  periodo?: string;
   exp?: number;
+  role: 'student' | 'teacher' | 'admin' | 'manager';
 }

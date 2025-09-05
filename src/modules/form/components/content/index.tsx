@@ -71,18 +71,18 @@ export function FormPageData({ formId }: FormProps) {
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <Link href="/forms-page" className="inline-flex">
-        <h1 className="inline-flex gap-2 pl-6 sm:pl-20 pb-10 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
+        <h2 className="inline-flex gap-2 pl-6 sm:pl-20 pb-10 items-center text-3xl font-semibold text-azure-secondary hover:text-azure-footer transition-colors duration-300">
           <ArrowLeft /> Formulários
-        </h1>
+        </h2>
       </Link>
       <AnimatedContent inverse>
         <div className="bg-white rounded-3xl mx-6 sm:mx-20 py-10 px-8 sm:p-16">
           <section className="flex flex-col gap-6">
-            <h1 className="text-2xl sm:text-5xl break-words border-b-1">{form.formTitulo}</h1>
+            <h2 className="text-2xl sm:text-5xl break-words border-b-1">{form.formTitulo}</h2>
             <p className="text-base sm:text-lg break-words border-b-1">{form.formDesc}</p>
           </section>
           <section className="py-10">
-            <h1 className="text-xl sm:text-3xl font-semibold">Questões:</h1>
+            <h2 className="text-xl sm:text-3xl font-semibold">Questões:</h2>
             {form.perguntas.map((pergunta, i) => (
               <div key={i} className="my-6 pb-4">
                 <h2 className="text-base sm:text-2xl rounded-t-2xl bg-[#B7DAFF] border-b-1 p-2">

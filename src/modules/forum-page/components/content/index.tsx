@@ -7,7 +7,7 @@ import { forumFilterOptions } from '../../../../global/constants/forumFilterOpti
 import { PostList } from '../post-list';
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { typePostList } from '@/types/typePostList';
-import { api } from '@/libs/api/axios';
+import { getPosts } from '@/libs/services/posts/postsService';
 
 export function ForumPageData() {
   const [posts, setPosts] = useState<typePostList[]>([]);
@@ -20,16 +20,13 @@ export function ForumPageData() {
   const fetchPosts = async (postFilter: string | null) => {
     setLoading(true);
     try {
-      const endpoint = postFilter ? `/posts?topico=${postFilter}` : `/posts`;
-
-      const res = await api.get(endpoint);
-      console.log('Posts fetched:', res.data);
-      if (res.data.length === 0) {
+      const data = await getPosts(postFilter || undefined);
+      setPosts(data);
+      if (data.length === 0) {
         setMessage('Nenhum post encontrado.');
       } else {
         setMessage(null);
       }
-      setPosts(res.data);
       setError(null);
     } catch (error) {
       console.error('Erro ao buscar tópicos:', error);
