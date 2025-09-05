@@ -6,6 +6,7 @@ export const createFormSchema = z.object({
   conteudo: z.string().nonempty('Assunto é obrigatório!'),
   topico: z.string().nonempty('Selecione um tópico!'),
   interacao: z.number().optional(),
+  anexos: z.any().optional(), 
 });
 
 export type CreateFormData = z.infer<typeof createFormSchema>;

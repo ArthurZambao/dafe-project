@@ -78,6 +78,9 @@ export function CreatePostData() {
   };
 
   const onSubmit = async (data: CreateFormData) => {
+    // Teste da integração do FileAttachment console.log
+    console.log('Arquivos anexados:', data.anexos);
+
     const finalData = { ...data, data: dataFormatada };
 
     try {
