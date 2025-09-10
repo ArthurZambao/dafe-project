@@ -6,7 +6,9 @@ export const metadata = {
 };
 
 export default function CreateNoticesPage() {
-  <AuthGate mode="auth" role="professor">
-    return <CreateNoticesData />;
-  </AuthGate>;
+  return (
+    <AuthGate mode="auth">
+      <CreateNoticesData/>
+    </AuthGate>
+  );
 }

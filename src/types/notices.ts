@@ -1,7 +1,19 @@
-export type Notice = {
-  id: string;
-  NoticiaTitulo: string;
-  noticiaDesc: string;
-  noticiaConteudo: string;
-  imagem?: File;
-};
+interface NoticeAuthor {
+  _id: string;
+  nome: string;
+  usuario: string;
+  instituicao: string;
+  role: string;
+}
+
+export interface NoticeFromAPI {
+  _id: string;
+  titulo: string;
+  descricao: string;
+  conteudo: string;
+  autor: NoticeAuthor;
+  createdAt: string;
+  updateAt: string;
+}
+
+// estrutura de dados enviados pelo back

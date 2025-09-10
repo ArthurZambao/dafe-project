@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CreateNoticeDataSchema, createNoticeSchema } from '../../schemas/create-notices-schema';
 import { CreateNoticesHeaderCard } from '../create-notices-header-card';
+import { createNotice } from '@/libs/services/notices/noticesService';
+import { toast } from 'sonner';
 
 export function CreateNoticesData() {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -25,22 +27,24 @@ export function CreateNoticesData() {
     },
   });
 
-  const onSubmit = (data: CreateNoticeDataSchema) => {
-    const stored = localStorage.getItem('finalDataNotices');
-    const parsed = stored ? JSON.parse(stored) : [];
+  const onSubmit = async (data: CreateNoticeDataSchema) => {
+    try {
+      const payload = {
+        titulo: data.NoticiaTitulo,
+        descricao: data.noticiaDesc,
+        conteudo: data.noticiaConteudo,
+      };
 
-    const newForm = {
-      id: crypto.randomUUID(),
-      ...data,
-    };
+      await createNotice(payload);
 
-    const updated = [...parsed, newForm];
+      toast.success('Notícia criada com sucesso!');
+      reset();
+      router.push('/notices-page');
 
-    localStorage.setItem('finalDataNotices', JSON.stringify(updated));
-
-    console.log('Final data saved:', updated);
-    reset();
-    router.push('/notices-page');
+    } catch (error) {
+      toast.error('Erro ao criar notícia. Tente novamente.');
+      console.error(error);
+    }
   };
 
   return (
