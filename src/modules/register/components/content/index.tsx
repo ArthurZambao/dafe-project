@@ -72,7 +72,7 @@ export function RegisterPageData() {
 
       await createUser(finalData);
 
-      router.push('/users');
+      router.push('/login');
       toast.success('Cadastro realizado com sucesso!');
     } catch (error) {
       let backendMessage = 'Erro ao cadastrar. Por favor, tente novamente mais tarde.';
