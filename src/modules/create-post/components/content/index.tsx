@@ -10,10 +10,10 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { useState, useEffect } from 'react';
 import { TextForm } from '../text-form';
 import { MediaForm } from '../media-form';
-
 import { PostDraftData } from '@/types/draftsDatas';
 import { UlPostDraftList } from '../ulDraftList';
 import { createPost } from '@/libs/services/posts/postsService';
+import { calculateFileHash } from '@/global/utils/hash';
 
 export function CreatePostData() {
   const hoje = new Date();
@@ -25,12 +25,33 @@ export function CreatePostData() {
     formState: { errors },
     handleSubmit,
     reset,
+    watch,
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
 
   const [activeTab, setActiveTab] = useState<'texto' | 'midia'>('texto');
   const [drafts, setDrafts] = useState<PostDraftData[]>([]);
+
+  const anexos = watch('anexos');
+
+  useEffect(() => {
+    if (anexos && anexos.length > 0) {
+      const primeiroArquivo = anexos[0] as File;
+      console.log('Arquivo selecionado:', primeiroArquivo.name);
+      
+      calculateFileHash(primeiroArquivo)
+        .then(hash => {
+          console.log('Impressão Digital (Hash MD5):', hash);
+          toast.info(`Hash do arquivo: ${hash}`);
+      })
+
+      .catch(err => {
+        console.error('Erro ao calcular o hash:', err);
+        toast.error('Não foi possível gerar o hash do arquivo.');
+      })
+    }
+  }, [anexos]);
 
   useEffect(() => {
     const saved = localStorage.getItem('forumDrafts');
@@ -78,8 +99,6 @@ export function CreatePostData() {
   };
 
   const onSubmit = async (data: CreateFormData) => {
-    // Teste da integração do FileAttachment console.log
-    console.log('Arquivos anexados:', data.anexos);
 
     const finalData = { ...data, data: dataFormatada };
 
