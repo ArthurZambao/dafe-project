@@ -1,11 +1,8 @@
-import { FadeInUp } from '@/global/animations/fadeInUp';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export function Register() {
   return (
-    <FadeInUp delay={0.7}>
-      <section className="flex flex-col sm:flex-row mt-10 sm:mt-15 mb-15 sm:mb-20 justify-center gap-20 px-6 sm:px-10 lg:px-0 max-w-6xl mx-auto">
+      <section className="bg-[url('/svgs/lpage-register.svg')] flex flex-col sm:flex-row mt-10 sm:mt-15 mb-15 sm:mb-20 justify-center gap-20 px-6 sm:px-10 lg:px-0 max-w-6xl mx-auto">
         <div className="flex flex-col gap-8 sm:w-1/2">
           <h2 className="text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-2xl sm:text-3xl font-bold">
             FAÇA SEU REGISTRO <span className="text-slate-gray">AGORA</span>!
@@ -24,18 +21,6 @@ export function Register() {
             </div>
           </Link>
         </div>
-
-        <div className="sm:w-1/2 flex justify-center items-center rounded-xl overflow-hidden">
-          <Image
-            src="/images/register-image.png"
-            alt="imagem de registro"
-            width={900}
-            height={680}
-            className="object-contain w-full max-w-[500px] sm:max-w-[400px] md:max-w-[450px] lg:max-w-[500px]"
-            priority
-          />
-        </div>
       </section>
-    </FadeInUp>
   );
 }
