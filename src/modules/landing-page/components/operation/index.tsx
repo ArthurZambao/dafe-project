@@ -13,34 +13,12 @@ export function Operation() {
           const isEven = index % 2 === 0;
           return (
             <FadeInUp key={index} delay={index * 0.2}>
-              <div
-                className={`flex flex-col ${
-                  isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'
-                } items-center sm:gap-[8rem] py-8`}
-              >
-                <div className="sm:w-1/2 px-2 text-center pb-8 sm:pb-0 sm:text-left">
-                  <h3
-                    className={`text-xl sm:text-3xl font-bold mb-4 ${isEven ? 'text-left' : 'text-right'}`}
-                  >
-                    {section.title}
-                  </h3>
-                  <p
-                    className={`text-sm sm:text-lg leading-relaxed ${isEven ? 'text-left' : 'text-right'}`}
-                  >
-                    {section.text}
-                  </p>
+              <section className={`${isEven ? 'text-left' : 'text-right'} flex flex-col p-6`}>
+                <h2>{section.title}</h2>
+                <div>
+                  <p className='leading-relaxed'>{section.text}</p>
                 </div>
-                <div className="rounded-3xl overflow-hidden">
-                  <Image
-                    src={section.image}
-                    alt={`Ilustração - ${section.title}`}
-                    width={660}
-                    height={396}
-                    className={`object-contain rounded-3xl ${isEven ? 'pl-0 sm:pl-32' : 'pr-0 sm:pr-32'}`}
-                    priority
-                  />
-                </div>
-              </div>
+              </section>
             </FadeInUp>
           );
         })}
