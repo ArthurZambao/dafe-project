@@ -5,8 +5,7 @@ import Link from 'next/link';
 
 export function Jumbotron() {
   return (
-    <FadeInUp delay={0.5}>
-      <div className="gradient-bg text-black flex flex-col sm:flex-row items-center sm:items-start justify-between relative">
+      <div className="gradient-bg overflow-x-hidden text-black flex flex-col sm:flex-row items-center sm:items-start justify-between relative">
         <div className="sm:w-1/2 text-center sm:text-left py-28 px-8 sm:px-20 z-10">
           <SlideIn delay={2} from='left'>
             <h2 className="font-bold text-xl sm:text-4xl pb-6">
@@ -21,7 +20,6 @@ export function Jumbotron() {
               </p>
             </div>
 
-            {/* Lista numerada */}
             <ul className="text-left text-md sm:text-xl font-medium text-gray-700 space-y-6 mb-12">
               <li className="flex items-center">
                 <span className="w-6 h-6 bg-[#4A83C0] text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">1</span>
@@ -37,7 +35,6 @@ export function Jumbotron() {
               </li>
             </ul>
           </SlideIn>
-          {/* Botões */}
           <SlideIn delay={1.9} from='bottom'>
             <div className="flex gap-18 justify-center sm:justify-start text-md sm:text-xl pl-10">
               <Link href="/register">
@@ -54,7 +51,6 @@ export function Jumbotron() {
           </SlideIn>
         </div>
 
-        {/* Imagem principal do lado direito com animação */}
         <div className="sm:w-1/2 flex justify-center sm:justify-end z-10 relative">
           <SlideIn delay={1.5}>
             <Image
@@ -66,8 +62,6 @@ export function Jumbotron() {
               priority
             />
           </SlideIn>
-
-          {/* Imagens decorativas no fundo */}
           <div className="absolute top-10 right-60 hidden md:block">
             <SlideIn delay={2}>
               <Image
@@ -93,6 +87,5 @@ export function Jumbotron() {
           </div>
         </div>
       </div>
-    </FadeInUp>
   );
 }

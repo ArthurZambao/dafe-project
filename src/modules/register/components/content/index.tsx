@@ -15,6 +15,7 @@ import {
 } from '../../schemas/create-register-form-schema';
 import { useEffect, useState } from 'react';
 import { createUser } from '@/libs/services/users/userService';
+import Image from 'next/image';
 
 export function RegisterPageData() {
   const router = useRouter();
@@ -56,17 +57,17 @@ export function RegisterPageData() {
       const roleData =
         data.role === 'student'
           ? {
-              studentDetails: {
-                curso: data.curso,
-                modulo: moduloMapping[data.modulo] ?? 1,
-              },
-            }
+            studentDetails: {
+              curso: data.curso,
+              modulo: moduloMapping[data.modulo] ?? 1,
+            },
+          }
           : {
-              professorDetails: {
-                matricula: data.matricula,
-                periodo: data.periodo,
-              },
-            };
+            professorDetails: {
+              matricula: data.matricula,
+              periodo: data.periodo,
+            },
+          };
 
       const finalData = { ...baseData, ...roleData };
 
@@ -90,130 +91,137 @@ export function RegisterPageData() {
       <div className="flex flex-col px-4 sm:px-0 items-center justify-center min-h-screen">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 border-4 border-azure-primary rounded-tr-3xl rounded-bl-3xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10 px-6 sm:px-10 py-10 sm:py-20"
+          className="flex flex-col gap-2 rounded-2xl shadow-2xl mx-auto w-full max-w-screen-sm sm:w-[50rem] my-10  py-10 sm:py-10"
         >
-          <h2 className="text-2xl sm:text-4xl text-center font-bold text-azure-primary">
-            Cadastrar-se
-          </h2>
+          <div className="flex items-center">
+            <Image
+              src="/icons/dafe-logo.svg"
+              alt="Logo do DAFE"
+              width={180}
+              height={100}
+              className="h-auto max-h-[9rem] w-auto"
+              priority
+            />
+            <h2 className="text-3xl text-azure-primary font-semibold pb-5">Reigstrar-se</h2>
+          </div>
 
-          {/* Seletor de Role */}
-          <section className="flex-col justify-center mx-auto">
-            <h3 className="text-center">Quem você é?</h3>
-            <div className="flex gap-4 py-2">
-              <button
-                type="button"
-                className={`text-xl px-2 ${role === 'student' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
-                onClick={() => handleRoleChange('student')}
-              >
-                Sou Aluno
-              </button>
-              <button
-                type="button"
-                className={`text-xl px-2 ${role === 'professor' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
-                onClick={() => handleRoleChange('professor')}
-              >
-                Sou Professor
-              </button>
+          <section className='px-6 sm:px-10 flex flex-col gap-5 '>
+            <section className="flex-col justify-center mx-auto">
+              <h3 className="text-center">Quem você é?</h3>
+              <div className="flex gap-4 py-2">
+                <button
+                  type="button"
+                  className={`text-xl px-2 ${role === 'student' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
+                  onClick={() => handleRoleChange('student')}
+                >
+                  Sou aluno
+                </button>
+                <button
+                  type="button"
+                  className={`text-xl px-2 ${role === 'professor' ? 'btn-dafe text-white' : 'cursor-pointer text-azure-primary'}`}
+                  onClick={() => handleRoleChange('professor')}
+                >
+                  Sou professor
+                </button>
+              </div>
+            </section>
+
+            {/* Campos Comuns */}
+            <Input<CreateRegisterFormData>
+              id="nome"
+              type="text"
+              placeholder="Nome Completo:"
+              register={register}
+              error={errors.nome}
+            />
+            <Input<CreateRegisterFormData>
+              id="usuario"
+              type="text"
+              placeholder="Nome de Usuário:"
+              register={register}
+              error={errors.usuario}
+            />
+            <Input<CreateRegisterFormData>
+              id="email"
+              type="text"
+              placeholder="E-mail:"
+              register={register}
+              error={errors.email}
+            />
+            <Input<CreateRegisterFormData>
+              id="instituicao"
+              type="text"
+              placeholder="Intituição de Ensino:"
+              register={register}
+              error={errors.instituicao}
+            />
+
+            <div className=' ml-0 px-6 sm:px-0 sm:ml-8'>
+              {/* Campos Específicos */}
+              {role === 'student' && (
+                <div className="flex flex-col sm:flex-row gap-5">
+                  <Select<CreateRegisterFormData>
+                    id="curso"
+                    label="Curso:"
+                    register={register}
+                    error={errors.curso}
+                    selectOptions={cursoOptions}
+                  />
+                  <Select<CreateRegisterFormData>
+                    id="modulo"
+                    label="Ano Escolar:"
+                    register={register}
+                    error={errors.modulo}
+                    selectOptions={moduloOptions}
+                  />
+                </div>
+              )}
+            </div>
+            {role === 'professor' && (
+              <>
+                <Input<CreateRegisterFormData>
+                  id="matricula"
+                  type="text"
+                  placeholder="Matrícula:"
+                  register={register}
+                  error={errors.matricula}
+                />
+                <div className='flex pl-6'>
+                  <Select<CreateRegisterFormData>
+                    id="periodo"
+                    label="Período:"
+                    register={register}
+                    error={errors.periodo}
+                    selectOptions={periodoOptions}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Senhas */}
+            <Input<CreateRegisterFormData>
+              id="senha"
+              type="password"
+              placeholder="Senha:"
+              register={register}
+              error={errors.senha}
+            />
+            <Input<CreateRegisterFormData>
+              id="confirmarSenha"
+              type="password"
+              placeholder="Confirmar Senha:"
+              register={register}
+              error={errors.confirmarSenha}
+            />
+
+            <div className="flex flex-col justify-center pt-4">
+              <input
+                type="submit"
+                value="Cadastrar-se"
+                className="btn-dafe btn-dafe-hover text-base sm:text-2xl text-white px-6 py-3 mx-5 sm:mx-25"
+              />
             </div>
           </section>
-
-          {/* Campos Comuns */}
-          <Input<CreateRegisterFormData>
-            id="nome"
-            type="text"
-            label="Nome Completo:"
-            placeholder="Dafe da Silva"
-            register={register}
-            error={errors.nome}
-          />
-          <Input<CreateRegisterFormData>
-            id="usuario"
-            label="Nome de Usuário:"
-            type="text"
-            placeholder="DafeSilva123"
-            register={register}
-            error={errors.usuario}
-          />
-          <Input<CreateRegisterFormData>
-            id="email"
-            label="E-mail:"
-            type="text"
-            placeholder="dafe@gmail.com"
-            register={register}
-            error={errors.email}
-          />
-          <Input<CreateRegisterFormData>
-            id="instituicao"
-            label="Intituição de Ensino:"
-            type="text"
-            placeholder="Etec de Guarulhos"
-            register={register}
-            error={errors.instituicao}
-          />
-
-          {/* Campos Específicos */}
-          {role === 'student' ? (
-            <div className="flex flex-col sm:flex-row gap-5">
-              <Select<CreateRegisterFormData>
-                id="curso"
-                label="Curso:"
-                register={register}
-                error={errors.curso}
-                selectOptions={cursoOptions}
-              />
-              <Select<CreateRegisterFormData>
-                id="modulo"
-                label="Ano Escolar:"
-                register={register}
-                error={errors.modulo}
-                selectOptions={moduloOptions}
-              />
-            </div>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-5">
-              <Input<CreateRegisterFormData>
-                id="matricula"
-                label="Matrícula:"
-                type="text"
-                placeholder="86532"
-                register={register}
-                error={errors.matricula}
-              />
-              <Select<CreateRegisterFormData>
-                id="periodo"
-                label="Período:"
-                register={register}
-                error={errors.periodo}
-                selectOptions={periodoOptions}
-              />
-            </div>
-          )}
-
-          {/* Senhas */}
-          <Input<CreateRegisterFormData>
-            id="senha"
-            label="Senha:"
-            type="password"
-            placeholder="***********"
-            register={register}
-            error={errors.senha}
-          />
-          <Input<CreateRegisterFormData>
-            id="confirmarSenha"
-            label="Confirmar Senha:"
-            type="password"
-            placeholder="***********"
-            register={register}
-            error={errors.confirmarSenha}
-          />
-
-          <div className="flex flex-col justify-center pt-4">
-            <input
-              type="submit"
-              value="Cadastrar-se"
-              className="cursor-pointer bg-azure-primary text-lg sm:text-2xl font-bold text-white mx-4 sm:mx-20 py-3 sm:py-4 rounded-tr-xl rounded-bl-xl"
-            />
-          </div>
         </form>
       </div>
     </AnimatedContent>

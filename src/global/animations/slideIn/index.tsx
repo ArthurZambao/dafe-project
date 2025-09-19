@@ -26,9 +26,10 @@ export function SlideIn({
   const inView = useInView(ref, { once, margin: '0px' });
   const controls = useAnimation();
 
+  // agora usamos % ao invés de px
   const initialPosition = {
-    x: from === 'left' ? -300 : from === 'right' ? 300 : 0,
-    y: from === 'bottom' ? 300 : 0,
+    x: from === 'left' ? '-20%' : from === 'right' ? '20%' : 0,
+    y: from === 'bottom' ? '20%' : 0,
   };
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export function SlideIn({
       ref={ref}
       initial={{ x: initialPosition.x, y: initialPosition.y, opacity: 0 }}
       animate={controls}
-      className={className}
+      className={`${className} will-change-transform`}
     >
       {children}
     </motion.div>

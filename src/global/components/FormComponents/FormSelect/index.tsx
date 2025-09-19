@@ -13,7 +13,7 @@ export function Select<T extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-1 text-slate-gray">
-      <p className="text-lg sm:text-2xl font-semibold text-left">
+      <p className="text-lg sm:text-2xl text-left">
         {label} {error && <span className="text-red-500">*</span>}
       </p>
       <select
@@ -25,7 +25,7 @@ export function Select<T extends FieldValues>({
           console.log('Selecionado:', value);
           onChange(e);
         }}
-        className={`${error ? 'border-red-500' : 'border-azure-primary'} px-4 py-2 border rounded-xl text-slate-gray focus:outline-none w-auto min-w-[150px]`}
+        className={`${error ? 'border-red-500' : 'border-azure-primary'} px-4 py-2 border border-slate-gray rounded-xl text-slate-gray focus:outline-none w-auto min-w-[150px]`}
       >
         <option value="" disabled hidden>
           {primarySelectOption ? primarySelectOption : 'Selecione...'}
