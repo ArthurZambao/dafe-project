@@ -46,7 +46,7 @@ export function NavBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary border-b-2 border-azure-primary flex justify-between items-center h-26 px-6 select-none">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white text-azure-primary shadow-b-lg shadow-[rgba(0,0,15,0.5)_10px_5px_4px_0px] flex justify-between items-center h-26 px-6 select-none">
       <Link href="/" className=" -ml-6 sm:-ml-10 flex items-center h-full pt-4 sm:pt-0">
         <Image
           src="/icons/dafe-logo.svg"

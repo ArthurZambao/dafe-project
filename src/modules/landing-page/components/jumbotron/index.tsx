@@ -58,7 +58,7 @@ export function Jumbotron() {
               alt="imagem de registro"
               width={900}
               height={680}
-              className="object-contain w-full max-w-[500px] sm:max-w-[400px] md:max-w-[450px] lg:max-w-[500px]"
+              className="object-contain w-full max-w-[500px] sm:max-w-[400px] md:max-w-[450px] lg:max-w-[500px] "
               priority
             />
           </SlideIn>
@@ -69,7 +69,7 @@ export function Jumbotron() {
                 alt="Pessoas na nuvem"
                 width={290}
                 height={290}
-                className="rounded-xl shadow-sm"
+                className="rounded-xl shadow-sm transition-all duration-500 transform hover:scale-105 hover:shadow-2xl"
               />
             </SlideIn>
           </div>
@@ -81,7 +81,7 @@ export function Jumbotron() {
                 alt="Pessoas conversando com barbante"
                 width={290}
                 height={290}
-                className="rounded-xl shadow-sm"
+                className="rounded-xl shadow-sm transition-all duration-500 transform hover:scale-105 hover:shadow-2xl"
               />
             </SlideIn>
           </div>

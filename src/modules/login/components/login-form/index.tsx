@@ -30,7 +30,7 @@ export function LoginForm() {
     <FadeInUp>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white flex flex-col gap-5 rounded-lg shadow-lg sm:mx-auto w-full sm:w-[50rem] my-10 pt-6"
+        className="bg-white flex flex-col gap-5 rounded-lg shadow-lg sm:mx-auto w-full sm:w-[40rem] my-10 pt-6"
       >
         <div className="flex items-center">
           <Image

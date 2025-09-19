@@ -3,7 +3,7 @@ import React from 'react';
 
 export function Operation() {
   return (
-    <section className="mx-auto px-24 text-[#4B4B4B] py-12 space-y-12">
+    <section className="mx-auto px-24 text-[#4B4B4B] pt-12 pb-6 space-y-12">
       <h2 className="text-center text-4xl mb-16 font-semibold">
         Como funciona o D.A.F.E
       </h2>
