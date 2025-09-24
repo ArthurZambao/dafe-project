@@ -1,3 +1,5 @@
+'use client';
+
 import { CreateNoticesHeaderCard } from "../create-notices-header-card";
 import { CreateFormInput, CreateFormTextarea } from "../form-components";
 import { useCreateNotices } from "../../hooks/useCreateNotices";

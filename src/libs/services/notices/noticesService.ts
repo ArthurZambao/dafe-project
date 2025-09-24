@@ -15,7 +15,6 @@ export const getNotices = async (): Promise<NoticeFromAPI[]> => {
     
     catch (error) {
         console.error('Erro ao buscar notícias:', error);
-        // erro lançado:
         throw error;
     }
 }

@@ -7,8 +7,8 @@ export function NoticesPageData() {
   return (
     <AnimatedContent inverse>
       <div className="w-full px-6 sm:px-10 md:px-20 lg:px-40 py-10">
-        <NoticesFilterCard />
-        <NoticesList />        
+        <NoticesFilterCard />  
+        <NoticesList /> 
       </div>
     </AnimatedContent>
   );

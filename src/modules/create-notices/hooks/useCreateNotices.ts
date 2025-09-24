@@ -1,6 +1,6 @@
 import { createNotice } from "@/libs/services/notices/noticesService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
