@@ -30,66 +30,70 @@ export function LoginForm() {
     <FadeInUp>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" bg-white flex flex-col gap-5 border-2 border-azure-primary rounded-2xl sm:mx-auto w-full sm:w-[40rem] my-10 px-10 sm:px-5 pt-20"
+        className="bg-white flex flex-col gap-5 rounded-lg shadow-lg sm:mx-auto w-full sm:w-[40rem] my-10 pt-6"
       >
-        <Image
-          src="/icons/dafe-logo.svg"
-          alt="Logo do DAFE"
-          width={180}
-          height={100}
-          className="h-auto max-h-[9rem] w-auto"
-          priority
-        />
+        <div className="flex items-center">
+          <Image
+            src="/icons/dafe-logo.svg"
+            alt="Logo do DAFE"
+            width={180}
+            height={100}
+            className="h-auto max-h-[9rem] w-auto"
+            priority
+          />
+          <h2 className="text-2xl sm:text-3xl text-azure-primary font-semibold pb-5">Login</h2>
+        </div>  
 
-        <Input<CreateLoginFormData>
-          id="email"
-          type="text"
-          label="E-mail:"
-          placeholder="exemplo@gmail.com"
-          register={register}
-          error={errors.email}
-        />
-
-        <Input<CreateLoginFormData>
-          id="senha"
-          label="Senha:"
-          type="password"
-          placeholder="**********"
-          showPasswordToggle={true}
-          register={register}
-          error={errors.senha}
-        />
-
-        <p className="pl-2 text-sm cursor-pointer hover:underline text-azure-primary">
-          Esqueci minha senha
-        </p>
-
-        <div className="mx-auto py-4">
-          <Checkbox<CreateLoginFormData>
-            id="lembrar"
-            label="Continuar conectado"
+        <section className='flex flex-col gap-6 px-30'>
+          <Input<CreateLoginFormData>
+            id="email"
+            type="text"
+            label="E-mail:"
+            placeholder="exemplo@gmail.com"
             register={register}
-            error={errors.lembrar}
+            error={errors.email}
           />
-        </div>
-        <div className="flex flex-col justify-center pt-0 sm:pt-4">
-          <input
-            type="submit"
-            value={isSubmitting ? 'Entrando...' : 'Entrar'}
-            disabled={isSubmitting}
-            className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${
-              isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
-            }`}
+
+          <Input<CreateLoginFormData>
+            id="senha"
+            label="Senha:"
+            type="password"
+            placeholder="**********"
+            showPasswordToggle={true}
+            register={register}
+            error={errors.senha}
           />
-          <div className="text-center mt-10 text-[#1363B9] pt-0 sm:pt-8 pb-6">
-            <Link href="/register">
-              <p className="hover:underline">
-                Não possui Cadastro?{' '}
-                <span className="text-azure-primary underline">Registre-se!</span>
-              </p>
-            </Link>
+
+          <p className=" pl-0 sm:pl-5 text-sm cursor-pointer hover:underline text-azure-primary">
+            Esqueci minha senha
+          </p>
+
+          <div className="mx-auto py-4">
+            <Checkbox<CreateLoginFormData>
+              id="lembrar"
+              label="Continuar conectado"
+              register={register}
+              error={errors.lembrar}
+            />
           </div>
-        </div>
+          <div className="flex flex-col justify-center pt-0 sm:pt-4">
+            <input
+              type="submit"
+              value={isSubmitting ? 'Entrando...' : 'Entrar'}
+              disabled={isSubmitting}
+              className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
+                }`}
+            />
+            <div className="text-center text-sm sm:text-base mt-10 text-[#1363B9] pt-0 sm:pt-8 pb-6">
+              <Link href="/register">
+                <p className="hover:underline">
+                  Não possui Cadastro?{' '}
+                  <span className="text-azure-primary underline">Registre-se!</span>
+                </p>
+              </Link>
+            </div>
+          </div>
+        </section>
       </form>
     </FadeInUp>
   );

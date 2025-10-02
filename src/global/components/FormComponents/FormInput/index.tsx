@@ -8,7 +8,6 @@ import { InputProps } from '@/types/formsTypes';
 
 export function Input<T extends FieldValues>({
   id,
-  label,
   type,
   maxlength,
   placeholder,
@@ -35,12 +34,6 @@ export function Input<T extends FieldValues>({
 
   return (
     <div className="flex flex-col text-slate-gray relative">
-      {label && (
-        <label htmlFor={id} className="text-lg sm:text-2xl font-semibold text-left">
-          {label} {error && <span className="text-red-500">*</span>}
-        </label>
-      )}
-
       <input
         id={id}
         type={inputType}
@@ -54,16 +47,15 @@ export function Input<T extends FieldValues>({
         }}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
-        className={`${
-          error ? 'border-red-500' : 'border-azure-primary'
-        } w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
+        className={`${error ? 'border-red-500' : 'border-azure-primary'
+          } w-full text-sm sm:text-lg font-bold py-2 border-b border-slate-gray outline-none `}
       />
 
-      {type === 'password' && !error && (
+      {type === 'password' && (
         <button
           type="button"
           onClick={() => setShowPassword((prev) => !prev)}
-          className="cursor-pointer absolute right-3 bottom-2 top-9 flex items-center text-gray-500"
+          className={`${error ? 'top-1 bottom-6' : 'top-2 bottom-2'} cursor-pointer absolute right-3 flex items-center text-slate-gray`}
         >
           {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>

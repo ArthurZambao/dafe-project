@@ -1,5 +1,5 @@
 export type StoredForm = {
-  id: string;
+  _id: string;
   formTitulo: string;
   formDesc: string;
   perguntas: {
