@@ -24,12 +24,14 @@ export function Tabs() {
         >
           Comentários
         </button>
-        <button
-          className={`cursor-pointer whitespace-nowrap ${activeTab === 'posts' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
-          onClick={() => setActiveTab('posts')}
-        >
-          Posts
-        </button>
+        {user.role === 'student' && (
+          <button
+            className={`cursor-pointer whitespace-nowrap ${activeTab === 'posts' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
+            onClick={() => setActiveTab('posts')}
+          >
+            Posts
+          </button>
+        )}
         <button
           className={`cursor-pointer whitespace-nowrap ${activeTab === 'denuncias' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
           onClick={() => setActiveTab('denuncias')}
