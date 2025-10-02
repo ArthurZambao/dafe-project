@@ -3,6 +3,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { CreateFormDataSchema, createFormSchema } from '../schemas/create-form-schema';
+import { createForm } from '@/libs/services/forms/formService';
 
 
 export function useCreateForm() {
@@ -25,15 +26,8 @@ export function useCreateForm() {
   const perguntas = watch('perguntas') ?? [];
 
   const onSubmit = (data: CreateFormDataSchema) => {
-    const stored = localStorage.getItem('finalData');
-    const parsed = stored ? JSON.parse(stored) : [];
-
-    const newForm = { id: crypto.randomUUID(), ...data };
-
-    const updated = [...parsed, newForm];
-    localStorage.setItem('finalData', JSON.stringify(updated));
-
-    console.log('Final data saved:', updated);
+    createForm(data);
+    console.log('Final data saved:', data);
     reset();
     router.push('/forms-page');
   };
