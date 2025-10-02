@@ -3,7 +3,7 @@ import { PostApiType } from "@/types/post";
 
 export async function getPostById(postId: string) {
   const res = await api.get<PostApiType>(`/posts/${postId}`, {
-    headers: { "Cache-Control": "no-store" }, // força a não cachear
+    headers: { "Cache-Control": "no-store" }, 
   });
   return res.data;
 }

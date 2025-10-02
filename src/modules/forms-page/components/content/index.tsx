@@ -5,25 +5,17 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { StoredForm } from '@/types/form';
 import { FormsList } from '../forms-list';
 import { FilterCard } from '../filter-card';
+import { getForms } from '@/libs/services/forms/formService';
+
 
 export function FormsPageData() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [storedForms, setStoredForms] = useState<StoredForm[]>([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('finalData');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) {
-            setStoredForms(parsed);
-          }
-        } catch (e) {
-          console.error('Erro ao ler os formulários do localStorage:', e);
-        }
-      }
-    }
+    getForms()
+      .then(setStoredForms)
+      .catch((e) => console.error('Erro ao carregar formulários do backend:', e));
   }, []);
 
   const filterOptions = useMemo(() => {

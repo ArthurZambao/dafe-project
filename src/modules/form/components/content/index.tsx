@@ -7,6 +7,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { getFormById } from '@/libs/services/forms/formService';
+import { sendResponses } from '@/libs/services/forms/responseService';
+import { useAuth } from '@/global/context/useAuth';
 
 interface FormProps {
   formId: string;
@@ -16,33 +19,31 @@ export function FormPageData({ formId }: FormProps) {
   const [form, setForm] = useState<StoredForm | null>(null);
   const [respostas, setRespostas] = useState<(number | number[])[]>([]);
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    async function loadForm() {
+      try {
+        const data = await getFormById(formId);
+        setForm(data);
 
-    const stored = localStorage.getItem('finalData');
-    if (!stored) return;
-
-    try {
-      const forms: StoredForm[] = JSON.parse(stored);
-      const found = forms.find((f) => f.id === formId) ?? null;
-      setForm(found);
-
-      if (found) {
-        const initial = found.perguntas.map((p) => (p.tipo === 'MÚLTIPLA_ESCOLHA' ? [] : 1));
+        const initial = data.perguntas.map((p: { tipo: string }) =>
+          p.tipo === 'MÚLTIPLA_ESCOLHA' ? [] : null
+        );
         setRespostas(initial);
+      } catch (err) {
+        console.error('Erro ao buscar formulário:', err);
+        setForm(null);
       }
-    } catch (error) {
-      console.error('Erro ao carregar formulário do localStorage', error);
-      setForm(null);
     }
+
+    loadForm();
   }, [formId]);
 
   const handleRadioChange = (qIndex: number, optionIndex: number) => {
     const newRespostas = [...respostas];
     newRespostas[qIndex] = optionIndex;
     setRespostas(newRespostas);
-    console.log(newRespostas);
   };
 
   const handleCheckboxChange = (qIndex: number, optionIndex: number) => {
@@ -54,20 +55,29 @@ export function FormPageData({ formId }: FormProps) {
     const newRespostas = [...respostas];
     newRespostas[qIndex] = newChecked;
     setRespostas(newRespostas);
-    console.log(newRespostas);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (!form) return;
+      console.log('Enviando respostas:', {
+        formId: form._id,
+        usuario: user!.id,
+        respostas,
+      });
+      await sendResponses(form._id, user!.id, respostas);
+
+      toast.success('Formulário respondido com sucesso!');
+      router.push('/forms-page');
+    } catch (err) {
+      console.error('Erro ao enviar respostas:', err);
+      toast.error('Não foi possível enviar as respostas.');
+    }
   };
 
   if (!form) {
     return <p className="p-10 text-xl text-red-500">Formulário não encontrado.</p>;
   }
-
-  // Aqui Vamos dar um Post nas respostas para a API
-  const handleSubmit = () => {
-    console.log(`Gabarito das Respotas: ${JSON.stringify(respostas, null, 2)}`);
-    router.push('/forms-page');
-    toast.success('Formulário respondido com sucesso!');
-  };
-
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <Link href="/forms-page" className="inline-flex">
@@ -81,6 +91,7 @@ export function FormPageData({ formId }: FormProps) {
             <h2 className="text-2xl sm:text-5xl break-words border-b-1">{form.formTitulo}</h2>
             <p className="text-base sm:text-lg break-words border-b-1">{form.formDesc}</p>
           </section>
+
           <section className="py-10">
             <h2 className="text-xl sm:text-3xl font-semibold">Questões:</h2>
             {form.perguntas.map((pergunta, i) => (
