@@ -16,7 +16,7 @@ export function FormsList({ filteredForms }: FormListProps) {
   }
   console.log(filteredForms);
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-12 sm:mx-24">
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-12 sm:mx-24 pb-10">
       {filteredForms.map((form) => (
         <Link href={`/forms-page/${form._id}`} key={form._id}>
           <div className="flex flex-col border-1 border-azure-primary rounded-3xl p-8 hover:bg-gray-300 transition-colors duration-300">
