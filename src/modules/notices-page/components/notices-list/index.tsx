@@ -14,7 +14,7 @@ export function NoticesList() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 h-[600px] overflow-y-scroll pr-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 h-[600px] overflow-y-scroll pr-2 mx-5 sm:mx-20">
       {notices.length === 0 ? (
         <p className="col-span-full text-center text-slate-gray mt-10">
           Nenhuma notícia encontrada.
@@ -25,7 +25,7 @@ export function NoticesList() {
           onClick={() => router.push(`/notices-page/${notice._id}`)}
             key={notice._id}
             className={`
-              relative bg-gray-200 overflow-hidden cursor-pointer
+              relative bg-gray-200 overflow-hidden cursor-pointer rounded-lg border border-gray-200
               ${index % 3 === 0 ? 'col-span-1 sm:col-span-2 row-span-2 h-[32rem] sm:h-[44rem]' : 'h-[20rem] sm:h-[28rem]'}
             `}
           >

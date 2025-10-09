@@ -1,13 +1,15 @@
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { NoticesFilterCard } from '../notices-filter-card';
 import { NoticesList } from '../notices-list';
+import { MainNotices } from '../main-notices';
 
 export function NoticesPageData() {
 
   return (
     <AnimatedContent inverse>
-      <div className="w-full px-6 sm:px-10 md:px-20 lg:px-40 py-10">
-        <NoticesFilterCard />  
+      <div className="w-full py-10">
+        <NoticesFilterCard />
+        <MainNotices />
         <NoticesList /> 
       </div>
     </AnimatedContent>
