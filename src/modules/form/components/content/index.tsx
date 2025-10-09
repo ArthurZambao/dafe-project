@@ -74,10 +74,8 @@ export function FormPageData({ formId }: FormProps) {
       toast.error('Não foi possível enviar as respostas.');
     }
   };
-
-  if (!form) {
-    return <p className="p-10 text-xl text-red-500">Formulário não encontrado.</p>;
-  }
+  if (!form) return;
+  
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <Link href="/forms-page" className="inline-flex">

@@ -1,9 +1,10 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useNoticesList } from '../../hooks/useNoticesList';
 
 export function NoticesList() {
   const { notices, isLoading, error } = useNoticesList();
-
+  const router = useRouter();
   if (isLoading) {
     return <p className="text-center text-slate-gray mt-10">Carregando notícias...</p>;
   }
@@ -21,6 +22,7 @@ export function NoticesList() {
       ) : (
         notices.map((notice, index) => (
           <div
+          onClick={() => router.push(`/notices-page/${notice._id}`)}
             key={notice._id}
             className={`
               relative bg-gray-200 overflow-hidden cursor-pointer
