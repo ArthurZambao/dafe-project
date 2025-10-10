@@ -6,7 +6,6 @@ import { NavItem } from '../NavItem';
 import { UserMenu } from '../UserMenu';
 import { useAuth } from '@/global/context/useAuth';
 import { NavBarMobile } from '../NavBarMobile';
-import { AnimatedButton } from '@/global/animations/animatedButton';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,7 +13,7 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
@@ -25,8 +24,15 @@ export function NavBar() {
     if (isAuthenticated) {
       return (
         <>
-          <AnimatedButton onClick={toggleUserMenu}>Perfil</AnimatedButton>
-          {isUserMenuOpen && <UserMenu toggleUserMenu={toggleUserMenu} />}
+          <Image
+            src="/icons/user-icon.svg"
+            alt="Icon de perfil"
+            width={48}
+            height={48}
+            onClick={toggleUserMenu}
+            className='cursor-pointer hover:opacity-80 transition-opacity duration-200'
+          />
+          {isUserMenuOpen && <UserMenu toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
         </>
       );
     }
@@ -56,7 +62,9 @@ export function NavBar() {
           className="h-[130%] max-h-[130%] sm:h-[170%] sm:max-h-[170%] w-auto pt-0 sm:pt-4"
           priority
         />
-        <h1 className="-ml-4 sm:-ml-6 text-lg md:text-2xl lg:text-3xl font-semibold text-[#034ab9]">D.A.F.E</h1>
+        <h1 className="-ml-4 sm:-ml-6 text-lg md:text-2xl lg:text-3xl font-semibold text-[#034ab9]">
+          D.A.F.E
+        </h1>
       </Link>
 
       <button className="block md:hidden ml-auto text-3xl" type="button" onClick={toggleMenu}>
@@ -78,15 +86,22 @@ export function NavBar() {
           <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>
             Notícias
           </NavItem>
-          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
-            Denúncias
-          </NavItem>
-          <li className='pl-2'>{renderAuthLink()}</li>
+          {user?.role === 'teacher' && (
+            <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
+              Denúncias
+            </NavItem>
+          )}
+          <li className="pl-2">{renderAuthLink()}</li>
         </ul>
       </nav>
 
       {isOpen && (
-        <NavBarMobile pathname={pathname} toggleMenu={toggleMenu} renderAuthLink={renderAuthLink} />
+        <NavBarMobile
+          pathname={pathname}
+          toggleMenu={toggleMenu}
+          renderAuthLink={renderAuthLink}
+          user={user}
+        />
       )}
     </div>
   );

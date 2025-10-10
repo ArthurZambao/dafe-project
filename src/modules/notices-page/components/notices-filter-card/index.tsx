@@ -10,7 +10,7 @@ export function NoticesFilterCard() {
   if (!user) return null;
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-10 px-6 sm:px-10">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-10 px-6 sm:px-20">
       <h2 className="text-3xl sm:text-4xl font-bold text-azure-secondary">Notícias</h2>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">

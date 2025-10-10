@@ -1,5 +1,6 @@
 import { typePostList } from '@/types/typePostList';
 import { PostList } from '../post-list';
+import { SlideIn } from '@/global/animations/slideIn';
 
 interface ForumStateProps {
   posts: typePostList[];
@@ -15,5 +16,9 @@ export function ForumState({ posts, loading, error, message }: ForumStateProps) 
   if (message)
     return <p className="text-center text-gray-500 text-lg min-h-screen pt-10">{message}</p>;
 
-  return <PostList posts={posts} />;
+  return (
+    <SlideIn from="bottom" triggerOnView={false}>
+      <PostList posts={posts} />
+    </SlideIn>
+  );
 }

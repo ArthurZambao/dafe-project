@@ -1,9 +1,7 @@
 'use client';
 
-import { motion, useAnimation } from 'framer-motion';
-import { useEffect, useRef } from 'react';
-import { useInView } from 'framer-motion';
-import { ReactNode } from 'react';
+import { motion, useAnimation, useInView } from 'framer-motion';
+import { useEffect, useRef, ReactNode } from 'react';
 
 interface SlideInProps {
   children: ReactNode;
@@ -12,6 +10,7 @@ interface SlideInProps {
   className?: string;
   once?: boolean;
   from?: 'right' | 'left' | 'bottom';
+  triggerOnView?: boolean; // <- nova prop
 }
 
 export function SlideIn({
@@ -21,31 +20,37 @@ export function SlideIn({
   className = '',
   once = true,
   from = 'right',
+  triggerOnView = true, // <- por padrão, anima quando entra na tela
 }: SlideInProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once, margin: '0px' });
   const controls = useAnimation();
 
-  // agora usamos % ao invés de px
   const initialPosition = {
     x: from === 'left' ? '-20%' : from === 'right' ? '20%' : 0,
     y: from === 'bottom' ? '20%' : 0,
   };
 
   useEffect(() => {
-    if (inView) {
+    if (triggerOnView) {
+      if (inView) {
+        controls.start({
+          x: 0,
+          y: 0,
+          opacity: 1,
+          transition: { duration, delay, ease: 'easeOut' },
+        });
+      }
+    } else {
+      // Se triggerOnView for falso, anima direto
       controls.start({
         x: 0,
         y: 0,
         opacity: 1,
-        transition: {
-          duration,
-          delay,
-          ease: 'easeOut',
-        },
+        transition: { duration, delay, ease: 'easeOut' },
       });
     }
-  }, [inView, controls, delay, duration]);
+  }, [inView, triggerOnView, controls, delay, duration]);
 
   return (
     <motion.div
