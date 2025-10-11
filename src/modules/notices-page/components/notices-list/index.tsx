@@ -29,7 +29,7 @@ export function NoticesList() {
 
           return (
             <div
-              onClick={() => router.push(`/notices-page/${notice._id}`)}
+              onClick={() => router.push(`/notices-page/${notice.slugify}`)}
               key={notice._id}
               style={{
                 backgroundImage: `url(${bgImage})`,

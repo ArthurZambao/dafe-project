@@ -2,13 +2,13 @@
 
 import { FadeInUp } from '@/global/animations/fadeInUp';
 import { Checkbox } from '@/global/components/FormComponents/CheckBoxInput';
-import { Input } from '@/global/components/FormComponents/FormInput';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CreateLoginFormData, createLoginFormSchema } from '../../schemas/create-login-form-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from '@/hooks/useLogin';
+import { EnterInput } from '@/global/components/FormComponents/EnterFormInput';
 
 export function LoginForm() {
   const {
@@ -45,7 +45,7 @@ export function LoginForm() {
         </div>  
 
         <section className='flex flex-col gap-6 px-30'>
-          <Input<CreateLoginFormData>
+          <EnterInput<CreateLoginFormData>
             id="email"
             type="text"
             label="E-mail:"
@@ -54,7 +54,7 @@ export function LoginForm() {
             error={errors.email}
           />
 
-          <Input<CreateLoginFormData>
+          <EnterInput<CreateLoginFormData>
             id="senha"
             label="Senha:"
             type="password"
@@ -64,7 +64,7 @@ export function LoginForm() {
             error={errors.senha}
           />
 
-          <p className=" pl-0 sm:pl-5 text-sm cursor-pointer hover:underline text-azure-primary">
+          <p className="text-sm cursor-pointer hover:underline text-azure-primary">
             Esqueci minha senha
           </p>
 

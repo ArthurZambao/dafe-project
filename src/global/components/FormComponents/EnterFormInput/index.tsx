@@ -5,7 +5,8 @@ import { FieldValues } from 'react-hook-form';
 import { Eye, EyeOff } from 'lucide-react';
 import { InputProps } from '@/types/formsTypes';
 
-export function Input<T extends FieldValues>({
+
+export function EnterInput<T extends FieldValues>({
   id,
   type,
   maxlength,
@@ -13,7 +14,6 @@ export function Input<T extends FieldValues>({
   register,
   error,
   mask,
-  label,
 }: InputProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,9 +34,6 @@ export function Input<T extends FieldValues>({
 
   return (
     <div className="flex flex-col text-slate-gray relative">
-      <p className="text-lg sm:text-2xl font-semibold text-left">
-        {label} {error && <span className="text-red-500">*</span>}
-      </p>
       <input
         id={id}
         type={inputType}
@@ -50,9 +47,8 @@ export function Input<T extends FieldValues>({
         }}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
-        className={`${
-          error ? 'border-red-500' : 'border-slate-gray'
-        } w-full text-sm tsm:text-base px-4 py-2 border-1 rounded-2xl outline-none `}
+        className={`${error ? 'border-red-500' : 'border-azure-primary'
+          } w-full text-sm sm:text-lg font-bold py-2 border-b border-slate-gray outline-none `}
       />
 
       {type === 'password' && (
@@ -66,7 +62,11 @@ export function Input<T extends FieldValues>({
       )}
 
       {error && (
-        <span id={errorId} role="alert" className="text-red-500 text-sm text-left ml-4 mt-1">
+        <span
+          id={errorId}
+          role="alert"
+          className="text-red-500 text-sm text-left ml-4 mt-1"
+        >
           {error.message}
         </span>
       )}

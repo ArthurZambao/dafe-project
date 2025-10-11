@@ -7,11 +7,11 @@ export const metadata = {
   title: 'Notícia',
 };
 
-export default async function NewsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function NewsPage({ params }: { params: Promise<{ slugify: string }> }) {
+  const { slugify } = await params;
   return (
     <AuthGate mode={'auth'}>
-      <NewsPageData newsId={id} />
+      <NewsPageData newsSlugify={slugify} />
     </AuthGate>
   );
 }

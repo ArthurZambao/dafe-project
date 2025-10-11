@@ -6,20 +6,20 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export function NewsPageData({ newsId }: { newsId: string }) {
+export function NewsPageData({ newsSlugify }: { newsSlugify: string }) {
   const [news, setNews] = useState<NoticeFromAPI | null>(null);
 
   useEffect(() => {
     async function fetchNews() {
       try {
         const response = await getNotices();
-        setNews(response.find((n) => n._id === newsId) || null);
+        setNews(response.find((n) => n.slugify === newsSlugify) || null);
       } catch (error) {
         console.error('Erro ao buscar notícia:', error);
       }
     }
     fetchNews();
-  }, [newsId]);
+  }, [newsSlugify]);
 
   if (!news) {
     return <div>Carregando...</div>;

@@ -1,30 +1,70 @@
-import { FormInputProps } from '@/types/createFormInput';
 import { CreateNoticeDataSchema } from '../../schemas/create-notices-schema';
 
-export const CreateFormInput = ({ register, name, placeholder, isFormHeader }: FormInputProps) => (
-  <input
-    {...register(name as keyof CreateNoticeDataSchema)}
-    placeholder={placeholder}
-    className={`${
-      isFormHeader ? 'text-xl sm:text-4xl' : 'text-lg sm:text-2xl rounded-t-2xl bg-[#B7DAFF] w-full'
-    } border-b p-2 focus:outline-none`}
-  />
-);
+import { Input } from '@/global/components/FormComponents/FormInput';
+import { TextArea } from '@/global/components/FormComponents/FormTextArea';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FileAttachment } from '@/global/components/FileAttachment';
 
-export const CreateFormTextarea = ({ register, name, placeholder, rows }: FormInputProps) => (
-  <textarea
-    {...register(name as keyof CreateNoticeDataSchema)}
-    rows={rows}
-    placeholder={placeholder}
-    className="border-b p-2 my-2 focus:outline-none w-full"
-  />
-);
+interface MediaFormProps {
+  register: UseFormRegister<CreateNoticeDataSchema>;
+  errors: FieldErrors<CreateNoticeDataSchema>;
+}
 
-export const CreateFormImageInput = ({ register, name }: FormInputProps) => (
-  <input
-    type="file"
-    accept="image/*"
-    {...register(name as keyof CreateNoticeDataSchema)}
-    className="flex flex-col border p-2 rounded-md bg-white  file:bg-azure-primary file:text-white file:border-none file:py-2 file:px-4 file:cursor-pointer"
-  />
-);
+interface TextFormProps {
+  register: UseFormRegister<CreateNoticeDataSchema>;
+  errors: FieldErrors<CreateNoticeDataSchema>;
+}
+
+export function TextNoticeForm({ register, errors }: TextFormProps) {
+  return (
+    <>
+      <div className="flex flex-col lg:flex-row gap-2 pt-10 sm:pt-0">
+        <div className="w-full flex flex-col gap-2">
+          <Input<CreateNoticeDataSchema>
+            id="NoticiaTitulo"
+            label="Título:"
+            type="text"
+            maxlength={50}
+            placeholder="Título do seu assunto"
+            register={register}
+            error={errors.NoticiaTitulo}
+          />
+          <TextArea<CreateNoticeDataSchema>
+            id="noticiaDesc"
+            label="Descrição:"
+            maxlength={100}
+            placeholder="Digite a descrição aqui..."
+            register={register}
+            error={errors.noticiaDesc}
+            rows={2}
+          />
+        </div>
+      </div>
+      <div className="py-2 sm:py-6">
+        <TextArea<CreateNoticeDataSchema>
+          id="noticiaConteudo"
+          label="Assunto:"
+          maxlength={300}
+          placeholder="Digite o conteúdo do assunto aqui..."
+          register={register}
+          error={errors.noticiaConteudo}
+          rows={10}
+        />
+      </div>
+    </>
+  );
+}
+
+
+
+export function MediaNoticeForm({ register, errors }: MediaFormProps) {
+  return (
+    <div className="py-6 flex flex-col gap-4">
+        <FileAttachment
+        register={register}
+        name="imagem"
+        error={errors.imagem}
+        />
+    </div>
+  );
+}

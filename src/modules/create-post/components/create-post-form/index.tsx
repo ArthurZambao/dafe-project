@@ -1,3 +1,5 @@
+'use client';
+
 import { FormattedDate } from "@/global/components/FormatedDate";
 import { useCreatePosts } from "../../hooks/useCreatePost";
 import { MediaForm } from "../media-form";

@@ -1,7 +1,9 @@
+'use client';
+
 import { createNotice } from "@/libs/services/notices/noticesService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { createNoticeSchema, CreateNoticeDataSchema } from "../schemas/create-notices-schema";
@@ -9,9 +11,11 @@ import { createNoticeSchema, CreateNoticeDataSchema } from "../schemas/create-no
 export function useCreateNotices() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
-  console.log('createNoticeSchema:', createNoticeSchema);
+  const [activeTab, setActiveTab] = useState<'texto' | 'midia'>('texto');
 
-  const { register, handleSubmit, reset } = useForm<CreateNoticeDataSchema>({
+
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateNoticeDataSchema>({
     resolver: zodResolver(createNoticeSchema),
     defaultValues: {
       NoticiaTitulo: '',
@@ -20,6 +24,7 @@ export function useCreateNotices() {
       imagem: undefined,
     },
   });
+
 
   const onSubmit = async (data: CreateNoticeDataSchema) => {
     try {
@@ -31,6 +36,7 @@ export function useCreateNotices() {
 
       await createNotice(payload);
 
+      console.log('Form data submitted:', payload);
       toast.success('Notícia criada com sucesso!');
       reset();
       router.push('/notices-page');
@@ -41,5 +47,5 @@ export function useCreateNotices() {
     }
   };
 
-  return { formRef, register, handleSubmit, onSubmit };
+  return { formRef, register, handleSubmit, activeTab, setActiveTab, onSubmit, errors };
 }
