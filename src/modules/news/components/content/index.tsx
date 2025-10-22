@@ -18,6 +18,7 @@ export function NewsPageData({ newsSlugify }: { newsSlugify: string }) {
         console.error('Erro ao buscar notícia:', error);
       }
     }
+    console.log('Fetching news for slugify:', newsSlugify);
     fetchNews();
   }, [newsSlugify]);
 

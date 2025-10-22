@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { cursoOptions } from '@/global/constants/curso-options';

@@ -11,11 +11,12 @@ import Link from 'next/link';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isInMobile, setIsInMobile] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
   const { isAuthenticated, user } = useAuth();
 
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleMenu = () => {setIsOpen((prev) => !prev); setIsInMobile(false)};
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
 
   const closeUserMenu = () => setIsUserMenuOpen(false);
@@ -32,7 +33,7 @@ export function NavBar() {
             onClick={toggleUserMenu}
             className='cursor-pointer hover:opacity-80 transition-opacity duration-200'
           />
-          {isUserMenuOpen && <UserMenu toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
+          {isUserMenuOpen && <UserMenu inMobile={isInMobile} toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
         </>
       );
     }

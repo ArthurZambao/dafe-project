@@ -75,7 +75,7 @@ export function FormPageData({ formId }: FormProps) {
     }
   };
   if (!form) return;
-  
+
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <Link href="/forms-page" className="inline-flex">
@@ -95,7 +95,7 @@ export function FormPageData({ formId }: FormProps) {
             {form.perguntas.map((pergunta, i) => (
               <div key={i} className="my-6 pb-4">
                 <h2 className="text-base sm:text-2xl rounded-t-2xl bg-[#B7DAFF] border-b-1 p-2">
-                  {i + 1}. {pergunta.titulo}
+                  {pergunta.titulo}
                 </h2>
                 <p className="mb-2 text-base sm:text-lg py-4">{pergunta.enunciado}</p>
 

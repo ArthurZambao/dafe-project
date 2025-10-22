@@ -7,14 +7,18 @@ import { useAuth } from '@/global/context/useAuth';
 interface UserMenuProps {
   toggleUserMenu: () => void;
   toggleMenu: () => void;
+  inMobile: boolean;
 }
 
-export function UserMenu({ toggleUserMenu, toggleMenu }: UserMenuProps) {
+export function UserMenu({ toggleUserMenu, toggleMenu, inMobile }: UserMenuProps) {
   const toggleMenus = () => {
     toggleUserMenu();
-    toggleMenu();
+    if (inMobile) {
+      toggleMenu();
+      inMobile = false;
+    }
   };
-  
+
   const { logout } = useAuth();
   return (
     <div className="absolute right-0 mt-2 mr-10 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">

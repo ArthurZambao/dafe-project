@@ -23,21 +23,23 @@ export function NoticesList() {
       ) : (
         notices.map((notice, index) => {
           const bgImage =
-            index % 2 === 0
-              ? '/svgs/news-image-example.svg'
-              : '/svgs/news-image-example-2.svg';
+            index % 2 === 0 ? '/svgs/news-image-example.svg' : '/svgs/news-image-example-2.svg';
 
           return (
             <div
-              onClick={() => router.push(`/notices-page/${notice.slugify}`)}
+              onClick={() => {
+                router.push(`/notices-page/${notice.slugify}`);
+                console.log(notice.slugify);
+              }}
               key={notice._id}
               style={{
                 backgroundImage: `url(${bgImage})`,
               }}
               className={`relative bg-cover bg-center bg-no-repeat overflow-hidden cursor-pointer rounded-lg border border-gray-200
-                ${index % 3 === 0
-                  ? 'col-span-1 sm:col-span-2 row-span-2 h-[32rem] sm:h-[44rem]'
-                  : 'h-[20rem] sm:h-[28rem]'
+                ${
+                  index % 3 === 0
+                    ? 'col-span-1 sm:col-span-2 row-span-2 h-[32rem] sm:h-[44rem]'
+                    : 'h-[20rem] sm:h-[28rem]'
                 }`}
             >
               <div className="absolute inset-0 bg-black/30 z-0"></div>
