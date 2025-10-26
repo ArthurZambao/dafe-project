@@ -114,15 +114,17 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </p>
         </div>
 
-        <div className="flex items-center justify-center bg-[#D9D9D9] py-20 sm:py-30">
-          <Image
-            src="/icons/ig-logo.svg"
-            width={100}
-            height={100}
-            alt={`Imagem de ${post.usuario}`}
-            className="object-contain"
-          />
-        </div>
+        {post.imageUrl && (
+          <div className="relative w-full h-64 sm:h-96 md:h-[30rem] mt-4 rounded-md overflow-hidden">
+            <Image
+              src={post.imageUrl}
+              alt={`Imagem do post: ${post.titulo}`}
+              layout="fill"
+              objectFit="cover"
+              priority
+              />
+            </div>
+        )}
 
         <div className="max-w-screen-lg">
           <p className="break-words text-base sm:text-lg">{post.conteudo}</p>

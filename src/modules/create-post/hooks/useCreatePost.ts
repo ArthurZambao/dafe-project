@@ -15,6 +15,12 @@ export function useCreatePosts() {
   const dataFormatada = hoje.toISOString().slice(0, 10);
   const router = useRouter();
 
+  // 1. Novos estados pra guardar resultados do anexo de imgs
+  const [imageHash, setImageHash] = useState<string | null>(null);
+  const [filePreviewUrl, setFilePreviewUrl] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [isProcessingFile, setIsProcessingFile] = useState(false);
+
   const {
     register,
     formState: { errors },
@@ -30,22 +36,48 @@ export function useCreatePosts() {
 
   const anexos = watch('anexos');
 
+  // 2. useEffect salva hash 
   useEffect(() => {
-    if (anexos && anexos.length > 0) {
-      const primeiroArquivo = anexos[0] as File;
-      console.log('Arquivo selecionado:', primeiroArquivo.name);
 
-      calculateFileHash(primeiroArquivo)
+    if (filePreviewUrl) {
+      URL.revokeObjectURL(filePreviewUrl);
+      setFilePreviewUrl(null);
+      setFileName(null);
+    }
+
+    if (anexos && anexos.length > 0) {
+      const file = anexos[0] as File;
+      setIsProcessingFile(true); // AVISO DE PROCESSAMENTO
+      const toastId = toast.loading('Processando arquivo...');
+
+      setFileName(file.name);
+
+      if (file.type.startsWith('image/')) {
+        setFilePreviewUrl(URL.createObjectURL(file));
+      }
+
+      calculateFileHash(file)
         .then(hash => {
           console.log('Impressão Digital (Hash MD5):', hash);
-          toast.info(`Hash do arquivo: ${hash}`);
+          toast.success(`Arquivo pronto. Hash: ${hash.substring(0, 7)}...`, { id: toastId });
+          setImageHash(hash); // Salva hash no estado
         })
 
         .catch(err => {
           console.error('Erro ao calcular o hash:', err);
-          toast.error('Não foi possível gerar o hash do arquivo.');
+          toast.error('Não foi possível processar o arquivo.', { id: toastId });
+          setImageHash(null);
+        })
+        .finally(() => {
+          setIsProcessingFile(false); // Terminar processamento
         })
     }
+
+    return () => {
+      if (filePreviewUrl) {
+        URL.revokeObjectURL(filePreviewUrl);
+      }
+    };
   }, [anexos]);
 
   useEffect(() => {
@@ -93,16 +125,39 @@ export function useCreatePosts() {
     toast.success('Rascunho excluído com sucesso!');
   };
 
+  // 3. reescrevendo essa function
   const onSubmit = async (data: CreateFormData) => {
+      if (isProcessingFile) {
+        toast.error('Aguarde o processamento do arquivo terminar');
+        return;
+      }
+      
+      // objeto formdata pra enviar os dados
+      const formData = new FormData();
 
-    const finalData = { ...data, data: dataFormatada };
+      // campos de texto do form
+      formData.append('titulo', data.titulo);
+      formData.append('descricao', data.descricao);
+      formData.append('conteudo', data.conteudo);
+      formData.append('topico', data.topico);
+      formData.append('data', dataFormatada);
+      
+      // adiciona o hash 
+    if (imageHash) {
+      formData.append('imageHash', imageHash);
+    }
+
+    // o nome 'image' deve ser o mesmo do FileInterceptor('image') no backend
+    if (data.anexos && data.anexos.length > 0) {
+      formData.append('image', data.anexos[0]);
+    }
 
     try {
-      await createPost(finalData);
+      await createPost(formData);
 
       localStorage.setItem(
         'forumDrafts',
-        JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(finalData)))
+        JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(data)))
       );
 
       router.push('/forum-page');
@@ -130,5 +185,8 @@ export function useCreatePosts() {
     handleLoadDraft,
     deleteDraft,
     onSubmit,
+    isProcessingFile,
+    filePreviewUrl,
+    fileName,
   };
 }
