@@ -1,6 +1,5 @@
 import { AnimatedContent } from '@/global/animations/animatedContent';
 import { LoginForm } from '../login-form';
-import { LoginMainTitle } from '../login-main-tittle';
 
 export function LoginData() {
   return (

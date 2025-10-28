@@ -11,6 +11,7 @@ export interface NoticeFromAPI {
   titulo: string;
   descricao: string;
   conteudo: string;
+  slugify: string;
   autor: NoticeAuthor;
   createdAt: string;
   updateAt: string;

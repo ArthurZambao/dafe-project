@@ -3,6 +3,7 @@ import { SlidersHorizontal } from 'lucide-react';
 import { PostButton } from '@/modules/forum-page/components/post-button';
 import { FilterProps } from '@/types/filter';
 import { useAuth } from '@/global/context/useAuth';
+import { SlideIn } from '@/global/animations/slideIn';
 
 export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: FilterProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,19 +18,23 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
     <>
       {/* Botão da barra de filtro */}
       <div className="flex justify-center sm:justify-between items-start py-10 px-6 sm:px-16 relative">
-        <h2 className="hidden sm:block text-[#4A83C0] text-3xl sm:text-5xl font-semibold">
-          Principais Assuntos
-        </h2>
-        <div className="flex items-center gap-10">
-          {user.role === 'student' && <PostButton />}
-          <button
-            onClick={handleToggle}
-            className="flex items-center gap-2 cursor-pointer text-xl sm:text-lg text-black py-2"
-          >
-            <span className="hidden sm:block">Filtrar Por</span>
-            <SlidersHorizontal size={16} />
-          </button>
-        </div>
+        <SlideIn from="left">
+          <h2 className="hidden sm:block text-[#4A83C0] text-3xl sm:text-5xl font-semibold">
+            Principais Assuntos
+          </h2>
+        </SlideIn>
+        <SlideIn from="right">
+          <div className="flex items-center gap-10">
+            {user.role === 'student' && <PostButton />}
+            <button
+              onClick={handleToggle}
+              className="flex items-center gap-2 cursor-pointer text-xl sm:text-lg text-black py-2"
+            >
+              <span className="hidden sm:block">Filtrar Por</span>
+              <SlidersHorizontal size={16} />
+            </button>
+          </div>
+        </SlideIn>
       </div>
 
       {/* Modal de opções */}

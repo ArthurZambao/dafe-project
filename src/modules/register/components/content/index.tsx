@@ -1,6 +1,4 @@
 'use client';
-
-import { Input } from '@/global/components/FormComponents/FormInput';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,6 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { createUser } from '@/libs/services/users/userService';
 import Image from 'next/image';
+import { EnterInput } from '@/global/components/FormComponents/EnterFormInput';
 
 export function RegisterPageData() {
   const router = useRouter();
@@ -127,28 +126,28 @@ export function RegisterPageData() {
             </section>
 
             {/* Campos Comuns */}
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="nome"
               type="text"
               placeholder="Nome Completo:"
               register={register}
               error={errors.nome}
             />
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="usuario"
               type="text"
               placeholder="Nome de Usuário:"
               register={register}
               error={errors.usuario}
             />
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="email"
               type="text"
               placeholder="E-mail:"
               register={register}
               error={errors.email}
             />
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="instituicao"
               type="text"
               placeholder="Intituição de Ensino:"
@@ -179,7 +178,7 @@ export function RegisterPageData() {
             </div>
             {role === 'professor' && (
               <>
-                <Input<CreateRegisterFormData>
+                <EnterInput<CreateRegisterFormData>
                   id="matricula"
                   type="text"
                   placeholder="Matrícula:"
@@ -199,14 +198,14 @@ export function RegisterPageData() {
             )}
 
             {/* Senhas */}
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="senha"
               type="password"
               placeholder="Senha:"
               register={register}
               error={errors.senha}
             />
-            <Input<CreateRegisterFormData>
+            <EnterInput<CreateRegisterFormData>
               id="confirmarSenha"
               type="password"
               placeholder="Confirmar Senha:"

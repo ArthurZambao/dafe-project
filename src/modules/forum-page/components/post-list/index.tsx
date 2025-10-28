@@ -24,7 +24,7 @@ export function PostList({ posts }: PostListProps) {
               if (!post._id) return alert('ID do tópico ausente!');
               router.push(`/forum-page/${post._id}`);
             }}
-            className="cursor-pointer text-white gap-6 py-6 sm:py-10 px-4 sm:px-8 transition-all duration-300 border-b-3 border-dafe-gray-hover"
+            className="cursor-pointer text-white gap-6 py-6 sm:py-10 px-4 sm:px-8 transition-all rounded-t-xl duration-300 border-b-3 hover:shadow-xl border-dafe-gray-hover"
           >
             <div>
               <div className="flex-col sm:flex">

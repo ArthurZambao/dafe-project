@@ -1,3 +1,5 @@
+'use client';
+
 import { calculateFileHash } from "@/global/utils/hash";
 import { createPost } from "@/libs/services/posts/postsService";
 import { PostDraftData } from "@/types/draftsDatas";

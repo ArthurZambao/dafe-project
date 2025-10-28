@@ -75,7 +75,7 @@ export function FormPageData({ formId }: FormProps) {
     }
   };
   if (!form) return;
-  
+
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
       <Link href="/forms-page" className="inline-flex">
@@ -86,16 +86,16 @@ export function FormPageData({ formId }: FormProps) {
       <AnimatedContent inverse>
         <div className="bg-white rounded-3xl mx-6 sm:mx-20 py-10 px-8 sm:p-16">
           <section className="flex flex-col gap-6">
-            <h2 className="text-2xl sm:text-5xl break-words border-b-1">{form.formTitulo}</h2>
-            <p className="text-base sm:text-lg break-words border-b-1">{form.formDesc}</p>
+            <h2 className="text-2xl sm:text-5xl break-words border-b-1 pb-2">{form.formTitulo}</h2>
+            <p className="text-base text-slate-gray sm:text-lg break-words">{form.formDesc}</p>
           </section>
 
           <section className="py-10">
-            <h2 className="text-xl sm:text-3xl font-semibold">Questões:</h2>
+            <h2 className="text-xl sm:text-3xl font-semibold">Perguntas:</h2>
             {form.perguntas.map((pergunta, i) => (
               <div key={i} className="my-6 pb-4">
                 <h2 className="text-base sm:text-2xl rounded-t-2xl bg-[#B7DAFF] border-b-1 p-2">
-                  {i + 1}. {pergunta.titulo}
+                  {pergunta.titulo}
                 </h2>
                 <p className="mb-2 text-base sm:text-lg py-4">{pergunta.enunciado}</p>
 
