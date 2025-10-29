@@ -1,5 +1,6 @@
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typePostList } from '@/types/typePostList';
+import { div } from 'framer-motion/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -59,15 +60,16 @@ export function UserPostList({ posts, handleDelete }: UserPostListProps) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-center bg-[#D9D9D9] py-30 sm:py-50">
-              <Image
-                src="/icons/ig-logo.svg"
-                width={100}
-                height={100}
-                alt={`Imagem de ${post.usuario}`}
-                className="object-contain"
-              />
-            </div>
+            {post.imageUrl && (
+              <div className="relative w-full h-64 sm:h-96 mt-4 rounded-md overflow-hidden">
+                <Image
+                  src={post.imageUrl}
+                  alt={`Imagem do post: ${post.titulo}`}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-4 w-full sm:w-3/4">
