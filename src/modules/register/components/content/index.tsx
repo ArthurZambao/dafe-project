@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { createUser } from '@/libs/services/users/userService';
 import Image from 'next/image';
 import { EnterInput } from '@/global/components/FormComponents/EnterFormInput';
+import { instituicaoOptions } from '@/global/constants/instituicao-options';
 
 export function RegisterPageData() {
   const router = useRouter();
@@ -101,7 +102,7 @@ export function RegisterPageData() {
               className="h-auto max-h-[9rem] w-auto"
               priority
             />
-            <h2 className="text-3xl text-azure-primary font-semibold pb-5">Reigstrar-se</h2>
+            <h2 className="text-3xl text-azure-primary font-semibold pb-5">Registrar-se</h2>
           </div>
 
           <section className='px-6 sm:px-10 flex flex-col gap-5 '>
@@ -147,12 +148,12 @@ export function RegisterPageData() {
               register={register}
               error={errors.email}
             />
-            <EnterInput<CreateRegisterFormData>
+            <Select<CreateRegisterFormData>
               id="instituicao"
-              type="text"
-              placeholder="Intituição de Ensino:"
+              label="Instituição:"
               register={register}
               error={errors.instituicao}
+              selectOptions={instituicaoOptions}
             />
 
             <div className=' ml-0 px-6 sm:px-0 sm:ml-8'>

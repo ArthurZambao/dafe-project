@@ -74,7 +74,7 @@ export function useComplaintsForm() {
         JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(finalData)))
       );
 
-      toast.success('Denúncia enviada com sucesso!');
+      toast.success('Reclamação enviada com sucesso!');
       reset();
     } catch (error) {
       let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';

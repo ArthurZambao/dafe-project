@@ -2,7 +2,7 @@ import { AuthGate } from '@/global/components/authGate/authGate';
 import { ComplaintsPageData } from '@/modules/complaints/components/content';
 
 export const metadata = {
-  title: 'Denúncias',
+  title: 'Ouvidoria',
 };
 
 export default function ComplaintsPage() {

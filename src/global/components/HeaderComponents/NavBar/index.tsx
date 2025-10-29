@@ -89,7 +89,7 @@ export function NavBar() {
           </NavItem>
           {user?.role === 'student' && (
             <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
-              Denúncias
+              Ouvidoria
             </NavItem>
           )}
           <li className="pl-2">{renderAuthLink()}</li>
