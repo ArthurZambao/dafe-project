@@ -25,14 +25,15 @@ export function NavBar() {
     if (isAuthenticated) {
       return (
         <>
+        <div className="relative w-12 h-12 rounded-full overflow-hidden cursor-pointed hover:opacity-80 transition-opacity duration-200">
           <Image
-            src="/icons/user-icon.svg"
+            src={user?.imageUrl || '/icons/user-icon.svg'}
             alt="Icon de perfil"
-            width={48}
-            height={48}
+            layout="fill"
+            objectFit="cover"
             onClick={toggleUserMenu}
-            className='cursor-pointer hover:opacity-80 transition-opacity duration-200'
           />
+        </div>
           {isUserMenuOpen && <UserMenu inMobile={isInMobile} toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
         </>
       );

@@ -12,6 +12,7 @@ const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
   logout: () => {},
   setUserFromToken: () => {},
+  updateUserContext: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -50,6 +51,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  function updateUserContext(newUserData: Partial<CustomJwtPayload>) {
+    setUser(prevUser => {
+      if (!prevUser) return null;
+      const updatedUser = { ...prevUser, ...newUserData};
+
+      return updatedUser;
+    })
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -57,6 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: !!user,
         logout,
         setUserFromToken,
+        updateUserContext,
       }}
     >
       {children}

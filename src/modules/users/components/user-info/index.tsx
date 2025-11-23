@@ -3,14 +3,28 @@
 import { useAuth } from '@/global/context/useAuth';
 import Image from 'next/image';
 
+const DEFAULT_AVATAR = '/icons/user-icon.svg';
+
 export function UserInfo() {
   const { user } = useAuth();
 
   if (!user) return null;
-  console.log(user);
+  console.log("UserInfo - Dados do Usuário:", user);
+  console.log("UserInfo - URL da Imagem:", user.imageUrl);
+  const profileImageUrl = user.imageUrl || DEFAULT_AVATAR;
+
   return (
     <div className="flex flex-col items-center justify-between mb-2 gap-6 sm:gap-0 pb-10 select-none">
-      <Image width={200} height={200} src="/icons/ig-logo.svg" alt="Foto do Usuário" />
+
+      <div className="relative w-48 h-48 sm:w-52 sm:h-52 rounded,full overflow-hidden border-4 border-azure-primary">
+        <Image 
+          width={200} 
+          height={200} src={profileImageUrl} 
+          alt="Foto do Usuário" 
+          className="object-cover w-full h-full"
+        />
+      </div>
+
       <div className="flex flex-col gap-5 items-center">
         <h2 className="text-3xl font-medium">Bem-Vindo {user.usuario}</h2>
 
