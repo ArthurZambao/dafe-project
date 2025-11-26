@@ -27,7 +27,7 @@ export function Select<T extends FieldValues>({
         }}
         className={`${error ? 'border-red-500' : 'border-azure-primary'} px-4 py-2 border border-slate-gray rounded-xl text-slate-gray focus:outline-none w-auto min-w-[150px]`}
       >
-        <option value="" disabled hidden>
+        <option value="" hidden>
           {primarySelectOption ? primarySelectOption : 'Selecione...'}
         </option>
         {selectOptions.map((option) => (

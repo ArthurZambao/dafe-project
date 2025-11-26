@@ -59,7 +59,7 @@ export function RegisterPageData() {
           ? {
             studentDetails: {
               curso: data.curso,
-              modulo: moduloMapping[data.modulo] ?? 1,
+              modulo: moduloMapping[data.modulo],
             },
           }
           : {
@@ -157,7 +157,6 @@ export function RegisterPageData() {
             />
 
             <div className=' ml-0 px-6 sm:px-0 sm:ml-8'>
-              {/* Campos Específicos */}
               {role === 'student' && (
                 <div className="flex flex-col sm:flex-row gap-5">
                   <Select<CreateRegisterFormData>
@@ -198,7 +197,6 @@ export function RegisterPageData() {
               </>
             )}
 
-            {/* Senhas */}
             <EnterInput<CreateRegisterFormData>
               id="senha"
               type="password"

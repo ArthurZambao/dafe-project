@@ -78,7 +78,7 @@ export function useCreatePosts() {
         URL.revokeObjectURL(filePreviewUrl);
       }
     };
-  }, [anexos]);
+  }, [anexos, filePreviewUrl]);
 
   useEffect(() => {
     const saved = localStorage.getItem('forumDrafts');

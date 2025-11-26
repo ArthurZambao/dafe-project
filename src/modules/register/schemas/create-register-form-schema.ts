@@ -36,7 +36,6 @@ const baseSchema = {
   confirmarSenha: z.string(),
 };
 
-// Schema para aluno (curso e modulo obrigatórios e matricula e periodo opcionais)
 const studentSchema = z
   .object({
     role: z.literal('student'),
@@ -51,7 +50,6 @@ const studentSchema = z
     path: ['confirmarSenha'],
   });
 
-// Schema para professor (curso e modulo opcionais e matricula e periodo obrigatórios)
 const professorSchema = z
   .object({
     role: z.literal('professor'),

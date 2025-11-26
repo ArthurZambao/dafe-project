@@ -16,7 +16,7 @@ export function UserInfo() {
   return (
     <div className="flex flex-col items-center justify-between mb-2 gap-6 sm:gap-0 pb-10 select-none">
 
-      <div className="relative w-48 h-48 sm:w-52 sm:h-52 rounded,full overflow-hidden border-4 border-azure-primary">
+      <div className="relative w-48 h-48 sm:w-52 sm:h-52 rounded,full overflow-hidden rounded-full">
         <Image 
           width={200} 
           height={200} src={profileImageUrl} 

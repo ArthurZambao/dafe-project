@@ -16,7 +16,10 @@ export function NavBar() {
   const pathname = usePathname();
   const { isAuthenticated, user } = useAuth();
 
-  const toggleMenu = () => {setIsOpen((prev) => !prev); setIsInMobile(false)};
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+    setIsInMobile(false);
+  };
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
 
   const closeUserMenu = () => setIsUserMenuOpen(false);
@@ -25,16 +28,22 @@ export function NavBar() {
     if (isAuthenticated) {
       return (
         <>
-        <div className="relative w-12 h-12 rounded-full overflow-hidden cursor-pointed hover:opacity-80 transition-opacity duration-200">
-          <Image
-            src={user?.imageUrl || '/icons/user-icon.svg'}
-            alt="Icon de perfil"
-            layout="fill"
-            objectFit="cover"
-            onClick={toggleUserMenu}
-          />
-        </div>
-          {isUserMenuOpen && <UserMenu inMobile={isInMobile} toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
+          <div className=" cursor-pointer relative w-12 h-12 rounded-full overflow-hidden cursor-pointed hover:opacity-80 transition-opacity duration-200">
+            <Image
+              src={user?.imageUrl || '/icons/user-icon.svg'}
+              alt="Icon de perfil"
+              layout="fill"
+              objectFit="cover"
+              onClick={toggleUserMenu}
+            />
+          </div>
+          {isUserMenuOpen && (
+            <UserMenu
+              inMobile={isInMobile}
+              toggleUserMenu={toggleUserMenu}
+              toggleMenu={toggleMenu}
+            />
+          )}
         </>
       );
     }
@@ -88,11 +97,9 @@ export function NavBar() {
           <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>
             Notícias
           </NavItem>
-          {user?.role === 'student' && (
-            <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
-              Ouvidoria
-            </NavItem>
-          )}
+          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
+            Ouvidoria
+          </NavItem>
           <li className="pl-2">{renderAuthLink()}</li>
         </ul>
       </nav>
