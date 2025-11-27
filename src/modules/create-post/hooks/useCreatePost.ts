@@ -27,6 +27,7 @@ export function useCreatePosts() {
     handleSubmit,
     reset,
     watch,
+    setValue, // Adicionado para limpar o input de arquivo se necessário
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
@@ -35,50 +36,64 @@ export function useCreatePosts() {
   const [drafts, setDrafts] = useState<PostDraftData[]>([]);
 
   const anexos = watch('anexos');
+  const file = anexos && anexos.length > 0 ? (anexos[0] as File) : null;
 
-  // 2. useEffect salva hash 
+
+  // 2. useEffect principal: Processa arquivo e gerencia a limpeza da URL de preview
   useEffect(() => {
-
-    if (filePreviewUrl) {
-      URL.revokeObjectURL(filePreviewUrl);
-      setFilePreviewUrl(null);
-      setFileName(null);
-    }
-
-    if (anexos && anexos.length > 0) {
-      const file = anexos[0] as File;
-      setIsProcessingFile(true); // AVISO DE PROCESSAMENTO
-      const toastId = toast.loading('Processando arquivo...');
-
-      setFileName(file.name);
-
-      if (file.type.startsWith('image/')) {
-        setFilePreviewUrl(URL.createObjectURL(file));
-      }
-
-      calculateFileHash(file)
-        .then(hash => {
-          console.log('Impressão Digital (Hash MD5):', hash);
-          toast.success(`Arquivo pronto. Hash: ${hash.substring(0, 7)}...`, { id: toastId });
-          setImageHash(hash); // Salva hash no estado
-        })
-
-        .catch(err => {
-          console.error('Erro ao calcular o hash:', err);
-          toast.error('Não foi possível processar o arquivo.', { id: toastId });
-          setImageHash(null);
-        })
-        .finally(() => {
-          setIsProcessingFile(false); // Terminar processamento
-        })
-    }
-
+    
+    // 1. LÓGICA DE LIMPEZA (Cleanup Function): Executada antes do próximo efeito ou na desmontagem.
     return () => {
       if (filePreviewUrl) {
         URL.revokeObjectURL(filePreviewUrl);
       }
     };
-  }, [anexos, filePreviewUrl]);
+    
+}, [filePreviewUrl]); // Dispara o cleanup quando o filePreviewUrl muda (para limpar o cache do navegador)
+
+
+  // NOVO useEffect: Dispara o processamento SÓ quando anexos (o arquivo) muda
+  useEffect(() => {
+    
+    // Se não houver arquivo, resetamos a hash e a URL de preview
+    if (!file) {
+        setImageHash(null);
+        setFileName(null);
+        setFilePreviewUrl(null); // Garante que o estado está limpo
+        return;
+    }
+
+    // Se houver um arquivo, iniciamos o processamento
+    setIsProcessingFile(true);
+    const toastId = toast.loading('Processando arquivo...');
+    
+    setFileName(file.name);
+
+    if (file.type.startsWith('image/')) {
+        setFilePreviewUrl(URL.createObjectURL(file));
+    }
+    
+    calculateFileHash(file)
+        .then(hash => {
+            console.log('Impressão Digital (Hash MD5):', hash);
+            toast.success(`Arquivo pronto. Hash: ${hash.substring(0, 7)}...`, { id: toastId });
+            setImageHash(hash); // Salva hash no estado
+        })
+        .catch(err => {
+            console.error('Erro ao calcular o hash:', err);
+            toast.error('Não foi possível processar o arquivo.', { id: toastId });
+            setImageHash(null);
+            
+            // LIMPA O INPUT APÓS ERRO (OPCIONAL)
+            setValue('anexos', undefined); 
+        })
+        .finally(() => {
+            setIsProcessingFile(false); // Terminar processamento
+        });
+        
+    // Dependências: Apenas o objeto 'file' (extraído do 'anexos')
+  }, [file]); 
+
 
   useEffect(() => {
     const saved = localStorage.getItem('forumDrafts');
@@ -155,6 +170,12 @@ export function useCreatePosts() {
     try {
       await createPost(formData);
 
+      // Limpeza do estado após submissão bem sucedida
+      setFilePreviewUrl(null);
+      setFileName(null);
+      setImageHash(null);
+      reset(); // Reseta o formulário
+      
       localStorage.setItem(
         'forumDrafts',
         JSON.stringify(drafts.filter((d) => JSON.stringify(d) !== JSON.stringify(data)))
@@ -162,7 +183,6 @@ export function useCreatePosts() {
 
       router.push('/forum-page');
       toast.success('Tópico criado com sucesso!');
-      reset();
     } catch (error) {
       let backendMessage = 'Erro ao criar tópico. Por favor, tente novamente mais tarde.';
       if (error && typeof error === 'object' && 'response' in error) {

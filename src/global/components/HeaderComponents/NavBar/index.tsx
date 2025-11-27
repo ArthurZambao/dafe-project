@@ -88,7 +88,7 @@ export function NavBar() {
             Início
           </NavItem>
           <NavItem href="/forms-page" pathname={pathname} onClick={closeUserMenu}>
-            <span className="hidden md:inline-block lg:hidden">Form.</span>
+            <span className="hidden md:inline-block lg:hidden">Forms</span>
             <span className="inline-block md:hidden lg:inline-block">Formulário</span>
           </NavItem>
           <NavItem href="/forum-page" pathname={pathname} onClick={closeUserMenu}>
