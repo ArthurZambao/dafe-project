@@ -30,7 +30,6 @@ export function RegisterPageData() {
     resolver: zodResolver(createRegisterFormSchema),
   });
 
-  // Atualiza o campo role no form sempre que mudar
   useEffect(() => {
     setValue('role', role, { shouldValidate: true, shouldDirty: true });
   }, [role, setValue]);
@@ -182,6 +181,7 @@ export function RegisterPageData() {
                   id="matricula"
                   type="text"
                   placeholder="Matrícula:"
+                  maxlength={5}
                   register={register}
                   error={errors.matricula}
                 />

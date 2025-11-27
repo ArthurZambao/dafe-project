@@ -38,19 +38,12 @@ export function Tabs() {
         >
           Reclamações
         </button>
-        <button
-          className={`cursor-pointer whitespace-nowrap ${activeTab === 'formularios' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
-          onClick={() => setActiveTab('formularios')}
-        >
-          Formulários
-        </button>
       </div>
 
       <div className="mt-6 w-full">
         {activeTab === 'comentarios' && <UserComments />}
         {activeTab === 'posts' && user.role === 'student' && <UserPosts />}
         {activeTab === 'denuncias' && <UserComplaints />}
-        {activeTab === 'formularios' && <UserForms />}
       </div>
     </>
   );

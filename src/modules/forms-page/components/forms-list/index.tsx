@@ -42,7 +42,9 @@ export function FormsList({ filteredForms }: FormListProps) {
 
               <div className="flex justify-between">
                 <p className="text-xs font-semibold">
-                  {form.data_final || new Date().toLocaleDateString('pt-BR')}
+                  {form.createdAt
+                    ? new Date(form.createdAt).toLocaleDateString('pt-BR')
+                    : 'Data não informada'}
                 </p>
                 <p className="flex text-xs sm:text-sm items-center gap-0 sm:gap-2">
                   <MessageSquare size={16} /> {form.respostasCount || 0}

@@ -41,7 +41,7 @@ const studentSchema = z
     role: z.literal('student'),
     curso: z.string({ required_error: 'Curso é obrigatório.' }),
     modulo: z.string({ required_error: 'Ano escolar é obrigatório.' }),
-    matricula: z.coerce.number().optional(),
+    matricula: z.coerce.number().min(5).max(5).optional(),
     periodo: z.string().optional(),
   })
   .merge(z.object(baseSchema))
