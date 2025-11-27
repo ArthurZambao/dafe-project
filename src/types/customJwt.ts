@@ -8,6 +8,6 @@ export interface CustomJwtPayload {
   curso?: string;
   periodo?: string;
   exp?: number;
-  role: 'student' | 'teacher' | 'admin' | 'manager';
+  role: 'student' | 'professor' | 'admin' | 'manager';
   imageUrl?: string;
 }

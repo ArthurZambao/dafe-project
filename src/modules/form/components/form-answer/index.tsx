@@ -17,7 +17,6 @@ interface FormAnswerProps {
 
 export function FormAnswer({ formId }: FormAnswerProps) {
   const [form, setForm] = useState<StoredForm | null>(null);
-  // Estado para armazenar as respostas (índices ou texto)
   const [respostas, setRespostas] = useState<(number | number[] | string | null)[]>([]);
   const router = useRouter();
 
@@ -27,7 +26,6 @@ export function FormAnswer({ formId }: FormAnswerProps) {
         const data = await getFormById(formId);
         setForm(data);
 
-        // Inicializa o array de respostas com o tipo correto para cada pergunta
         const initial = data.perguntas.map((p: { tipo: string }) =>
           p.tipo === 'MÚLTIPLA_ESCOLHA' ? [] : ''
         );

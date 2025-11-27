@@ -15,6 +15,8 @@ export function Tabs() {
 
   if (!user) return null;
 
+
+  
   return (
     <>
       <div className="flex overflow-x-auto no-scrollbar gap-6 text-xl text-azure-primary font-medium border-b border-gray-300 px-2 sm:justify-center">
@@ -32,12 +34,14 @@ export function Tabs() {
             Posts
           </button>
         )}
+        {user.role === 'admin' || user.role === 'professor' && (
         <button
           className={`cursor-pointer whitespace-nowrap ${activeTab === 'denuncias' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
           onClick={() => setActiveTab('denuncias')}
         >
           Reclamações
         </button>
+        )}
       </div>
 
       <div className="mt-6 w-full">
