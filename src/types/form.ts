@@ -3,6 +3,7 @@ export type StoredForm = {
   formTitulo: string;
   formDesc: string;
   perguntas: {
+    _id: string; 
     tipo: 'MÚLTIPLA_ESCOLHA' | 'ESCOLHA_ÚNICA' | 'DISSERTATIVA';
     titulo: string;
     enunciado: string;

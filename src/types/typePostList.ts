@@ -11,4 +11,6 @@ export interface typePostList {
   interacao: number;
   autor: PostAutor;
   commentsCount: number;
+  imageUrl?: string;
+  imageHash?: string;
 }

@@ -6,4 +6,5 @@ export interface PostAutor {
   instituicao: string;
   curso: string;
   modulo: number;
+  imageUrl?: string;
 }

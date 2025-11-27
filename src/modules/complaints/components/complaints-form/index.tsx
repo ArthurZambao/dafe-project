@@ -42,7 +42,7 @@ export function ComplaintsForm() {
                 label="Título:"
                 type="text"
                 maxlength={50}
-                placeholder="Título da denúncia"
+                placeholder="Título da reclamação"
                 register={register}
                 error={errors.titulo}
               />
@@ -63,7 +63,7 @@ export function ComplaintsForm() {
               id="conteudo"
               label="Conteúdo:"
               maxlength={300}
-              placeholder="Digite sua denúncia aqui..."
+              placeholder="Digite sua reclamação aqui..."
               register={register}
               error={errors.conteudo}
               rows={10}
@@ -81,7 +81,7 @@ export function ComplaintsForm() {
               </button>
               <input
                 type="submit"
-                value="Fazer Denúncia"
+                value="Fazer Reclamação"
                 className="btn-dafe btn-dafe-hover text-base sm:text-xl font-bold text-white px-5 sm:px-10 py-2 rounded-tl-xl rounded-br-xl"
               />
             </div>

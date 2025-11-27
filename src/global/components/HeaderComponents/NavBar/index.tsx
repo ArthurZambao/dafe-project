@@ -16,7 +16,10 @@ export function NavBar() {
   const pathname = usePathname();
   const { isAuthenticated, user } = useAuth();
 
-  const toggleMenu = () => {setIsOpen((prev) => !prev); setIsInMobile(false)};
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+    setIsInMobile(false);
+  };
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
 
   const closeUserMenu = () => setIsUserMenuOpen(false);
@@ -25,15 +28,22 @@ export function NavBar() {
     if (isAuthenticated) {
       return (
         <>
-          <Image
-            src="/icons/user-icon.svg"
-            alt="Icon de perfil"
-            width={48}
-            height={48}
-            onClick={toggleUserMenu}
-            className='cursor-pointer hover:opacity-80 transition-opacity duration-200'
-          />
-          {isUserMenuOpen && <UserMenu inMobile={isInMobile} toggleUserMenu={toggleUserMenu} toggleMenu={toggleMenu} />}
+          <div className=" cursor-pointer relative w-12 h-12 rounded-full overflow-hidden cursor-pointed hover:opacity-80 transition-opacity duration-200">
+            <Image
+              src={user?.imageUrl || '/icons/user-icon.svg'}
+              alt="Icon de perfil"
+              layout="fill"
+              objectFit="cover"
+              onClick={toggleUserMenu}
+            />
+          </div>
+          {isUserMenuOpen && (
+            <UserMenu
+              inMobile={isInMobile}
+              toggleUserMenu={toggleUserMenu}
+              toggleMenu={toggleMenu}
+            />
+          )}
         </>
       );
     }
@@ -78,7 +88,7 @@ export function NavBar() {
             Início
           </NavItem>
           <NavItem href="/forms-page" pathname={pathname} onClick={closeUserMenu}>
-            <span className="hidden md:inline-block lg:hidden">Form.</span>
+            <span className="hidden md:inline-block lg:hidden">Forms</span>
             <span className="inline-block md:hidden lg:inline-block">Formulário</span>
           </NavItem>
           <NavItem href="/forum-page" pathname={pathname} onClick={closeUserMenu}>
@@ -87,11 +97,9 @@ export function NavBar() {
           <NavItem href="/notices-page" pathname={pathname} onClick={closeUserMenu}>
             Notícias
           </NavItem>
-          {user?.role === 'student' && (
-            <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
-              Denúncias
-            </NavItem>
-          )}
+          <NavItem href="/complaints" pathname={pathname} onClick={closeUserMenu}>
+            Ouvidoria
+          </NavItem>
           <li className="pl-2">{renderAuthLink()}</li>
         </ul>
       </nav>

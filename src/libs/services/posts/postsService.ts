@@ -1,14 +1,16 @@
 import { api } from '@/libs/http/axios';
 import { getValidToken } from '@/global/utils/auth';
-import { CreateFormData } from '@/modules/create-post/schemas/create-form.schema';
+/* Removido import { CreateFormData } from '@/modules/create-post/schemas/create-form.schema'; */
 import { typePostList } from '@/types/typePostList';
 
-// Função para criar um novo post
-export async function createPost(data: CreateFormData) {
+// Função para criar um novo post; ela aceita um objeto FormData para enviar os arquivos e campos de texto juntos
+export async function createPost(data: FormData) {
   const token = getValidToken();
   const response = await api.post('/posts', data, {
     headers: {
       Authorization: `Bearer ${token}`,
+      // Enviar a requisição como 'multipart/form-data' em vez de JSON
+      'Content-Type': 'multipart/form-data',
     },
   });
   return response.data;

@@ -9,4 +9,5 @@ export interface CustomJwtPayload {
   periodo?: string;
   exp?: number;
   role: 'student' | 'teacher' | 'admin' | 'manager';
+  imageUrl?: string;
 }

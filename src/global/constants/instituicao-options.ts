@@ -1,0 +1,1 @@
+export const instituicaoOptions = ["Etec de Guarulhos"]; 

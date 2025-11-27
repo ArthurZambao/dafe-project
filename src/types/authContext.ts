@@ -6,4 +6,5 @@ export interface AuthContextProps {
   isAuthenticated: boolean;
   logout: () => void;
   setUserFromToken: (token: string) => void;
+  updateUserContext: (newUserData: Partial<CustomJwtPayload>) => void;
 }

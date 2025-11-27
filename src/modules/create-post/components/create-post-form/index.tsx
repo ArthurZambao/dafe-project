@@ -19,6 +19,8 @@ export function CreatePostForm() {
     handleLoadDraft,
     deleteDraft,
     onSubmit,
+    filePreviewUrl,
+    fileName,
   } = useCreatePosts();
 
   return (
@@ -64,7 +66,13 @@ export function CreatePostForm() {
           className="text-slate-gray px-4 sm:p-10 w-full max-w-4xl mx-auto"
         >
           {activeTab === 'texto' && <TextForm register={register} errors={errors} />}
-          {activeTab === 'midia' && <MediaForm register={register} errors={errors} />}
+          {activeTab === 'midia' && 
+          <MediaForm 
+            register={register} 
+            errors={errors} 
+            filePreviewUrl={filePreviewUrl}
+            fileName={fileName}
+          />}
 
           <div className="flex flex-col pt-4">
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-end w-full">

@@ -22,31 +22,31 @@ export function NoticesList() {
         </p>
       ) : (
         notices.map((notice, index) => {
-          const bgImage =
-            index % 2 === 0 ? '/svgs/news-image-example.svg' : '/svgs/news-image-example-2.svg';
+          const fallbackImage = index % 2 === 0 ? '/svgs/news-image-example.svg' : '/svgs/news-image-example-2.svg';
+          
+          const bgImage = notice.imageUrl || fallbackImage;
 
           return (
             <div
+              key={notice._id}
               onClick={() => {
                 router.push(`/notices-page/${notice.slugify}`);
-                console.log(notice.slugify);
               }}
-              key={notice._id}
               style={{
                 backgroundImage: `url(${bgImage})`,
               }}
-              className={`relative bg-cover bg-center bg-no-repeat overflow-hidden cursor-pointer rounded-lg border border-gray-200
+              className={`relative bg-cover bg-center bg-no-repeat overflow-hidden cursor-pointer rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow
                 ${
                   index % 3 === 0
                     ? 'col-span-1 sm:col-span-2 row-span-2 h-[32rem] sm:h-[44rem]'
                     : 'h-[20rem] sm:h-[28rem]'
                 }`}
             >
-              <div className="absolute inset-0 bg-black/30 z-0"></div>
+              <div className="absolute inset-0 bg-black/30 z-0 transition-opacity hover:bg-black/40"></div>
 
-              <div className="absolute bottom-0 w-full bg-white bg-opacity-70 text-black p-4 z-10">
-                <h3 className="text-sm sm:text-lg font-bold pb-1">{notice.titulo}</h3>
-                <p className="text-xs sm:text-sm">{notice.descricao}</p>
+              <div className="absolute bottom-0 w-full bg-white bg-opacity-90 text-black p-4 z-10">
+                <h3 className="text-sm sm:text-lg font-bold pb-1 line-clamp-2">{notice.titulo}</h3>
+                <p className="text-xs sm:text-sm line-clamp-2">{notice.descricao}</p>
               </div>
             </div>
           );

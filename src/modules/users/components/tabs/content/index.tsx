@@ -36,7 +36,7 @@ export function Tabs() {
           className={`cursor-pointer whitespace-nowrap ${activeTab === 'denuncias' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
           onClick={() => setActiveTab('denuncias')}
         >
-          Denúncias
+          Reclamações
         </button>
         <button
           className={`cursor-pointer whitespace-nowrap ${activeTab === 'formularios' ? 'border-b-2 border-azure-primary pb-1' : ''}`}

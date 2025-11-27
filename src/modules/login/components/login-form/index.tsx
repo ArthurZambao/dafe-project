@@ -42,9 +42,9 @@ export function LoginForm() {
             priority
           />
           <h2 className="text-2xl sm:text-3xl text-azure-primary font-semibold pb-5">Login</h2>
-        </div>  
+        </div>
 
-        <section className='flex flex-col gap-6 px-30'>
+        <section className="flex flex-col gap-6 px-30">
           <EnterInput<CreateLoginFormData>
             id="email"
             type="text"
@@ -64,9 +64,11 @@ export function LoginForm() {
             error={errors.senha}
           />
 
-          <p className="text-sm cursor-pointer hover:underline text-azure-primary">
-            Esqueci minha senha
-          </p>
+          <Link href="/password-recovery">
+            <p className="text-sm cursor-pointer hover:underline text-azure-primary">
+              Esqueci minha senha
+            </p>
+          </Link>
 
           <div className="mx-auto py-4">
             <Checkbox<CreateLoginFormData>
@@ -81,12 +83,13 @@ export function LoginForm() {
               type="submit"
               value={isSubmitting ? 'Entrando...' : 'Entrar'}
               disabled={isSubmitting}
-              className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
-                }`}
+              className={`cursor-pointer btn-dafe btn-dafe-hover text-white text-xl sm:text-3xl font-bold mx-10 sm:mx-24 py-4 transition-opacity ${
+                isSubmitting ? 'opacity-60 cursor-not-allowed' : ''
+              }`}
             />
             <div className="text-center text-sm sm:text-base mt-10 text-[#1363B9] pt-0 sm:pt-8 pb-6">
               <Link href="/register">
-                <p className="hover:underline">
+                <p>
                   Não possui Cadastro?{' '}
                   <span className="text-azure-primary underline">Registre-se!</span>
                 </p>
