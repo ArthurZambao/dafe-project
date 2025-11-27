@@ -63,8 +63,7 @@ export function MediaNoticeForm({ register, errors }: MediaFormProps) {
         <FileAttachment
         register={register}
         name="imagem"
-        error={errors.imagem}
-        />
+        error={errors.imagem} filePreviewUrl={null} fileName={null}        />
     </div>
   );
 }

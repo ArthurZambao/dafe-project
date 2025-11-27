@@ -33,7 +33,7 @@ export function MainNotices() {
           <SwiperSlide
             key={index}
             onClick={() => {
-              router.push(`/notices-page/${notice.slugify}`);
+              router.push(`/notices-page/${notice._id}`);
             }}
           >
             <div

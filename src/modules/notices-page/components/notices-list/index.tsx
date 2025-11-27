@@ -28,8 +28,8 @@ export function NoticesList() {
           return (
             <div
               onClick={() => {
-                router.push(`/notices-page/${notice.slugify}`);
-                console.log(notice.slugify);
+                router.push(`/notices-page/${notice._id}`);
+                console.log(notice._id);
               }}
               key={notice._id}
               style={{
