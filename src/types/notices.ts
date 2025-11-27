@@ -16,6 +16,5 @@ export interface NoticeFromAPI {
   autor: NoticeAuthor;
   createdAt: string;
   updateAt: string;
+  cursoDestino: 'Desenvolvimento de Sistemas' | 'Administração' | 'Logística' | 'Gestão de Recursos Humanos' | 'Marketing' | 'Todos os Cursos';
 }
-
-// estrutura de dados enviados pelo back

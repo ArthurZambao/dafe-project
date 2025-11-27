@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/global/context/useAuth';
-import { SlidersHorizontal } from 'lucide-react';
+// import { SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
 export function NoticesFilterCard() {

@@ -1,6 +1,5 @@
 import { typeComments } from '@/types/typeComments';
-import Image from 'next/image'; // Importe o Image
-
+import Image from 'next/image';
 interface CommentsListProps {
   comments: typeComments[];
 }

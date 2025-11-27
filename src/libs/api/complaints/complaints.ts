@@ -11,3 +11,9 @@ export async function listComplaints() {
   const res = await api.get<ComplaintResponse[]>("/complaints");
   return res.data;
 }
+
+export async function updateComplaintStatus(id: string, status: string) {
+  const res = await api.patch(`/complaints/status/${id}`, { status });
+  return res.data;
+}
+

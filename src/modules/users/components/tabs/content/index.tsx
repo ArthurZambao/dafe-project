@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { UserComments } from '../user-comments';
 import { UserPosts } from '../user-posts';
 import { UserComplaints } from '../user-complaints';
-import { UserForms } from '../user-forms';
 import { useAuth } from '@/global/context/useAuth';
 
 export function Tabs() {

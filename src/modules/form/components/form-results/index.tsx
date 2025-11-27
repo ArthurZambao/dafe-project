@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { getFormResults } from '@/libs/services/forms/formService';
 import { FormResultsAPI } from '@/types/formResults';
-import { ArrowLeft, User } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface FormResultsProps {
   formId: string;
@@ -21,6 +22,7 @@ export function FormResults({ formId }: FormResultsProps) {
         setLoading(true);
         const result = await getFormResults(formId);
         setData(result);
+        console.log('🔥 BACKEND RESPONSE:', result.results[0]);
       } catch (err) {
         console.error(err);
         setError('Erro ao carregar resultados. Verifique se você tem permissão.');
@@ -32,20 +34,27 @@ export function FormResults({ formId }: FormResultsProps) {
     if (formId) fetchData();
   }, [formId]);
 
-  if (loading) return <div className="p-20 text-center text-xl text-slate-gray">Carregando respostas...</div>;
+  if (loading)
+    return <div className="p-20 text-center text-xl text-slate-gray">Carregando respostas...</div>;
   if (error) return <div className="p-20 text-center text-xl text-red-500">{error}</div>;
   if (!data) return <div className="p-20 text-center text-xl">Nenhum dado encontrado.</div>;
 
   return (
     <div className="p-6 sm:p-10 max-w-7xl mx-auto min-h-screen animate-fade-in">
-      <Link href="/forms-page" className="inline-flex items-center gap-2 text-azure-secondary font-semibold mb-6 hover:opacity-80 transition-opacity">
+      <Link
+        href="/forms-page"
+        className="inline-flex items-center gap-2 text-azure-secondary font-semibold mb-6 hover:opacity-80 transition-opacity"
+      >
         <ArrowLeft /> Voltar para Formulários
       </Link>
 
       <div className="bg-white rounded-xl shadow-lg p-8 mb-8 border-l-8 border-azure-primary">
-        <h1 className="text-3xl sm:text-4xl font-bold text-azure-secondary mb-2">{data.formTitulo}</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-azure-secondary mb-2">
+          {data.formTitulo}
+        </h1>
         <p className="text-slate-gray text-lg">
-          Total de Submissões: <span className="font-bold text-azure-primary text-2xl ml-2">{data.totalRespostas}</span>
+          Total de Submissões:{' '}
+          <span className="font-bold text-azure-primary text-2xl ml-2">{data.totalRespostas}</span>
         </p>
       </div>
 
@@ -56,16 +65,26 @@ export function FormResults({ formId }: FormResultsProps) {
       ) : (
         <div className="space-y-8">
           {data.results.map((submissao, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow">
-              
+            <div
+              key={index}
+              className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow"
+            >
               {/* Cabeçalho do Aluno */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 mb-6 gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="bg-azure-primary/10 p-3 rounded-full text-azure-primary">
-                    <User size={24} />
+                  <div className="w-12 h-12 rounded-full overflow-hidden relative bg-azure-primary/10">
+                    <Image
+                      src={submissao.responder.imageUrl || '/icons/user-icon.svg'}
+                      alt={`Foto de ${submissao.responder.nome}`}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
+
                   <div>
-                    <h3 className="text-xl font-bold text-azure-primary">{submissao.responder.nome}</h3>
+                    <h3 className="text-xl font-bold text-azure-primary">
+                      {submissao.responder.nome}
+                    </h3>
                     <p className="text-sm text-gray-500">{submissao.responder.email}</p>
                   </div>
                 </div>
@@ -83,9 +102,11 @@ export function FormResults({ formId }: FormResultsProps) {
                     </p>
                     <div className="pl-4 border-l-4 border-azure-secondary">
                       <p className="text-lg text-black font-medium">
-                        {Array.isArray(resp.respostaSubmetida) 
-                          ? resp.respostaSubmetida.join(', ') 
-                          : resp.respostaSubmetida || <span className="text-gray-400 italic">Sem resposta</span>}
+                        {Array.isArray(resp.respostaSubmetida)
+                          ? resp.respostaSubmetida.join(', ')
+                          : resp.respostaSubmetida || (
+                              <span className="text-gray-400 italic">Sem resposta</span>
+                            )}
                       </p>
                     </div>
                   </div>

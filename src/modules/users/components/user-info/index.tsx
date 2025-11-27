@@ -9,24 +9,27 @@ export function UserInfo() {
   const { user } = useAuth();
 
   if (!user) return null;
-  console.log("UserInfo - Dados do Usuário:", user);
-  console.log("UserInfo - URL da Imagem:", user.imageUrl);
+  console.log('UserInfo - Dados do Usuário:', user);
+  console.log('UserInfo - URL da Imagem:', user.imageUrl);
   const profileImageUrl = user.imageUrl || DEFAULT_AVATAR;
 
   return (
     <div className="flex flex-col items-center justify-between mb-2 gap-6 sm:gap-0 pb-10 select-none">
-
       <div className="relative w-48 h-48 sm:w-52 sm:h-52 rounded,full overflow-hidden rounded-full">
-        <Image 
-          width={200} 
-          height={200} src={profileImageUrl} 
-          alt="Foto do Usuário" 
+        <Image
+          width={200}
+          height={200}
+          src={profileImageUrl}
+          alt="Foto do Usuário"
           className="object-cover w-full h-full"
         />
       </div>
 
       <div className="flex flex-col gap-5 items-center">
-        <h2 className="text-3xl font-medium">Bem-Vindo {user.usuario}</h2>
+        <h2 className="text-xl sm:text-3xl font-medium text-center sm:text-left">
+          Bem-Vindo
+          <br className="block sm:hidden" /> {user.usuario}
+        </h2>
 
         {user.role === 'student' ? (
           <>

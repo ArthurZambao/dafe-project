@@ -57,7 +57,6 @@ export function FormAnswer({ formId }: FormAnswerProps) {
     setRespostas(newRespostas);
   };
 
-  // Handler para perguntas dissertativas
   const handleTextChange = (qIndex: number, text: string) => {
     const newRespostas = [...respostas];
     newRespostas[qIndex] = text;

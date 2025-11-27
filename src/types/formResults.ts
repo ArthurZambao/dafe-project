@@ -3,6 +3,7 @@ export interface Responder {
     nome: string;
     email: string;
     role: string;
+    imageUrl: string;
 }
 
 export interface DetalheResposta {
