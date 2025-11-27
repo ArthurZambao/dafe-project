@@ -99,11 +99,25 @@ export function PostPageData({ postId }: PostPageDataProps) {
   return (
     <AnimatedContent inverse>
       <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
-        <div className="flex gap-2 items-center">
-          <div className="flex w-2 rounded-full p-6 bg-slate-gray"></div>
+        
+        <div className="flex gap-4 items-center">
+          
+          <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
+            <Image
+              src={post.autor.imageUrl || '/icons/user-icon.svg'}
+              alt={post.autor.usuario}
+              fill
+              className="object-cover"
+            />
+          </div>
+
           <div className="flex-col">
-            <p className="text-lg sm:text-xl font-semibold">{post.autor.usuario}</p>
-            <p className="text-sm text-slate-gray">{formatarData(post.data)}</p>
+            <p className="text-lg sm:text-xl font-semibold text-azure-secondary">
+                {post.autor.usuario}
+            </p>
+            <p className="text-sm text-slate-gray">
+                {formatarData(post.data)}
+            </p>
           </div>
         </div>
 
@@ -114,16 +128,16 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </p>
         </div>
 
-        {post.imageUrl && (
-          <div className="relative w-full h-64 sm:h-96 md:h-[30rem] mt-4 rounded-md overflow-hidden">
+       {post.imageUrl && (
+          <div className="relative w-full h-64 sm:h-96 md:h-[30rem] mt-4 rounded-md overflow-hidden bg-gray-100">
             <Image
               src={post.imageUrl}
               alt={`Imagem do post: ${post.titulo}`}
               layout="fill"
-              objectFit="cover"
+              objectFit="cover" 
               priority
-              />
-            </div>
+            />
+          </div>
         )}
 
         <div className="max-w-screen-lg">
