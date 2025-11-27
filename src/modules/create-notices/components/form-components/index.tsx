@@ -2,6 +2,7 @@ import { CreateNoticeDataSchema } from '../../schemas/create-notices-schema';
 import { Input } from '@/global/components/FormComponents/FormInput';
 import { TextArea } from '@/global/components/FormComponents/FormTextArea';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Select } from '@/global/components/FormComponents/FormSelect';
 
 interface CommonFormProps {
   register: UseFormRegister<CreateNoticeDataSchema>;
@@ -11,6 +12,14 @@ interface CommonFormProps {
 interface MediaFormProps extends CommonFormProps {
   filePreviewUrl?: string | null; 
 }
+
+const cursoOptions = [
+  'Desenvolvimento de Sistemas',
+  'Administração',
+  'Logística',
+  'Gestão de Recursos Humanos'
+];
+const moduloOptions = ['1', '2', '3'];
 
 export function TextNoticeForm({ register, errors }: CommonFormProps) {
   return (
@@ -36,14 +45,42 @@ export function TextNoticeForm({ register, errors }: CommonFormProps) {
             error={errors.descricao}
             rows={2}
           />
+
+          <div className="border-t border-b border-gray-100 py-4 my-2">
+            <h3 className="text-lg font-medium text-azure-primary mb-2">Segmentação (Opcional)</h3>
+            <p className="text-sm text-gray-400 mb-4">Selecione para exibir apenas para turmas específicas. Deixe vazio para todos.</p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full sm:w-2/3">
+                <Select<CreateNoticeDataSchema>
+                  id="cursoDestino"
+                  label="Curso:"
+                  selectOptions={cursoOptions}
+                  register={register}
+                  error={errors.cursoDestino}
+                  primarySelectOption="Todos os cursos"
+                />
+              </div>
+              <div className="w-full sm:w-1/3">
+                <Select<CreateNoticeDataSchema>
+                  id="moduloDestino"
+                  label="Módulo/Série:"
+                  selectOptions={moduloOptions}
+                  register={register}
+                  error={errors.moduloDestino}
+                  primarySelectOption="Todos"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div className="py-2 sm:py-6">
-        {/* Atualizado para 'conteudo' */}
         <TextArea<CreateNoticeDataSchema>
           id="conteudo"
           label="Assunto (Conteúdo):"
-          maxlength={800} // Aumentei um pouco
+          maxlength={800} 
           placeholder="Digite o conteúdo completo aqui..."
           register={register}
           error={errors.conteudo}

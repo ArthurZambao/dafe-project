@@ -31,14 +31,14 @@ export function useCreateNotices() {
       titulo: '',
       descricao: '',
       conteudo: '',
+      cursoDestino: '',
+      moduloDestino: '',
     },
   });
 
-  // Observa o campo de anexo para detectar quando o usuário escolhe um arquivo
   const anexos = watch('anexos');
   const file = anexos && anexos.length > 0 ? (anexos[0] as File) : null;
 
-  // 1. Limpeza de memória (URL do preview)
   useEffect(() => {
     return () => {
       if (filePreviewUrl) {
@@ -47,7 +47,6 @@ export function useCreateNotices() {
     };
   }, [filePreviewUrl]);
 
-  // 2. Processa a imagem assim que ela é selecionada
   useEffect(() => {
     if (!file) {
       setImageHash(null);
@@ -73,7 +72,7 @@ export function useCreateNotices() {
         console.error('Erro no hash:', err);
         toast.error('Erro ao processar imagem.', { id: toastId });
         setImageHash(null);
-        setValue('anexos', undefined); // Remove o arquivo se der erro
+        setValue('anexos', undefined); 
       })
       .finally(() => {
         setIsProcessingFile(false);
@@ -95,6 +94,13 @@ export function useCreateNotices() {
       formData.append('descricao', data.descricao);
       formData.append('conteudo', data.conteudo);
 
+      if (data.cursoDestino) {
+        formData.append('cursoDestino', data.cursoDestino);
+      }
+
+      if (data.moduloDestino) {
+        formData.append('moduloDestino', data.moduloDestino);
+      }
 
       if (imageHash)  { 
         formData.append('imageHash', imageHash);

@@ -7,6 +7,8 @@ export const createNoticeSchema = z.object({
   titulo: z.string().min(3, 'Título é obrigatório'),
   descricao: z.string().min(3, 'Descrição é obrigatória'),
   conteudo: z.string().min(10, 'Conteúdo é obrigatório'),
+  cursoDestino: z.string().optional(),
+  moduloDestino: z.string().optional(),
 
   anexos: z
     .custom<FileList>()
