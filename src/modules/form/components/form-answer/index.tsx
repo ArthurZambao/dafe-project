@@ -5,11 +5,16 @@ import { StoredForm } from '@/types/form';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { getFormById } from '@/libs/services/forms/formService';
-import { sendResponses, FormAnswer as FormAnswerType, SubmittedAnswer } from '@/libs/services/forms/responseService';
+import {
+  sendResponses,
+  FormAnswer as FormAnswerType,
+  SubmittedAnswer,
+  hasUserAnswered,
+} from '@/libs/services/forms/responseService';
 
 interface FormAnswerProps {
   formId: string;
@@ -20,9 +25,25 @@ export function FormAnswer({ formId }: FormAnswerProps) {
   const [respostas, setRespostas] = useState<(number | number[] | string | null)[]>([]);
   const router = useRouter();
 
+  // ✅ impede execução duplicada no StrictMode (solução oficial)
+  const effectRan = useRef(false);
+
   useEffect(() => {
-    async function loadForm() {
+    if (effectRan.current) return; // evita executar 2 vezes
+    effectRan.current = true;
+
+    console.log('FormID recebido:', formId);
+
+    async function verificar() {
       try {
+        const answered = await hasUserAnswered(formId);
+
+        if (answered) {
+          toast.error('Você já respondeu esse formulário.');
+          router.push('/forms-page');
+          return;
+        }
+
         const data = await getFormById(formId);
         setForm(data);
 
@@ -32,13 +53,12 @@ export function FormAnswer({ formId }: FormAnswerProps) {
 
         setRespostas(initial);
       } catch (err) {
-        console.error('Erro ao buscar formulário:', err);
-        setForm(null);
+        console.error(err);
       }
     }
 
-    loadForm();
-  }, [formId]);
+    verificar();
+  }, [formId, router]);
 
   const handleRadioChange = (qIndex: number, optionIndex: number) => {
     const newRespostas = [...respostas];
@@ -82,7 +102,6 @@ export function FormAnswer({ formId }: FormAnswerProps) {
             .filter((t) => t.trim() !== '');
           submittedAnswer = texts;
         } else {
-          // Dissertativa
           submittedAnswer = (raw as string) ?? '';
         }
 
@@ -103,7 +122,8 @@ export function FormAnswer({ formId }: FormAnswerProps) {
     }
   };
 
-  if (!form) return <div className="p-10 text-center text-slate-gray">Carregando formulário...</div>;
+  if (!form)
+    return <div className="p-10 text-center text-slate-gray">Carregando formulário...</div>;
 
   return (
     <div className="py-10 min-h-screen bg-[url(/svgs/bg-blur-login.svg)] bg-cover bg-center bg-no-repeat">
@@ -115,13 +135,13 @@ export function FormAnswer({ formId }: FormAnswerProps) {
 
       <AnimatedContent inverse>
         <div className="bg-white rounded-3xl mx-6 sm:mx-20 py-10 px-8 sm:p-16 shadow-xl">
-          {/* Título e descrição */}
           <section className="flex flex-col gap-6">
-            <h2 className="text-2xl sm:text-5xl break-words border-b-1 pb-2 text-azure-primary">{form.formTitulo}</h2>
+            <h2 className="text-2xl sm:text-5xl break-words border-b-1 pb-2 text-azure-primary">
+              {form.formTitulo}
+            </h2>
             <p className="text-base text-slate-gray sm:text-lg break-words">{form.formDesc}</p>
           </section>
 
-          {/* Perguntas */}
           <section className="py-10">
             <h2 className="text-xl sm:text-3xl font-semibold text-azure-secondary">Perguntas:</h2>
 
@@ -133,11 +153,13 @@ export function FormAnswer({ formId }: FormAnswerProps) {
 
                 <p className="mb-4 text-base sm:text-lg font-medium pl-2">{pergunta.enunciado}</p>
 
-                {/* ESCOLHA ÚNICA */}
                 {pergunta.tipo === 'ESCOLHA_ÚNICA' && (
                   <div className="flex flex-col gap-3 pl-2">
                     {pergunta.opcoes?.map((opcao, idx) => (
-                      <label key={idx} className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                      <label
+                        key={idx}
+                        className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                      >
                         <input
                           type="radio"
                           name={`pergunta-${i}`}
@@ -151,11 +173,13 @@ export function FormAnswer({ formId }: FormAnswerProps) {
                   </div>
                 )}
 
-                {/* MÚLTIPLA ESCOLHA */}
                 {pergunta.tipo === 'MÚLTIPLA_ESCOLHA' && (
                   <div className="flex flex-col gap-3 pl-2">
                     {pergunta.opcoes?.map((opcao, idx) => (
-                      <label key={idx} className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                      <label
+                        key={idx}
+                        className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                      >
                         <input
                           type="checkbox"
                           className="w-5 h-5 text-azure-primary focus:ring-azure-primary rounded cursor-pointer"
@@ -168,7 +192,6 @@ export function FormAnswer({ formId }: FormAnswerProps) {
                   </div>
                 )}
 
-                {/* DISSERTATIVA */}
                 {pergunta.tipo === 'DISSERTATIVA' && (
                   <textarea
                     value={(respostas[i] as string) || ''}
@@ -181,7 +204,6 @@ export function FormAnswer({ formId }: FormAnswerProps) {
               </div>
             ))}
 
-            {/* Botão */}
             <div className="flex justify-center sm:justify-end pt-6">
               <button
                 onClick={handleSubmit}

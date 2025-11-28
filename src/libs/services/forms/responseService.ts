@@ -22,3 +22,13 @@ export async function sendResponses(formId: string, respostas: FormAnswer[]) {
 
   return res.data;
 }
+
+export async function hasUserAnswered(formId: string) {
+  const token = getValidToken();
+
+  const res = await api.get(`/responses/hasResponded/${formId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return res.data.answered;
+}

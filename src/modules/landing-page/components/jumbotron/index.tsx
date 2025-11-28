@@ -13,7 +13,7 @@ export function Jumbotron() {
             Cadastro Simples e Rápido
           </h2>
 
-          <div className="max-w-full sm:pr-40">
+          <div className="max-w-full">
             <p className="text-base sm:text-xl font-light leading-relaxed mb-8">
               O cadastro é rápido e fácil. Os alunos criam sua conta com
               informações básicas, como nome, turma e email, e em poucos

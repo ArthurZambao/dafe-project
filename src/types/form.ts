@@ -14,4 +14,5 @@ export type StoredForm = {
   data_final?: string;
   respostasCount?: number;
   createdAt?: string;
+  isAnswered?: boolean;
 };

@@ -28,12 +28,12 @@ export async function getFormById(id: string) {
   return response.data;
 }
 
-export const getFormResults = async (formIdOrSlug: string): Promise<FormResultsAPI> => {
+export const getFormResults = async (formId: string): Promise<FormResultsAPI> => {
     try {
-      const response = await api.get(`/responses/results/${formIdOrSlug}`);
+      const response = await api.get(`/responses/results/${formId}`);
       return response.data;
     } catch (error) {
-      console.error(`Erro ao buscar resultados do formulário ${formIdOrSlug}:`, error);
+      console.error(`Erro ao buscar resultados do formulário ${formId}:`, error);
       throw error;
     }
 }
