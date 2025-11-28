@@ -1,4 +1,3 @@
-import { Trash2 } from 'lucide-react';
 import { ComplaintResponse } from '@/types/complaints';
 import { useAuth } from '@/global/context/useAuth';
 import { useEffect, useState } from 'react';
@@ -65,8 +64,6 @@ export function UserComplaints() {
           {/* Cabeçalho */}
           <div className="flex justify-between items-start">
             <h3 className="text-2xl font-semibold text-azure-primary">{reclamacao.titulo}</h3>
-
-            <Trash2 className="cursor-pointer hover:text-red-600 transition-colors" />
           </div>
 
           {/* Tópico */}
