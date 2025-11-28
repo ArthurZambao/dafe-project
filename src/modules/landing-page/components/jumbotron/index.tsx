@@ -74,7 +74,7 @@ export function Jumbotron() {
         </SlideIn>
 
         {/* Cartoon superior */}
-        <div className="absolute top-10 right-20 hidden md:block">
+        <div className="absolute top-10 right-60 hidden md:block">
           <SlideIn delay={2}>
             <Image
               src="/svgs/lpage-jumbotron-cartoon-1.svg"
@@ -87,7 +87,7 @@ export function Jumbotron() {
         </div>
 
         {/* Cartoon inferior */}
-        <div className="absolute bottom-10 left-10 hidden md:block">
+        <div className="absolute bottom-10 left-80 hidden md:block">
           <SlideIn delay={1.8}>
             <Image
               src="/svgs/lpage-jumbotron-cartoon-2.svg"

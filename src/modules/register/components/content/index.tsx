@@ -101,7 +101,7 @@ export function RegisterPageData() {
               className="h-auto max-h-[9rem] w-auto"
               priority
             />
-            <h2 className="text-3xl text-azure-primary font-semibold pb-5">Registrar-se</h2>
+            <h2 className="text-xl sm:text-3xl text-azure-primary font-semibold pb-5">Registrar-se</h2>
           </div>
 
           <section className='px-6 sm:px-10 flex flex-col gap-5 '>

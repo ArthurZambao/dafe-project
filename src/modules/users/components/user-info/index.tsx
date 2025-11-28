@@ -33,10 +33,12 @@ export function UserInfo() {
 
         {user.role === 'student' ? (
           <>
-            <h3 className="text-xl">Estudante da {user.instituicao}</h3>
-            <p>
-              {user.modulo}º Ano do curso de {user.curso}
-            </p>
+            <div className='text-center'>
+              <h3 className="text-xl">Estudante da {user.instituicao}</h3>
+              <p className='text-center'>
+                {user.modulo}º Ano do curso de {user.curso}
+              </p>
+            </div>
           </>
         ) : (
           <>

@@ -6,7 +6,7 @@ export function Register() {
       <div className="absolute inset-0 bg-black/60 z-0" />
 
       <div className="relative z-10 flex flex-col gap-8 max-w-2xl sm:ml-0">
-        <h2 className="text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-2xl sm:text-3xl font-bold">
+        <h2 className=" pt-14 sm:pt-0 text-transparent bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-2xl sm:text-3xl font-bold">
           FAÇA SEU REGISTRO <span className="text-white">AGORA</span>!
         </h2>
         <p className="text-white leading-relaxed text-base sm:text-lg font-semibold">

@@ -12,7 +12,7 @@ export function NavBarMobile({ pathname, toggleMenu, renderAuthLink, user }: Nav
                 {user?.role === 'student' && (
                     <NavItem href="/complaints" pathname={pathname} onClick={toggleMenu}>Ouvidoria</NavItem>
                 )}  
-                <li>
+                <li onClick={toggleMenu}>
                     {renderAuthLink()}
                 </li>
             </ul>
