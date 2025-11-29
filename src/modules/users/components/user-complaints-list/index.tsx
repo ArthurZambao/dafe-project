@@ -25,7 +25,7 @@ export function UserComplaintsList({ complaints, handleStatusChange }: UserCompl
             <span className="font-semibold text-gray-700">Tópico:</span> {reclamacao.topico}
           </p>
 
-          <p className="mt-3 text-gray-700 leading-relaxed whitespace-pre-wrap">
+          <p className="mt-3 text-gray-700 leading-relaxed whitespace-pre-wrap break-words">
             {reclamacao.conteudo}
           </p>
 

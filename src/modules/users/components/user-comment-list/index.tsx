@@ -21,38 +21,38 @@ export function UserCommentList({ comments, handleDelete }: UserCommentListProps
 
   return (
     <>
-    {visibleItems.map((comment) => (
-    <div
-      key={comment._id}
-      className="mb-4 p-4 rounded flex gap-4 cursor-pointer hover:bg-[#d1d1d1]"
-      onClick={() => {
-        if (!comment.post?._id) return alert('ID do tópico ausente!');
-        router.push(`/forum-page/${comment.post._id}`);
-      }}
-    >
-      <div className="flex-1 w-full">
-        <p className="text-sm text-gray-600 break-words w-full">{comment.autor.nome}</p>
+      {visibleItems.map((comment) => (
+        <div
+          key={comment._id}
+          className="mb-4 p-4 rounded flex gap-4 cursor-pointer hover:bg-[#d1d1d1]"
+          onClick={() => {
+            if (!comment.post?._id) return alert('ID do tópico ausente!');
+            router.push(`/forum-page/${comment.post._id}`);
+          }}
+        >
+          <div className="flex-1 w-full">
+            <p className="text-sm text-gray-600 break-words w-full">{comment.autor.nome}</p>
 
-        <p className="text-sm sm:text-base break-words w-full">{comment.conteudo}</p>
+            <p className="text-sm sm:text-base break-words w-full">{comment.conteudo}</p>
 
-        <p className="text-xs text-gray-400">{new Date(comment.data).toLocaleString()}</p>
+            <p className="text-xs text-gray-400">{new Date(comment.data).toLocaleString()}</p>
 
-        <p className="text-xs sm:text-sm text-gray-400 break-words">
-          Comentado em:{' '}
-          <span className="font-semibold">{comment.post?.titulo ?? 'Tópico excluído'}</span>
-        </p>
-      </div>
+            <p className="text-xs sm:text-sm text-gray-400 break-words">
+              Comentado em:{' '}
+              <span className="font-semibold">{comment.post?.titulo ?? 'Tópico excluído'}</span>
+            </p>
+          </div>
 
-      <Trash2
-        onClick={(e) => {
-          e.stopPropagation();
-          handleDelete(comment._id);
-        }}
-        className="cursor-pointer hover:text-red-600 transition-colors duration-200"
-      />
-    </div>
-  ))};
-  <div ref={loadMoreRef} className="h-10"></div>;
-  </>
-)
+          <Trash2
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(comment._id);
+            }}
+            className="cursor-pointer hover:text-red-600 transition-colors duration-200"
+          />
+        </div>
+      ))}
+      <div ref={loadMoreRef} className="h-10"></div>
+    </>
+  );
 }
