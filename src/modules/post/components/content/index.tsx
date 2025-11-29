@@ -11,8 +11,13 @@ import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
 import { useAuth } from '@/global/context/useAuth';
 import { api } from '@/libs/http/axios';
+import { Trash } from 'lucide-react';
+import { deletePost } from '@/libs/services/posts/postsService';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export function PostPageData({ postId }: PostPageDataProps) {
+    const router = useRouter();
   const [post, setPost] = useState<typePostList | null>(null);
   const [comments, setComments] = useState<typeComments[] | null>(null);
   const [newComment, setNewComment] = useState('');
@@ -92,6 +97,17 @@ export function PostPageData({ postId }: PostPageDataProps) {
     }
   };
 
+  const handleDeletePost = async (postId: string) => {
+    try {
+      await deletePost(postId);
+      toast.success('Post deletado com sucesso!');
+      router.push('/forum-page');
+    } catch (err) {
+      console.error('Erro ao deletar o post:', err);
+      setError('Erro ao deletar o post.');
+    }
+  };
+
   const isAutor = post?.autor._id === user?.id;
 
   const handleDeleteCommentLocal = (commentId: string) => {
@@ -108,22 +124,33 @@ export function PostPageData({ postId }: PostPageDataProps) {
   return (
     <AnimatedContent inverse>
       <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
-        <div className="flex gap-4 items-center">
-          <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
-            <Image
-              src={post.autor.imageUrl || '/icons/user-icon.svg'}
-              alt={post.autor.usuario}
-              fill
-              className="object-cover"
-            />
+        <div className="flex justify-between">
+          <div className="flex gap-4 items-center">
+            <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
+              <Image
+                src={post.autor.imageUrl || '/icons/user-icon.svg'}
+                alt={post.autor.usuario}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="flex-col">
+              <p className="text-lg sm:text-xl font-semibold text-azure-secondary">
+                {post.autor.usuario}
+              </p>
+              <p className="text-sm text-slate-gray">{formatarData(post.data)}</p>
+            </div>
           </div>
 
-          <div className="flex-col">
-            <p className="text-lg sm:text-xl font-semibold text-azure-secondary">
-              {post.autor.usuario}
-            </p>
-            <p className="text-sm text-slate-gray">{formatarData(post.data)}</p>
-          </div>
+          {user.role === 'admin' && (
+            <span>
+              <Trash
+                size={30}
+                className="text-black hover:text-red-500 duration-200 cursor-pointer"
+                onClick={()=> handleDeletePost(post._id)}
+              />
+            </span>
+          )}
         </div>
 
         <div className="flex-col gap-10 items-center">
@@ -177,7 +204,11 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </form>
 
           {comments && comments.length > 0 ? (
-            <CommentsList comments={comments} onDelete={handleDeleteCommentLocal} autorValidator={isAutor} />
+            <CommentsList
+              comments={comments}
+              onDelete={handleDeleteCommentLocal}
+              autorValidator={isAutor}
+            />
           ) : (
             <p className="text-gray-500">Nenhum comentário ainda.</p>
           )}
