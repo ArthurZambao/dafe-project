@@ -1,3 +1,4 @@
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 import { StoredForm } from '@/types/form';
 import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
@@ -8,6 +9,8 @@ interface FormListProps {
 }
 
 export function FormsList({ filteredForms }: FormListProps) {
+  const { visibleItems, loadMoreRef } = useLazyLoadList<StoredForm>(filteredForms, 6);
+
   if (filteredForms.length === 0) {
     return (
       <p className="text-sm sm:text-base text-slate-gray text-center">
@@ -15,10 +18,9 @@ export function FormsList({ filteredForms }: FormListProps) {
       </p>
     );
   }
-  console.log(filteredForms);
   return (
     <section className="flex flex-col gap-16 mx-12 sm:mx-24 pb-10">
-      {filteredForms.map((form) => (
+      {visibleItems.map((form) => (
         <Link href={`/forms-page/${form._id}`} key={form._id}>
           <div className="flex flex-col rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <div className="w-full h-40 bg-gray-300 rounded-t-lg relative overflow-hidden">
@@ -54,6 +56,7 @@ export function FormsList({ filteredForms }: FormListProps) {
           </div>
         </Link>
       ))}
+      <div ref={loadMoreRef} className="h-10"></div>
     </section>
   );
 }

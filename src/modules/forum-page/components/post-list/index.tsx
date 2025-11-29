@@ -5,6 +5,7 @@ import { typePostList } from '@/types/typePostList';
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { FadeInUp } from '@/global/animations/fadeInUp';
 import { formatarData } from '@/global/components/FormatedDate';
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 
 interface PostListProps {
   posts: typePostList[];
@@ -13,9 +14,11 @@ interface PostListProps {
 export function PostList({ posts }: PostListProps) {
   const router = useRouter();
 
+  const { visibleItems, loadMoreRef } = useLazyLoadList<typePostList>(posts, 8);
+
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10 mx-10">
-      {posts.map((post, index) => (
+      {visibleItems.map((post, index) => (
         <FadeInUp key={index} delay={index * 0.05}>
           <div
             onClick={() => {
@@ -65,6 +68,7 @@ export function PostList({ posts }: PostListProps) {
           </div>
         </FadeInUp>
       ))}
+      <div ref={loadMoreRef} className="h-10"></div>
     </div>
   );
 }

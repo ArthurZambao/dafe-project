@@ -47,9 +47,14 @@ export function MainNotices() {
                   backgroundImage: `url(${bgImage})`,
                 }}
               >
-                <p className="absolute top-4 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
-                  Para: {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
-                </p>
+                <section className="flex flex-col gap-2">
+                  <p className="absolute top-4 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
+                    Feito por: <span className="font-semibold">{notice.autor.usuario}</span>
+                  </p>
+                  <p className="absolute top-12 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
+                    Para: {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
+                  </p>
+                </section>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-0"></div>
 

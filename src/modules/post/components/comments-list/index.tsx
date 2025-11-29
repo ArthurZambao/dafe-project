@@ -8,6 +8,7 @@ import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { ConfirmModal } from '@/global/components/confirmModal';
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 
 interface CommentsListProps {
   comments: typeComments[];
@@ -20,6 +21,8 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCommentId, setSelectedCommentId] = useState<string | null>(null);
+  const { visibleItems, loadMoreRef } = useLazyLoadList<typeComments>(comments, 6);
+
 
   if (!user) return null;
 
@@ -56,7 +59,7 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
       />
 
       <div className="flex flex-col gap-4">
-        {comments.map((comment) => (
+        {visibleItems.map((comment) => (
           <div
             key={comment._id}
             className="bg-gray-50 p-4 rounded-xl flex gap-4 border border-gray-100"
@@ -97,6 +100,7 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
             </div>
           </div>
         ))}
+        <div ref={loadMoreRef} className="h-10"></div>
       </div>
     </>
   );
