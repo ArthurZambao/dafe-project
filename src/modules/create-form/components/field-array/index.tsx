@@ -1,10 +1,10 @@
-import { AnimatedContent } from "@/global/animations/animatedContent";
-import { CreateFormInput, CreateFormTextarea } from "../form-inputs-components";
-import { OptionInput } from "../form-inputs-options";
-import { RequiredToggle } from "@/global/components/RequiredToggle";
-import { Trash2 } from "lucide-react";
-import { UseFormRegister, FieldErrors, FieldError } from "react-hook-form";
-import { CreateFormDataSchema } from "../../schemas/create-form-schema";
+import { AnimatedContent } from '@/global/animations/animatedContent';
+import { CreateFormInput, CreateFormTextarea } from '../form-inputs-components';
+import { OptionInput } from '../form-inputs-options';
+import { RequiredToggle } from '@/global/components/RequiredToggle';
+import { Trash2 } from 'lucide-react';
+import { UseFormRegister, FieldErrors, FieldError } from 'react-hook-form';
+import { CreateFormDataSchema } from '../../schemas/create-form-schema';
 
 interface FieldArrayProps {
   fields: { id: string; tipo?: string; opcoes?: { label?: string; checked?: boolean }[] }[];
@@ -12,9 +12,10 @@ interface FieldArrayProps {
   remove: (index: number) => void;
   perguntas: CreateFormDataSchema['perguntas'];
   errors: FieldErrors<CreateFormDataSchema>;
+  isPreview?: boolean;
 }
 
-export function FieldArray({ fields, register, remove, perguntas, errors }: FieldArrayProps) {
+export function FieldArray({ fields, register, remove, perguntas, errors, isPreview }: FieldArrayProps) {
   return (
     <>
       {fields.map((field, qIndex) => {
@@ -74,8 +75,7 @@ export function FieldArray({ fields, register, remove, perguntas, errors }: Fiel
               {/* Opções: Múltipla escolha ou Escolha única */}
               {['MÚLTIPLA_ESCOLHA', 'ESCOLHA_ÚNICA'].includes(perguntas?.[qIndex]?.tipo ?? '') &&
                 Array.from({ length: 5 }).map((_, i) => {
-
-                  const optLabelError = (qErrors?.opcoes?.[i]?.label) as FieldError | undefined;
+                  const optLabelError = qErrors?.opcoes?.[i]?.label as FieldError | undefined;
 
                   return (
                     <div key={i} className="flex flex-col">
@@ -105,14 +105,13 @@ export function FieldArray({ fields, register, remove, perguntas, errors }: Fiel
                   name={`perguntas.${qIndex}.resposta`}
                   placeholder="Resposta dissertativa do aluno"
                   error={respostaError}
+                  readOnly={isPreview}
                 />
               )}
 
               {/* Se for escolha única, exibe erro da resposta (se houver) */}
               {perguntas?.[qIndex]?.tipo === 'ESCOLHA_ÚNICA' && respostaError && (
-                <span className="text-red-500 text-sm mt-1">
-                  {respostaError.message}
-                </span>
+                <span className="text-red-500 text-sm mt-1">{respostaError.message}</span>
               )}
 
               <div className="flex gap-2 justify-end pt-2">

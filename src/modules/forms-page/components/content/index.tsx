@@ -73,17 +73,14 @@ export function FormsPageData() {
 
   return (
     <AnimatedContent inverse>
-           {' '}
       <div className="min-h-screen">
-        {' '}
         <FilterCard
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
           filterOptions={filterOptions}
         />
-                <FormsList filteredForms={filteredForms} />     {' '}
+        <FormsList filteredForms={filteredForms} />
       </div>
-         {' '}
     </AnimatedContent>
   );
 }

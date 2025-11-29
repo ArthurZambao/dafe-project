@@ -49,7 +49,7 @@ export function FormsList({ filteredForms }: FormListProps) {
                     <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary sm:truncate break-words">
                       {form.formTitulo || 'Sem título'}
                     </h2>
-                    <p className='text-lg'>{form.hasResponded ? 'Respondido' : 'Não respondido'}</p>
+                    <p className='text-sm sm:text-lg'>{form.hasResponded ? 'Respondido' : 'Não respondido'}</p>
                   </div>
                   <p className="text-black text-xs sm:text-base break-words">
                     {form.formDesc || 'Sem descrição'}

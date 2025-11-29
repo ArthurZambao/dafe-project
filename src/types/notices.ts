@@ -16,5 +16,6 @@ export interface NoticeFromAPI {
   autor: NoticeAuthor;
   createdAt: string;
   updateAt: string;
+  moduloDestino?: string;
   cursoDestino: 'Desenvolvimento de Sistemas' | 'Administração' | 'Logística' | 'Gestão de Recursos Humanos' | 'Marketing' | 'Todos os Cursos';
 }

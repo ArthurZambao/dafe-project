@@ -116,6 +116,7 @@ export function useCreateNotices() {
       
       setFilePreviewUrl(null);
       setImageHash(null);
+      console.log(data);
       reset();
       router.push('/notices-page');
 
