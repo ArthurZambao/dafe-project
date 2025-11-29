@@ -1,6 +1,5 @@
 import { PostInfoSection } from '@/global/components/postInfoSection';
 import { typePostList } from '@/types/typePostList';
-import { div } from 'framer-motion/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 

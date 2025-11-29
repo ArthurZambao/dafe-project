@@ -1,3 +1,4 @@
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 import { typeComments } from '@/types/typeComments';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -10,13 +11,17 @@ interface UserCommentListProps {
 export function UserCommentList({ comments, handleDelete }: UserCommentListProps) {
   const router = useRouter();
 
+  const { visibleItems, loadMoreRef } = useLazyLoadList<typeComments>(comments, 8);
+
   if (comments.length === 0) {
     return (
       <div className="text-center text-gray-500 text-sm mt-6">Você não tem nenhum comentário.</div>
     );
   }
 
-  return comments.map((comment) => (
+  return (
+    <>
+    {visibleItems.map((comment) => (
     <div
       key={comment._id}
       className="mb-4 p-4 rounded flex gap-4 cursor-pointer hover:bg-[#d1d1d1]"
@@ -26,23 +31,15 @@ export function UserCommentList({ comments, handleDelete }: UserCommentListProps
       }}
     >
       <div className="flex-1 w-full">
-        <p className="text-sm text-gray-600 break-words w-full">
-          {comment.autor.nome}
-        </p>
+        <p className="text-sm text-gray-600 break-words w-full">{comment.autor.nome}</p>
 
-        <p className="text-sm sm:text-base break-words w-full">
-          {comment.conteudo}
-        </p>
+        <p className="text-sm sm:text-base break-words w-full">{comment.conteudo}</p>
 
-        <p className="text-xs text-gray-400">
-          {new Date(comment.data).toLocaleString()}
-        </p>
+        <p className="text-xs text-gray-400">{new Date(comment.data).toLocaleString()}</p>
 
         <p className="text-xs sm:text-sm text-gray-400 break-words">
           Comentado em:{' '}
-          <span className="font-semibold">
-            {comment.post?.titulo ?? 'Tópico excluído'}
-          </span>
+          <span className="font-semibold">{comment.post?.titulo ?? 'Tópico excluído'}</span>
         </p>
       </div>
 
@@ -54,6 +51,8 @@ export function UserCommentList({ comments, handleDelete }: UserCommentListProps
         className="cursor-pointer hover:text-red-600 transition-colors duration-200"
       />
     </div>
-  ));
-
+  ))};
+  <div ref={loadMoreRef} className="h-10"></div>;
+  </>
+)
 }

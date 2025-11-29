@@ -83,9 +83,9 @@ export function FormResults({ formId }: FormResultsProps) {
             <h1 className="text-3xl sm:text-4xl font-bold text-azure-secondary mb-2">
               {data.formTitulo}
             </h1>
-
+            
             <button
-              className=" text-sm sm:text-base btn-dafe btn-dafe-hover px-0 sm:px-5 py-3 text-white mb-4 sm:mb-0"
+              className=" text-sm sm:text-base btn-dafe-delete btn-dafe-delete-hover px-0 sm:px-5 py-3 text-white mb-4 sm:mb-0"
               onClick={() => setShowDeleteModal(true)}
             >
               Apagar Formulário

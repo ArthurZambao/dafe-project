@@ -5,7 +5,7 @@ import { UserComments } from '../user-comments';
 import { UserPosts } from '../user-posts';
 import { UserComplaints } from '../user-complaints';
 import { useAuth } from '@/global/context/useAuth';
-// import { UserNotices } from '../user-notices';
+import { UserNotices } from '../user-notices';
 
 export function Tabs() {
   const [activeTab, setActiveTab] = useState<'comentarios' | 'posts' | 'denuncias' | 'formularios' | 'noticias'>(
@@ -57,7 +57,7 @@ export function Tabs() {
           <UserPosts />
         )}
         {activeTab === 'denuncias' && <UserComplaints />}
-        {/* {activeTab === 'noticias' && (user.role === 'admin' || user.role === 'professor') && <UserNotices />} */}
+        {activeTab === 'noticias' && (user.role === 'admin' || user.role === 'professor') && <UserNotices />}
       </div>
     </>
   );

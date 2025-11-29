@@ -18,7 +18,7 @@ export function FilterCard({ selectedFilter, setSelectedFilter, filterOptions }:
       <div className="flex gap-8">
         {user.role !== 'student'  && (
           <Link href={'/forms-page/create-form'}>
-            <button className="btn-dafe btn-dafe-hover px-4 sm:px-12 py-2 text-xl font-bold text-white whitespace-nowrap">
+            <button className="btn-dafe btn-dafe-hover px-4 sm:px-8 py-2 text-xl font-bold text-white whitespace-nowrap">
               Criar Formulário
             </button>
           </Link>

@@ -1,3 +1,4 @@
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 import { ComplaintResponse } from '@/types/complaints';
 
 interface UserComplaintsListProps {
@@ -6,34 +7,30 @@ interface UserComplaintsListProps {
 }
 
 export function UserComplaintsList({ complaints, handleStatusChange }: UserComplaintsListProps) {
+  const { visibleItems, loadMoreRef } = useLazyLoadList<ComplaintResponse>(complaints, 8);
+
+
   return (
     <div className="flex flex-col gap-5 mt-6">
-      {complaints.map((reclamacao) => (
+      {visibleItems.map((reclamacao) => (
         <div
           key={reclamacao._id}
           className="p-5 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all"
         >
-          {/* Cabeçalho */}
           <div className="flex justify-between items-start">
             <h3 className="text-2xl font-semibold text-azure-primary">{reclamacao.titulo}</h3>
           </div>
 
-          {/* Tópico */}
           <p className="text-sm text-slate-gray mt-1">
             <span className="font-semibold text-gray-700">Tópico:</span> {reclamacao.topico}
           </p>
 
-          {/* Conteúdo */}
           <p className="mt-3 text-gray-700 leading-relaxed whitespace-pre-wrap">
             {reclamacao.conteudo}
           </p>
 
-          {/* Rodapé */}
           <div className="flex justify-between items-center mt-4">
-            {/* Data */}
             <p className="text-sm text-gray-500">{reclamacao.data}</p>
-
-            {/* Select de status */}
             <select
               value={reclamacao.status}
               onChange={(e) => handleStatusChange(reclamacao._id, e.target.value)}
@@ -60,6 +57,7 @@ export function UserComplaintsList({ complaints, handleStatusChange }: UserCompl
           </div>
         </div>
       ))}
+      <div ref={loadMoreRef} className="h-10"></div>
     </div>
   );
 }

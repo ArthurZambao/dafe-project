@@ -1,9 +1,9 @@
 export interface CustomJwtPayload {
+  id: string;
   nome: string;
   email: string;
   usuario: string;
   instituicao: string;
-  id: string;
   modulo?: string;
   curso?: string;
   periodo?: string;
