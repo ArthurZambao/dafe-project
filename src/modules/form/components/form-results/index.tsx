@@ -22,7 +22,6 @@ export function FormResults({ formId }: FormResultsProps) {
         setLoading(true);
         const result = await getFormResults(formId);
         setData(result);
-        console.log('🔥 BACKEND RESPONSE:', result.results[0]);
       } catch (err) {
         console.error(err);
         setError('Erro ao carregar resultados. Verifique se você tem permissão.');

@@ -47,7 +47,7 @@ export function FormsList({ filteredForms }: FormListProps) {
                     : 'Data não informada'}
                 </p>
                 <p className="flex text-xs sm:text-sm items-center gap-0 sm:gap-2">
-                  <MessageSquare size={16} /> {form.respostasCount || 0}
+                  <MessageSquare size={16} /> {form.responsesCount}
                 </p>
               </div>
             </section>

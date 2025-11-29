@@ -50,7 +50,7 @@ export function PostList({ posts }: PostListProps) {
                     alt={`Imagem do post: ${post.titulo}`}
                     layout="fill"
                     objectFit="cover"
-                    priority={index < 3} // Opcional: Faz as 3 primeiras imagens carregarem mais rápido
+                    priority={index < 3}
                   />
                 </div>
               )}
