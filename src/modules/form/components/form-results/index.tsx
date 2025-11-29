@@ -79,12 +79,13 @@ export function FormResults({ formId }: FormResultsProps) {
         </Link>
 
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8 border-l-8 border-azure-primary">
-          <div className="flex justify-between">
+          <div className="flex flex-col-reverse sm:flex-row justify-between sm:items-center">
             <h1 className="text-3xl sm:text-4xl font-bold text-azure-secondary mb-2">
               {data.formTitulo}
             </h1>
+
             <button
-              className="btn-dafe btn-dafe-hover px-5 py-3 text-white"
+              className=" text-sm sm:text-base btn-dafe btn-dafe-hover px-0 sm:px-5 py-3 text-white mb-4 sm:mb-0"
               onClick={() => setShowDeleteModal(true)}
             >
               Apagar Formulário

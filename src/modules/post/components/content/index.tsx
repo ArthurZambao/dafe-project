@@ -160,7 +160,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
             {user.role === 'admin' && (
               <span>
                 <button
-                  className="btn-dafe btn-dafe-hover px-6 py-2 text-white cursor-pointer"
+                  className="text-xs sm:text-base btn-dafe btn-dafe-hover px-2 sm:px-6 py-2 text-white cursor-pointer"
                   onClick={() => setShowDeleteModal(true)}
                 >Deletar Post</button>
               </span>
