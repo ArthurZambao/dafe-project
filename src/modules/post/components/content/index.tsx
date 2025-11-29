@@ -72,24 +72,33 @@ export function PostPageData({ postId }: PostPageDataProps) {
   };
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!newComment.trim() || !post) return;
+    e.preventDefault();
+    if (!newComment.trim() || !post) return;
 
-  try {
-    const response = await api.post(`/comments/post/${post._id}`, {
-      conteudo: newComment,
-    });
+    try {
+      const response = await api.post(`/comments/post/${post._id}`, {
+        conteudo: newComment,
+      });
 
-    setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
-    setPost((prevPost) =>
-      prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
-    );
-    setNewComment('');
-  } catch (err) {
-    console.error('Erro ao postar comentário:', err);
-    setError('Erro ao postar comentário.');
-  }
-};
+      setComments((prev) => (prev ? [response.data, ...prev] : [response.data]));
+      setPost((prevPost) =>
+        prevPost ? { ...prevPost, commentsCount: prevPost.commentsCount + 1 } : prevPost
+      );
+      setNewComment('');
+      console.log(comments);
+    } catch (err) {
+      console.error('Erro ao postar comentário:', err);
+      setError('Erro ao postar comentário.');
+    }
+  };
+
+  const isAutor = post?.autor._id === user?.id;
+
+  const handleDeleteCommentLocal = (commentId: string) => {
+    setComments((prev) => (prev ? prev.filter((c) => c._id !== commentId) : prev));
+
+    setPost((prev) => (prev ? { ...prev, commentsCount: prev.commentsCount - 1 } : prev));
+  };
 
   if (!user) return null;
   if (loading) return <p className="p-10 text-xl min-h-screen">Carregando tópico...</p>;
@@ -99,9 +108,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
   return (
     <AnimatedContent inverse>
       <div className="p-6 sm:p-10 space-y-6 min-h-screen w-full max-w-screen-2xl mx-auto">
-        
         <div className="flex gap-4 items-center">
-          
           <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
             <Image
               src={post.autor.imageUrl || '/icons/user-icon.svg'}
@@ -113,11 +120,9 @@ export function PostPageData({ postId }: PostPageDataProps) {
 
           <div className="flex-col">
             <p className="text-lg sm:text-xl font-semibold text-azure-secondary">
-                {post.autor.usuario}
+              {post.autor.usuario}
             </p>
-            <p className="text-sm text-slate-gray">
-                {formatarData(post.data)}
-            </p>
+            <p className="text-sm text-slate-gray">{formatarData(post.data)}</p>
           </div>
         </div>
 
@@ -128,13 +133,13 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </p>
         </div>
 
-       {post.imageUrl && (
+        {post.imageUrl && (
           <div className="relative w-full h-64 sm:h-96 md:h-[30rem] mt-4 rounded-md overflow-hidden bg-gray-100">
             <Image
               src={post.imageUrl}
               alt={`Imagem do post: ${post.titulo}`}
               layout="fill"
-              objectFit="cover" 
+              objectFit="cover"
               priority
             />
           </div>
@@ -172,7 +177,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
           </form>
 
           {comments && comments.length > 0 ? (
-            <CommentsList comments={comments} />
+            <CommentsList comments={comments} onDelete={handleDeleteCommentLocal} autorValidator={isAutor} />
           ) : (
             <p className="text-gray-500">Nenhum comentário ainda.</p>
           )}

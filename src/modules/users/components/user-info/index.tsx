@@ -34,7 +34,7 @@ export function UserInfo() {
             text-xl sm:text-3xl font-medium text-center sm:text-left"
         >
           Bem-Vindo
-          <br className="block sm:hidden" /> {user.usuario} <span className={`${isAdmin ? 'bg-blue-900 text-white px-3 rounded-xl' : ''}`}>ADM</span>
+          <br className="block sm:hidden" /> {user.usuario} <span className={`${isAdmin ? 'bg-blue-900 text-white px-3 rounded-xl' : 'hidden'}`}>ADM</span>
         </h2>
 
         {!isAdmin &&
