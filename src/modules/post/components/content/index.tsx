@@ -11,7 +11,7 @@ import { typeComments } from '@/types/typeComments';
 import { CommentsList } from '../comments-list';
 import { useAuth } from '@/global/context/useAuth';
 import { api } from '@/libs/http/axios';
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { deletePost } from '@/libs/services/posts/postsService';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -160,7 +160,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
 
             {user.role === 'admin' && (
               <span>
-                <Trash
+                <Trash2
                   size={30}
                   className="text-black hover:text-red-500 duration-200 cursor-pointer"
                   onClick={() => setShowDeleteModal(true)}

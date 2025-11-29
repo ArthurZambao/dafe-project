@@ -1,4 +1,4 @@
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 import { ComplaintsDraftData } from '@/types/draftsDatas';
 
@@ -27,7 +27,7 @@ export function UlComplaintsPostDraftList({
               minute: '2-digit',
             })}
           </span>
-          <Trash
+          <Trash2
             size={20}
             className="hover:text-black duration-200"
             onClick={deleteDraft(draft.id)}

@@ -19,6 +19,7 @@ export function CreateForm() {
     questionsOption,
     setQuestionsOption,
     handleClick,
+    formState: { errors },
   } = useCreateForm();
 
   return (
@@ -48,15 +49,18 @@ export function CreateForm() {
             register={register}
             name="formTitulo"
             placeholder="Título do Formulário"
+            error={errors.formTitulo}
           />
+
           <CreateFormTextarea
             rows={1}
             register={register}
             name="formDesc"
             placeholder="Descrição"
+            error={errors.formDesc}
           />
 
-          <FieldArray fields={fields} register={register} remove={remove} perguntas={perguntas} />
+          <FieldArray fields={fields} register={register} remove={remove} perguntas={perguntas} errors={errors} />
 
           <div className="flex pl-26 gap-4 justify-center items-center">
             <button type="button" onClick={handleClick} className="flex justify-center">

@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { CreateFormDataSchema, createFormSchema } from '../schemas/create-form-schema';
 import { createForm } from '@/libs/services/forms/formService';
-
+import { toast } from 'sonner';
 
 export function useCreateForm() {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -13,7 +13,14 @@ export function useCreateForm() {
     'MÚLTIPLA_ESCOLHA' | 'ESCOLHA_ÚNICA' | 'DISSERTATIVA'
   >('MÚLTIPLA_ESCOLHA');
 
-  const { register, control, watch, handleSubmit, reset } = useForm<CreateFormDataSchema>({
+  const {
+    register,
+    control,
+    watch,
+    handleSubmit,
+    reset,
+    formState, 
+  } = useForm<CreateFormDataSchema>({
     resolver: zodResolver(createFormSchema),
     defaultValues: { perguntas: [] },
   });
@@ -28,6 +35,7 @@ export function useCreateForm() {
   const onSubmit = (data: CreateFormDataSchema) => {
     createForm(data);
     console.log('Final data saved:', data);
+    toast.success('Formulário criado com sucesso!');
     reset();
     router.push('/forms-page');
   };
@@ -72,5 +80,6 @@ export function useCreateForm() {
     questionsOption,
     setQuestionsOption,
     handleClick,
+    formState, // <-- RETORNOU AQUI
   };
 }

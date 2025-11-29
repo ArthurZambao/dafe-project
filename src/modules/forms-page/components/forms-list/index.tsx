@@ -30,16 +30,16 @@ export function FormsList({ filteredForms }: FormListProps) {
               />
             </div>
             <section className="flex flex-col mx-2 sm:mx-10 my-2 sm:my-4 pl-2 border-l-2 border-azure-primary">
-              <div className="flex-col sm:flex justify-between">
-                <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary sm:truncate break-words">
-                  {form.formTitulo || 'Sem título'}
-                </h2>
-
-                <p className="text-black text-xs sm:text-base break-words">
-                  {form.formDesc || 'Sem descrição'}
-                </p>
+              <div className="flex justify-between">
+                <div className="flex-col sm:flex justify-between">
+                  <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary sm:truncate break-words">
+                    {form.formTitulo || 'Sem título'}
+                  </h2>
+                  <p className="text-black text-xs sm:text-base break-words">
+                    {form.formDesc || 'Sem descrição'}
+                  </p>
+                </div>
               </div>
-
               <div className="flex justify-between">
                 <p className="text-xs font-semibold">
                   {form.createdAt

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/global/context/useAuth';
 import { deleteComment } from '@/libs/services/comments/commentsServices';
 import { typeComments } from '@/types/typeComments';
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { ConfirmModal } from '@/global/components/confirmModal';
@@ -82,7 +82,7 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
                 </div>
 
                 {(autorValidator || user.role === 'admin') && (
-                  <Trash
+                  <Trash2
                     size={20}
                     className="text-black hover:text-red-500 duration-200 cursor-pointer"
                     onClick={() => {
