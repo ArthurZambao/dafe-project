@@ -44,7 +44,7 @@ export function LoginForm() {
           <h2 className="text-2xl sm:text-3xl text-azure-primary font-semibold pb-5">Login</h2>
         </div>
 
-        <section className="flex flex-col gap-6 px-30">
+        <section className="flex flex-col gap-6 px-10 sm:px-30">
           <EnterInput<CreateLoginFormData>
             id="email"
             type="text"
@@ -63,12 +63,6 @@ export function LoginForm() {
             register={register}
             error={errors.senha}
           />
-
-          <Link href="/password-recovery">
-            <p className="text-sm cursor-pointer hover:underline text-azure-primary">
-              Esqueci minha senha
-            </p>
-          </Link>
 
           <div className="mx-auto py-4">
             <Checkbox<CreateLoginFormData>

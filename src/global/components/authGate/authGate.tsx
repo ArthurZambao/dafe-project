@@ -12,7 +12,7 @@ export function AuthGate({ children, mode, role, redirectTo }: AuthGateProps) {
   const [isChecking, setIsChecking] = useState(true);
   const [isAllowed, setIsAllowed] = useState(false);
   const { user } = useAuth();
-  const hasNotified = useRef(false); // <- evita toasts duplicados
+  const hasNotified = useRef(false);
 
   useEffect(() => {
     const token = getValidToken();
@@ -24,17 +24,23 @@ export function AuthGate({ children, mode, role, redirectTo }: AuthGateProps) {
           hasNotified.current = true;
         }
         router.replace(redirectTo || '/login');
-      } else {
-        if (role && user && user.role !== role) {
+        return;
+      }
+
+      if (role && user) {
+        const isAdmin = user.role === 'admin';
+
+        if (!isAdmin && user.role !== role) {
           if (!hasNotified.current) {
             toast.error('Você não tem permissão para acessar essa página.');
             hasNotified.current = true;
           }
           router.replace('/');
-        } else {
-          setIsAllowed(true);
+          return;
         }
       }
+
+      setIsAllowed(true);
     }
 
     if (mode === 'guest') {

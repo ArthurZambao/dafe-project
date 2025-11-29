@@ -1,6 +1,6 @@
 import { PostInfoSection } from '@/global/components/postInfoSection';
+import { useLazyLoadList } from '@/hooks/useLazyLoading';
 import { typePostList } from '@/types/typePostList';
-import { div } from 'framer-motion/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -16,15 +16,17 @@ const formatarData = (data: string) => {
 export function UserPostList({ posts, handleDelete }: UserPostListProps) {
   const router = useRouter();
 
+  const { visibleItems, loadMoreRef } = useLazyLoadList<typePostList>(posts, 8);
+
   if (posts.length === 0) {
     return <div className="text-center text-gray-500 text-sm mt-6">Você não tem nenhum Post.</div>;
   }
 
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10 mx-10">
-      {posts.map((post, index) => (
+      {visibleItems.map((post, index) => (
         <div
-        key={index}
+          key={index}
           onClick={() => {
             console.log(post);
             if (!post._id) return alert('ID do tópico ausente!');
@@ -76,10 +78,15 @@ export function UserPostList({ posts, handleDelete }: UserPostListProps) {
             <p className="leading-relaxed pt-6 text-sm sm:text-base lg:text-lg text-slate-gray text-center sm:text-left break-words w-full">
               {post.descricao}
             </p>
-            <PostInfoSection interacao={post.interacao} commentsCount={post.commentsCount} isInteracted={false} />
+            <PostInfoSection
+              interacao={post.interacao}
+              commentsCount={post.commentsCount}
+              isInteracted={false}
+            />
           </div>
         </div>
       ))}
+      <div ref={loadMoreRef} className="h-10"></div>
     </div>
   );
 }

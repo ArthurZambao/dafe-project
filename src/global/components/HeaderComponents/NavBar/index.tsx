@@ -18,7 +18,7 @@ export function NavBar() {
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
-    setIsInMobile(false);
+    setIsInMobile((prev) => !prev);
   };
   const toggleUserMenu = () => setIsUserMenuOpen((prev) => !prev);
 

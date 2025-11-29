@@ -7,14 +7,14 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export function NewsPageData({ id }: { id: string }) {
-  const [news, setNews] = useState<NoticeFromAPI | null>(null);
+  const [notice, setNotice] = useState<NoticeFromAPI | null>(null);
   const [loading, setLoading] = useState(true); 
   useEffect(() => {
     async function fetchNews() {
       try {
         setLoading(true);
         const data = await getNoticesByIdOrSlug(id);
-        setNews(data);
+        setNotice(data);
       } catch (error) {
         console.error('Erro ao buscar notícia:', error);
       } finally {
@@ -31,12 +31,11 @@ export function NewsPageData({ id }: { id: string }) {
     return <div className="text-center mt-10 text-slate-gray">Carregando notícia...</div>;
   }
 
-  if (!news) {
+  if (!notice) {
     return <div className="text-center mt-10 text-red-500">Notícia não encontrada.</div>;
   }
 
-  const bgImage = news.imageUrl || '/svgs/news-image-example.svg';
-
+  const bgImage = notice.imageUrl || '/svgs/news-image-example.svg';
   return (
     <section className="min-h-screen pb-10">
       <Link href="/notices-page" className="inline-flex">
@@ -52,17 +51,17 @@ export function NewsPageData({ id }: { id: string }) {
         <div className="absolute inset-0 bg-black/50 z-0"></div>
 
         <p className="absolute top-4 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
-          Publicado por: {news.autor.usuario}
+          Publicado por: {notice.autor.usuario}
         </p>
 
         <div className="relative z-10 w-full mb-10">
           <div className="ml-4 sm:ml-10 pl-4 border-l-8 border-azure-primary">
             <h2 className="text-2xl sm:text-3xl md:text-5xl text-white font-bold drop-shadow-lg">
-              {news.titulo}
+              {notice.titulo}
             </h2>
             <h3 className="mt-2">
               <span className="text-sm sm:text-xl text-gray-200 drop-shadow-md">
-                {news.descricao}
+                {notice.descricao}
               </span>
             </h3>
           </div>
@@ -71,7 +70,7 @@ export function NewsPageData({ id }: { id: string }) {
 
       <div className="max-w-4xl sm:max-w-5xl md:max-w-7xl mx-auto p-4 sm:p-10 space-y-6 overflow-x-auto">
         <p className="whitespace-pre-line break-words text-justify text-slate-gray text-base sm:text-lg leading-relaxed">
-          {news.conteudo}
+          {notice.conteudo}
         </p>
       </div>
     </section>

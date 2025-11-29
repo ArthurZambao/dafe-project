@@ -8,6 +8,7 @@ import { moduloOptions } from '@/global/constants/register-select-options';
 import { CreateEditUserFormData } from '../../schemas/create-edit-user-form-schema';
 import { useEditUser } from '../../hooks/useEditUser';
 import Image from 'next/image';
+import { EnterInput } from '@/global/components/FormComponents/EnterFormInput';
 
 export function EditUserForm() {
   const { 
@@ -52,7 +53,7 @@ export function EditUserForm() {
           />
         </div>
 
-        <Input<CreateEditUserFormData>
+        <EnterInput<CreateEditUserFormData>
           id="nome"
           type="text"
           label="Nome Completo:"
@@ -61,7 +62,7 @@ export function EditUserForm() {
           error={errors.nome}
         />
 
-        <Input<CreateEditUserFormData>
+        <EnterInput<CreateEditUserFormData>
           id="usuario"
           label="Nome de Usuário:"
           type="text"
@@ -70,7 +71,7 @@ export function EditUserForm() {
           error={errors.usuario}
         />
 
-        <Input<CreateEditUserFormData>
+        <EnterInput<CreateEditUserFormData>
           id="email"
           label="E-mail:"
           type="text"
@@ -79,7 +80,7 @@ export function EditUserForm() {
           error={errors.email}
         />
 
-        <Input<CreateEditUserFormData>
+        <EnterInput<CreateEditUserFormData>
           id="instituicao"
           label="Intituição de Ensino:"
           type="text"
@@ -110,7 +111,7 @@ export function EditUserForm() {
           </div>
         )}
 
-        <Input<CreateEditUserFormData>
+        <EnterInput<CreateEditUserFormData>
           id="senha"
           label="Senha:"
           type="password"

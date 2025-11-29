@@ -3,7 +3,7 @@ export type StoredForm = {
   formTitulo: string;
   formDesc: string;
   perguntas: {
-    _id: string; 
+    _id: string;
     tipo: 'MÚLTIPLA_ESCOLHA' | 'ESCOLHA_ÚNICA' | 'DISSERTATIVA';
     titulo: string;
     enunciado: string;
@@ -12,6 +12,7 @@ export type StoredForm = {
     resposta?: string;
   }[];
   data_final?: string;
-  respostasCount?: number;
+  responsesCount: number;
   createdAt?: string;
+  isAnswered?: boolean;
 };

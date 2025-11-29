@@ -2,6 +2,7 @@ import { api } from "@/libs/http/axios";
 import { getValidToken } from "@/global/utils/auth";
 import { CreateFormDataSchema } from "@/modules/create-form/schemas/create-form-schema";
 import { StoredForm } from "@/types/form";
+import { FormResultsAPI } from "@/types/formResults";
 
 
 export async function createForm(data: CreateFormDataSchema) {
@@ -25,6 +26,16 @@ export async function getForms(): Promise<StoredForm[]> {
 export async function getFormById(id: string) {
   const response = await api.get(`/forms/${id}`);
   return response.data;
+}
+
+export const getFormResults = async (formId: string): Promise<FormResultsAPI> => {
+    try {
+      const response = await api.get(`/responses/results/${formId}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erro ao buscar resultados do formulário ${formId}:`, error);
+      throw error;
+    }
 }
 
 export async function deleteForm(id: string) {

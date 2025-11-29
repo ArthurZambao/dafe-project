@@ -1,7 +1,8 @@
 export type ComplaintResponse = {
-  id: string;
+  _id: string;
   titulo: string;
   conteudo: string;
   topico: string;
   data: string;
+  status: 'Pendente' | 'Em Análise' | 'Resolvida' | 'Arquivada';
 };

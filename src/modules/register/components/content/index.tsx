@@ -30,7 +30,6 @@ export function RegisterPageData() {
     resolver: zodResolver(createRegisterFormSchema),
   });
 
-  // Atualiza o campo role no form sempre que mudar
   useEffect(() => {
     setValue('role', role, { shouldValidate: true, shouldDirty: true });
   }, [role, setValue]);
@@ -102,7 +101,7 @@ export function RegisterPageData() {
               className="h-auto max-h-[9rem] w-auto"
               priority
             />
-            <h2 className="text-3xl text-azure-primary font-semibold pb-5">Registrar-se</h2>
+            <h2 className="text-xl sm:text-3xl text-azure-primary font-semibold pb-5">Registrar-se</h2>
           </div>
 
           <section className='px-6 sm:px-10 flex flex-col gap-5 '>
@@ -182,6 +181,7 @@ export function RegisterPageData() {
                   id="matricula"
                   type="text"
                   placeholder="Matrícula:"
+                  maxlength={5}
                   register={register}
                   error={errors.matricula}
                 />

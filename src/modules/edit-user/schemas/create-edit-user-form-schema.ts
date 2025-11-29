@@ -32,17 +32,47 @@ export const createEditUserFormSchema = z
 
     senha: z
       .string()
-      .min(8, 'A senha deve ter no mínimo 8 caracteres.')
-      .max(64, 'A senha deve ter no máximo 64 caracteres.')
-      .regex(/[A-Z]/, 'A senha deve conter ao menos uma letra maiúscula.')
-      .regex(/[a-z]/, 'A senha deve conter ao menos uma letra minúscula.')
-      .regex(/[0-9]/, 'A senha deve conter ao menos um número.')
-      .regex(/[^A-Za-z0-9]/, 'A senha deve conter ao menos um caractere especial.'),
-    
+      .optional()
+      .transform(val => val === "" ? undefined : val)
+      .refine(
+        (val) => {
+          if (!val) return true; // Se não informou senha → OK
+          return val.length >= 8;
+        },
+        { message: "A senha deve ter no mínimo 8 caracteres." }
+      )
+      .refine(
+        (val) => {
+          if (!val) return true;
+          return /[A-Z]/.test(val);
+        },
+        { message: "A senha deve conter ao menos uma letra maiúscula." }
+      )
+      .refine(
+        (val) => {
+          if (!val) return true;
+          return /[a-z]/.test(val);
+        },
+        { message: "A senha deve conter ao menos uma letra minúscula." }
+      )
+      .refine(
+        (val) => {
+          if (!val) return true;
+          return /[0-9]/.test(val);
+        },
+        { message: "A senha deve conter ao menos um número." }
+      )
+      .refine(
+        (val) => {
+          if (!val) return true;
+          return /[^A-Za-z0-9]/.test(val);
+        },
+        { message: "A senha deve conter ao menos um caractere especial." }
+      ),
     anexos: z
       .any()
       .optional(),
-    })
-  
+  })
+
 
 export type CreateEditUserFormData = z.infer<typeof createEditUserFormSchema>;

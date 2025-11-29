@@ -1,14 +1,56 @@
-import { Trash2 } from "lucide-react";
-import { denuncias } from "../../../constants/denuncias";
+import { ComplaintResponse } from '@/types/complaints';
+import { useAuth } from '@/global/context/useAuth';
+import { useEffect, useState } from 'react';
+import { listComplaints, updateComplaintStatus } from '@/libs/api/complaints/complaints';
+import { toast } from 'sonner';
+import { UserComplaintsList } from '../../user-complaints-list';
 
 export function UserComplaints() {
-  return denuncias.map((denuncia) => (
-    <div key={denuncia.id} className="cursor-pointer mb-4 p-4 border rounded-lg shadow-sm">
-      <p className="text-2xl text-azure-primary">{denuncia.titulo}</p>
-      <span className="flex justify-between items-center mt-2">
-        <p className="text-slate-gray text-sm mt-2">{denuncia.data}</p>
-        <Trash2 className="cursor-pointer hover:text-red-600 transition-colors duration-200 " />
-      </span>
-    </div>
-  ));
+  const [complaints, setComplaints] = useState<ComplaintResponse[]>([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) return;
+
+    async function fetchlistComplaints() {
+      try {
+        const data = await listComplaints();
+        setComplaints(data);
+      } catch (error) {
+        console.error('Erro ao buscar as reclamações:', error);
+      }
+    }
+
+    fetchlistComplaints();
+  }, [user]);
+
+  async function handleStatusChange(id: string, novoStatus: string) {
+    setComplaints((prev) =>
+      prev.map((item) =>
+        item._id === id
+          ? {
+              ...item,
+              status: novoStatus as 'Pendente' | 'Em Análise' | 'Resolvida' | 'Arquivada',
+            }
+          : item
+      )
+    );
+    try {
+      await updateComplaintStatus(id, novoStatus);
+      toast.success('Status atualizado!');
+    } catch (error) {
+      toast.error('Erro ao atualizar status.');
+      console.error('Erro ao atualizar status:', error);
+    }
+  }
+
+  if (complaints.length === 0) {
+    return (
+      <div className="text-center text-gray-500 text-sm mt-6">
+        Você não tem nenhuma reclamação registrada.
+      </div>
+    );
+  }
+
+  return <UserComplaintsList complaints={complaints} handleStatusChange={handleStatusChange} />;
 }

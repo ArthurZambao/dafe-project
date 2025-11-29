@@ -4,14 +4,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-
 }
 
-
 @theme {
-  --color-azure-primary: #05366B;
+  --color-azure-primary: #05366b;
   --color-azure-primary-hover: #0056b3;
-  --color-azure-secondary: #4A83C0;
+  --color-azure-secondary: #4a83c0;
   --color-azure-footer: #195492;
   --color-slate-gray: #6c757d;
   --color-light-dafe-gray: #d4d4d4d3;
@@ -71,6 +69,14 @@ body {
 
 .btn-dafe-hover:hover {
   @apply bg-gradient-to-r from-[#001f4d] to-[#005bb5];
+}
+
+.btn-dafe-delete {
+  @apply bg-gradient-to-r from-[#6b0505] to-[#d10a0a] rounded-lg cursor-pointer transition duration-300 ease-in-out;
+}
+
+.btn-dafe-delete-hover:hover {
+  @apply bg-gradient-to-r from-[#4d0000] to-[#b50000];
 }
 
 .btn-register-jumbotron {

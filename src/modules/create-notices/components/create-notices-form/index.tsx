@@ -60,7 +60,7 @@ export function CreateNoticesForm() {
                 <MediaNoticeForm 
                     register={register} 
                     errors={errors} 
-                    filePreviewUrl={filePreviewUrl} // Passamos o preview
+                    filePreviewUrl={filePreviewUrl} 
                 />
             )}
           </div>

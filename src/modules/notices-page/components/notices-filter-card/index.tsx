@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/global/context/useAuth';
-import { SlidersHorizontal } from 'lucide-react';
+// import { SlidersHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
 export function NoticesFilterCard() {
@@ -14,7 +14,7 @@ export function NoticesFilterCard() {
       <h2 className="text-3xl sm:text-4xl font-bold text-azure-secondary">Notícias</h2>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        {/* <div className="flex items-center gap-2 w-full sm:w-auto">
           <input
             type="text"
             placeholder="Pesquisar notícias:"
@@ -23,7 +23,7 @@ export function NoticesFilterCard() {
           <button className="p-2">
             <SlidersHorizontal className="text-azure-primary" />  
           </button>
-        </div>
+        </div> */}
 
         {user.role !== 'student' && (
           <Link href="/notices-page/create-notices" className="w-full sm:w-auto">
