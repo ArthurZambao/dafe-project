@@ -1,3 +1,4 @@
+import { useAuth } from '@/global/context/useAuth';
 import { deleteComment } from '@/libs/services/comments/commentsServices';
 import { typeComments } from '@/types/typeComments';
 import { Trash } from 'lucide-react';
@@ -11,6 +12,9 @@ interface CommentsListProps {
 }
 
 export function CommentsList({ comments, onDelete, autorValidator }: CommentsListProps) {
+  const { user } = useAuth();
+
+  if (!user) return null;
 
   const handleDeleteComment = async (commentId: string) => {
     try {
@@ -45,7 +49,7 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
                   • {new Date(comment.data).toLocaleString()}
                 </span>
               </div>
-              {autorValidator && (
+              {autorValidator || user.role === 'admin' && (
                 <span>
                   {' '}
                   <Trash
