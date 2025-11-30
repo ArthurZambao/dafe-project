@@ -50,6 +50,5 @@ export async function getAnsweredFormIds(): Promise<string[]> {
     const res = await api.get<string[]>("/responses/answeredFormsIds", {
         headers: { Authorization: `Bearer ${token}` },
     });
-    // Retorna o array de IDs
     return res.data;
 }

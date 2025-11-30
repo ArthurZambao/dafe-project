@@ -25,14 +25,11 @@ export function FormAnswer({ formId }: FormAnswerProps) {
   const [respostas, setRespostas] = useState<(number | number[] | string | null)[]>([]);
   const router = useRouter();
 
-  // ✅ impede execução duplicada no StrictMode (solução oficial)
   const effectRan = useRef(false);
 
   useEffect(() => {
-    if (effectRan.current) return; // evita executar 2 vezes
+    if (effectRan.current) return;
     effectRan.current = true;
-
-    console.log('FormID recebido:', formId);
 
     async function verificar() {
       try {
@@ -84,43 +81,57 @@ export function FormAnswer({ formId }: FormAnswerProps) {
   };
 
   const handleSubmit = async () => {
-    try {
-      if (!form) return;
+  try {
+    if (!form) return;
 
-      const payload: FormAnswerType[] = form.perguntas.map((pergunta, index) => {
-        const raw = respostas[index];
-        let submittedAnswer: SubmittedAnswer;
+    const rawPayload = form.perguntas.map((pergunta, index) => {
+      const raw = respostas[index];
 
-        if (pergunta.tipo === 'ESCOLHA_ÚNICA') {
-          const idx = raw as number;
-          const text = pergunta.opcoes?.[idx]?.label ?? '';
-          submittedAnswer = text;
-        } else if (pergunta.tipo === 'MÚLTIPLA_ESCOLHA') {
-          const selected = raw as number[];
-          const texts = selected
-            .map((i) => pergunta.opcoes?.[i]?.label ?? '')
-            .filter((t) => t.trim() !== '');
-          submittedAnswer = texts;
-        } else {
-          submittedAnswer = (raw as string) ?? '';
-        }
+      const notAnswered =
+        (pergunta.tipo === "ESCOLHA_ÚNICA" && raw === "") ||
+        (pergunta.tipo === "MÚLTIPLA_ESCOLHA" && Array.isArray(raw) && raw.length === 0) ||
+        (pergunta.tipo === "DISSERTATIVA" && (raw as string).trim() === "");
 
-        return {
-          questionId: pergunta._id,
-          questionText: pergunta.enunciado,
-          submittedAnswer,
-        };
-      });
+      if (notAnswered) return null;
 
-      await sendResponses(form._id, payload);
+      let submittedAnswer: SubmittedAnswer;
 
-      toast.success('Formulário respondido com sucesso!');
-      router.push('/forms-page');
-    } catch (err) {
-      console.error('Erro ao enviar respostas:', err);
-      toast.error('Não foi possível enviar as respostas.');
-    }
-  };
+      if (pergunta.tipo === "ESCOLHA_ÚNICA") {
+        const idx = raw as number;
+        submittedAnswer = pergunta.opcoes?.[idx]?.label ?? "";
+      } else if (pergunta.tipo === "MÚLTIPLA_ESCOLHA") {
+        const selected = raw as number[];
+
+        const texts = selected
+          .map((i) => pergunta.opcoes?.[i]?.label)
+          .filter((t): t is string => typeof t === "string" && t.trim() !== "");
+
+        submittedAnswer = texts;
+      } else {
+        submittedAnswer = raw as string;
+      }
+
+      return {
+        questionId: pergunta._id,
+        questionText: pergunta.enunciado,
+        submittedAnswer,
+      };
+    });
+
+    // 🔥 Remove null e força o tipo final corretamente
+    const payload = rawPayload.filter(Boolean) as FormAnswerType[];
+
+    await sendResponses(form._id, payload);
+
+    toast.success("Formulário respondido com sucesso!");
+    router.push("/forms-page");
+
+  } catch (err) {
+    console.error("Erro ao enviar respostas:", err);
+    toast.error("Não foi possível enviar as respostas.");
+  }
+};
+
 
   if (!form)
     return <div className="p-10 text-center text-slate-gray">Carregando formulário...</div>;

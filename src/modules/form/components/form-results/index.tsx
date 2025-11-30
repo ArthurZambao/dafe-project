@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { ConfirmModal } from '@/global/components/confirmModal';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/global/context/useAuth';
 
 interface FormResultsProps {
   formId: string;
@@ -20,6 +21,7 @@ export function FormResults({ formId }: FormResultsProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -54,7 +56,9 @@ export function FormResults({ formId }: FormResultsProps) {
     return <div className="p-20 text-center text-xl text-slate-gray">Carregando respostas...</div>;
   if (error) return <div className="p-20 text-center text-xl text-red-500">{error}</div>;
   if (!data) return <div className="p-20 text-center text-xl">Nenhum dado encontrado.</div>;
+  if (!user) return null;
 
+  console.log('Dados do Formulário:', data);
   return (
     <>
       <ConfirmModal
@@ -83,13 +87,14 @@ export function FormResults({ formId }: FormResultsProps) {
             <h1 className="text-3xl sm:text-4xl font-bold text-azure-secondary mb-2">
               {data.formTitulo}
             </h1>
-            
-            <button
-              className=" text-sm sm:text-base btn-dafe-delete btn-dafe-delete-hover px-0 sm:px-5 py-3 text-white mb-4 sm:mb-0"
-              onClick={() => setShowDeleteModal(true)}
-            >
-              Apagar Formulário
-            </button>
+            {user.id == data.autorFormulario._id && (
+              <button
+                className=" text-sm sm:text-base btn-dafe-delete btn-dafe-delete-hover px-0 sm:px-5 py-3 text-white mb-4 sm:mb-0"
+                onClick={() => setShowDeleteModal(true)}
+              >
+                Apagar Formulário
+              </button>
+            )}
           </div>
           <p className="text-slate-gray text-lg">
             Total de Submissões:{' '}

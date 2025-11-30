@@ -28,14 +28,12 @@ export const createNoticeSchema = z.object({
   cursoDestino: z
     .string()
     .trim()
-    .max(50, "Curso pode ter no máximo 50 caracteres.")
-    .optional(),
+    .max(50, "Curso pode ter no máximo 50 caracteres."),
 
   moduloDestino: z
     .string()
     .trim()
-    .max(50, "Módulo pode ter no máximo 50 caracteres.")
-    .optional(),
+    .max(50, "Módulo pode ter no máximo 50 caracteres."),
 
   anexos: z
     .custom<FileList>()
