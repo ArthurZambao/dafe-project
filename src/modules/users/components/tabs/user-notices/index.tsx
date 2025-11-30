@@ -15,7 +15,7 @@ export function UserNotices() {
       try {
         let data: NoticeFromAPI[] = [];
 
-        if (user.role === 'admin') {
+        if (user.role === 'admin' || user.role === 'manager') {
           data = await getNotices();
         } else {
           data = await getNoticesByAuthor(user.id);

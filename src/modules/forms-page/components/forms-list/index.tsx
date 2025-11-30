@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuth } from '@/global/context/useAuth';
 import { StoredForm } from '@/types/form';
 import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
@@ -14,6 +15,8 @@ interface FormListProps {
 }
 
 export function FormsList({ filteredForms }: FormListProps) {
+  const { user } = useAuth();
+
   if (filteredForms.length === 0) {
     return (
       <p className="text-sm sm:text-base text-slate-gray text-center">
@@ -22,6 +25,7 @@ export function FormsList({ filteredForms }: FormListProps) {
     );
   }
 
+  if (!user) return null;
   return (
     <section className="flex flex-col gap-16 mx-12 sm:mx-24 pb-10 select-none">
       {filteredForms.map((form) => {
@@ -45,11 +49,15 @@ export function FormsList({ filteredForms }: FormListProps) {
             <section className="flex flex-col mx-2 sm:mx-10 my-2 sm:my-4 pl-2 border-l-2 border-azure-primary">
               <div className="flex justify-between">
                 <div className="flex-col sm:flex justify-between w-full">
-                  <div className='flex justify-between'>
+                  <div className="flex justify-between">
                     <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary sm:truncate break-words">
                       {form.formTitulo || 'Sem título'}
                     </h2>
-                    <p className='text-sm sm:text-lg'>{form.hasResponded ? 'Respondido' : 'Não respondido'}</p>
+                    {user.role === 'student' && (
+                      <p className="text-sm sm:text-lg">
+                        {form.hasResponded ? 'Respondido' : 'Não respondido'}
+                      </p>
+                    )}
                   </div>
                   <p className="text-black text-xs sm:text-base break-words">
                     {form.formDesc || 'Sem descrição'}

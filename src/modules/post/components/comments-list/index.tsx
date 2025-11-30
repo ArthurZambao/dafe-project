@@ -84,7 +84,7 @@ export function CommentsList({ comments, onDelete, autorValidator }: CommentsLis
                   </span>
                 </div>
 
-                {(autorValidator || user.role === 'admin') && (
+                {(autorValidator || user.role === 'admin' || user.role === 'manager') && (
                   <Trash2
                     size={20}
                     className="text-black hover:text-red-500 duration-200 cursor-pointer"

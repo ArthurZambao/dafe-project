@@ -25,7 +25,7 @@ export function Filter({ selectedFilter, setSelectedFilter, filterOptions }: Fil
         </SlideIn>
         <SlideIn from="right">
           <div className="flex items-center gap-10">
-            {(user.role === 'student' || user.role === 'admin') && <PostButton />}
+            {(user.role === 'student' || user.role === 'admin' || user.role === 'manager') && <PostButton />}
             <button
               onClick={handleToggle}
               className="flex items-center gap-2 cursor-pointer text-xl sm:text-lg text-black py-2"
