@@ -5,13 +5,14 @@ import { getPostById } from "@/libs/api/posts/posts";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { postId: string } | Promise<{ postId: string }>;
-}): Promise<Metadata> {
-  const awaitedParams = await params;
-  const postId = awaitedParams.postId;
+interface PageParams {
+  params: {
+    postId: string;
+  };
+}
+
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  const postId = params.postId;
 
   try {
     const post = await getPostById(postId); 
@@ -25,13 +26,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: { postId: string } | Promise<{ postId: string }>;
-}) {
-  const awaitedParams = await params;
-  const postId = awaitedParams.postId;
+export default async function PostPage({ params }: PageParams) {
+  const postId = params.postId;
 
   return (
     <AuthGate mode="auth">
