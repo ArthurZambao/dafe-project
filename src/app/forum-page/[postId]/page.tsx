@@ -5,12 +5,16 @@ import { getPostById } from "@/libs/api/posts/posts";
 
 export const dynamic = "force-dynamic";
 
-interface PageParams {
+// Defina o tipo MANUALMENTE para ignorar o bug da Vercel/Next
+type PageParams = {
   params: {
     postId: string;
   };
-}
+};
 
+// ----------------------
+// METADATA
+// ----------------------
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const postId = params.postId;
 
@@ -26,6 +30,9 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
   }
 }
 
+// ----------------------
+// PAGE COMPONENT
+// ----------------------
 export default async function PostPage({ params }: PageParams) {
   const postId = params.postId;
 
