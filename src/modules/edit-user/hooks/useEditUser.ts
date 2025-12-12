@@ -59,7 +59,7 @@ export function useEditUser() {
           toast.success(`Imagem pronta. Hash: ${hash.substring(0, 7)}...`, { id: toastId });
           setImageHash(hash);
         })
-        .catch(err => {
+        .catch(() => {
           toast.error('Não foi possível processar a imagem.', { id: toastId });
           setImageHash(null);
         })

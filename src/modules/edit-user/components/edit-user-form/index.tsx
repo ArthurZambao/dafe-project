@@ -1,7 +1,6 @@
 'use client';
 
 import { FileAttachment } from '@/global/components/FileAttachment';
-import { Input } from '@/global/components/FormComponents/FormInput';
 import { Select } from '@/global/components/FormComponents/FormSelect';
 import { cursoOptions } from '@/global/constants/curso-options';
 import { moduloOptions } from '@/global/constants/register-select-options';

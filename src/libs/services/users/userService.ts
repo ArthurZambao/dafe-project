@@ -1,7 +1,4 @@
 import { api } from '@/libs/http/axios';
-import {
-  CreateEditUserFormData,
-} from '@/modules/edit-user/schemas/create-edit-user-form-schema';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import { getValidToken } from '@/global/utils/auth';
 
