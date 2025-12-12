@@ -5,9 +5,7 @@ import { getPostById } from "@/libs/api/posts/posts";
 
 export const dynamic = "force-dynamic";
 
-type ForumPostPageProps = {
-  params: Promise<{ postId: string }>;
-};
+type ForumPostPageProps = { params: Promise<{ postId: string }> };
 
 export async function generateMetadata(
   props: ForumPostPageProps
