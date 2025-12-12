@@ -5,18 +5,38 @@ import { AnimatedContent } from '@/global/animations/animatedContent';
 import { StoredForm } from '@/types/form';
 import { FormsList } from '../forms-list';
 import { FilterCard } from '../filter-card';
-import { getForms } from '@/libs/services/forms/formService';
+import { getForms, getAnsweredFormIds } from '@/libs/services/forms/formService';
 
+interface FormWithStatus extends StoredForm {
+  hasResponded: boolean;
+}
 
 export function FormsPageData() {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<
+    'all' | 'answered' | 'unanswered' | string | null
+  >('all');
   const [storedForms, setStoredForms] = useState<StoredForm[]>([]);
+  const [answeredFormIds, setAnsweredFormIds] = useState<string[]>([]);
 
   useEffect(() => {
-    getForms()
-      .then(setStoredForms)
-      .catch((e) => console.error('Erro ao carregar formulários do backend:', e));
+    async function loadAllFormsData() {
+      try {
+        const [formsData, answeredIdsData] = await Promise.all([getForms(), getAnsweredFormIds()]);
+        setStoredForms(formsData);
+        setAnsweredFormIds(answeredIdsData);
+      } catch (e) {
+        console.error('Erro ao carregar dados do backend:', e);
+      }
+    }
+    loadAllFormsData();
   }, []);
+
+  const formsWithStatus = useMemo((): FormWithStatus[] => {
+    return storedForms.map((form) => ({
+      ...form,
+      hasResponded: answeredFormIds.includes(form._id.toString()),
+    }));
+  }, [storedForms, answeredFormIds]);
 
   const filterOptions = useMemo(() => {
     const meses = storedForms.map((form) => {
@@ -27,14 +47,29 @@ export function FormsPageData() {
   }, [storedForms]);
 
   const filteredForms = useMemo(() => {
-    if (!selectedFilter) return storedForms;
+    let list = formsWithStatus;
 
-    return storedForms.filter((form) => {
-      const date = new Date(form.data_final || form.createdAt || Date.now());
-      const mes = date.toLocaleString('pt-BR', { month: 'long' });
-      return mes === selectedFilter;
-    });
-  }, [selectedFilter, storedForms]);
+    if (
+      typeof selectedFilter === 'string' &&
+      selectedFilter !== 'all' &&
+      selectedFilter !== 'answered' &&
+      selectedFilter !== 'unanswered'
+    ) {
+      list = list.filter((form) => {
+        const date = new Date(form.data_final || form.createdAt || Date.now());
+        const mes = date.toLocaleString('pt-BR', { month: 'long' });
+        return mes === selectedFilter;
+      });
+    }
+    if (selectedFilter === 'answered') {
+      return list.filter((form) => form.hasResponded);
+    }
+    if (selectedFilter === 'unanswered') {
+      return list.filter((form) => !form.hasResponded);
+    }
+
+    return list;
+  }, [selectedFilter, formsWithStatus]);
 
   return (
     <AnimatedContent inverse>

@@ -29,13 +29,13 @@ export async function getFormById(id: string) {
 }
 
 export const getFormResults = async (formId: string): Promise<FormResultsAPI> => {
-    try {
-      const response = await api.get(`/responses/results/${formId}`);
-      return response.data;
-    } catch (error) {
-      console.error(`Erro ao buscar resultados do formulário ${formId}:`, error);
-      throw error;
-    }
+  try {
+    const response = await api.get(`/responses/results/${formId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar resultados do formulário ${formId}:`, error);
+    throw error;
+  }
 }
 
 export async function deleteForm(id: string) {
@@ -43,4 +43,12 @@ export async function deleteForm(id: string) {
   await api.delete(`/forms/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+}
+
+export async function getAnsweredFormIds(): Promise<string[]> {
+    const token = getValidToken();
+    const res = await api.get<string[]>("/responses/answeredFormsIds", {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
 }

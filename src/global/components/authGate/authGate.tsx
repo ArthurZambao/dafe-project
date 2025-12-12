@@ -28,7 +28,7 @@ export function AuthGate({ children, mode, role, redirectTo }: AuthGateProps) {
       }
 
       if (role && user) {
-        const isAdmin = user.role === 'admin';
+        const isAdmin = user.role === 'admin'|| user.role === 'manager';
 
         if (!isAdmin && user.role !== role) {
           if (!hasNotified.current) {

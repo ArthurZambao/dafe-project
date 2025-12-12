@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 const optionSchema = z.object({
-  label: z.string().min(1, 'Opção obrigatória'),
-  checked: z.boolean().optional(), 
+  label: z.string().optional(), 
+  checked: z.boolean().optional(),
 });
+
 
 const questionSchema = z.discriminatedUnion('tipo', [
   z.object({
@@ -19,7 +20,7 @@ const questionSchema = z.discriminatedUnion('tipo', [
     enunciado: z.string().min(1, 'Enunciado obrigatório'),
     obrigatoria: z.boolean().optional(),
     opcoes: z.array(optionSchema).min(1, 'Adicione pelo menos uma opção'),
-    resposta: z.number().optional(),
+    resposta: z.coerce.number().optional(),
   }),
   z.object({
     tipo: z.literal('DISSERTATIVA'),

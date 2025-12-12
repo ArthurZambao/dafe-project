@@ -1,4 +1,3 @@
-// OptionInput.tsx
 import { UseFormRegister } from 'react-hook-form';
 import { CreateFormDataSchema } from '../../schemas/create-form-schema';
 
@@ -7,28 +6,28 @@ interface OptionInputProps {
   index: number;
   qIndex: number;
   type: 'MÚLTIPLA_ESCOLHA' | 'ESCOLHA_ÚNICA';
+  isPreview?: boolean; 
 }
 
-export const OptionInput = ({ register, index, qIndex, type }: OptionInputProps) => (
-  <label className="flex gap-2 items-center">
+export const OptionInput = ({ register, index, qIndex, type, isPreview }: OptionInputProps) => (
+  <label className={`flex gap-2 items-center ${isPreview ? 'opacity-70 cursor-not-allowed' : ''}`}>
     {type === 'MÚLTIPLA_ESCOLHA' ? (
       <input
         type="checkbox"
-        {...register(`perguntas.${qIndex}.opcoes.${index}.checked` as const)}
+        disabled={isPreview}
       />
     ) : (
       <input
         type="radio"
-        value={index}
-        {...register(`perguntas.${qIndex}.resposta` as const, {
-          valueAsNumber: true,
-        })}
+        disabled={isPreview} 
       />
     )}
+
     <input
       {...register(`perguntas.${qIndex}.opcoes.${index}.label` as const)}
       placeholder={`Opção ${index + 1}`}
       className="border-b p-1"
+      disabled={isPreview} 
     />
   </label>
 );

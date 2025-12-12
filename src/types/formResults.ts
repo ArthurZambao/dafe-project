@@ -26,4 +26,12 @@ export interface FormResultsAPI {
     totalRespostas: number;
     results: StudentResult[];
     summary?: string;
+    autorFormulario: Autor;
+}
+
+export interface Autor {
+    _id: string;
+    usuario: string;
+    nome: string;
+    email: string;
 }

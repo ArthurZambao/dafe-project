@@ -24,7 +24,7 @@ export function Tabs() {
         >
           Comentários
         </button>
-        {(user.role === 'student' || user.role === 'admin') && (
+        {(user.role === 'student' || user.role === 'admin' || user.role === 'manager') && (
           <button
             className={`cursor-pointer whitespace-nowrap ${activeTab === 'posts' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
             onClick={() => setActiveTab('posts')}
@@ -32,7 +32,7 @@ export function Tabs() {
             Posts
           </button>
         )}
-        {(user.role === 'admin' || user.role === 'professor') && (
+        {(user.role === 'admin' || user.role === 'professor' || user.role === 'manager') && (
           <>
             <button
               className={`cursor-pointer whitespace-nowrap ${activeTab === 'denuncias' ? 'border-b-2 border-azure-primary pb-1' : ''}`}
@@ -53,11 +53,11 @@ export function Tabs() {
 
       <div className="mt-6 w-full">
         {activeTab === 'comentarios' && <UserComments />}
-        {activeTab === 'posts' && (user.role === 'student' || user.role === 'admin') && (
+        {activeTab === 'posts' && (user.role === 'student' || user.role === 'admin' || user.role === 'manager') && (
           <UserPosts />
         )}
         {activeTab === 'denuncias' && <UserComplaints />}
-        {activeTab === 'noticias' && (user.role === 'admin' || user.role === 'professor') && <UserNotices />}
+        {activeTab === 'noticias' && (user.role === 'admin' || user.role === 'professor' || user.role === 'manager') && <UserNotices />}
       </div>
     </>
   );

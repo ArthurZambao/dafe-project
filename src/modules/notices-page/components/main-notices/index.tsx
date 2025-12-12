@@ -52,7 +52,8 @@ export function MainNotices() {
                     Feito por: <span className="font-semibold">{notice.autor.usuario}</span>
                   </p>
                   <p className="absolute top-12 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
-                    Para: {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
+                    Para: {notice.moduloDestino ? `${notice.moduloDestino}º` : ''}{' '}
+                    {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
                   </p>
                 </section>
 

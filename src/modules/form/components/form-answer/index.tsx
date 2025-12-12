@@ -23,16 +23,14 @@ interface FormAnswerProps {
 export function FormAnswer({ formId }: FormAnswerProps) {
   const [form, setForm] = useState<StoredForm | null>(null);
   const [respostas, setRespostas] = useState<(number | number[] | string | null)[]>([]);
-  const router = useRouter();
+  const [errosObrigatorios, setErrosObrigatorios] = useState<boolean[]>([]);
 
-  // ✅ impede execução duplicada no StrictMode (solução oficial)
+  const router = useRouter();
   const effectRan = useRef(false);
 
   useEffect(() => {
-    if (effectRan.current) return; // evita executar 2 vezes
+    if (effectRan.current) return;
     effectRan.current = true;
-
-    console.log('FormID recebido:', formId);
 
     async function verificar() {
       try {
@@ -52,6 +50,7 @@ export function FormAnswer({ formId }: FormAnswerProps) {
         );
 
         setRespostas(initial);
+        setErrosObrigatorios(Array(data.perguntas.length).fill(false));
       } catch (err) {
         console.error(err);
       }
@@ -60,6 +59,7 @@ export function FormAnswer({ formId }: FormAnswerProps) {
     verificar();
   }, [formId, router]);
 
+  // --- HANDLERS ---
   const handleRadioChange = (qIndex: number, optionIndex: number) => {
     const newRespostas = [...respostas];
     newRespostas[qIndex] = optionIndex;
@@ -83,45 +83,76 @@ export function FormAnswer({ formId }: FormAnswerProps) {
     setRespostas(newRespostas);
   };
 
+  // --- SUBMIT ---
   const handleSubmit = async () => {
+    if (!form) return;
+
+    const novasFalhas: boolean[] = [];
+
+    // Verifica obrigatórias
+    form.perguntas.forEach((pergunta, index) => {
+      const raw = respostas[index];
+
+      let naoRespondida = false;
+
+      if (pergunta.obrigatoria) {
+        if (pergunta.tipo === 'ESCOLHA_ÚNICA' && raw === '') naoRespondida = true;
+        if (pergunta.tipo === 'MÚLTIPLA_ESCOLHA' && Array.isArray(raw) && raw.length === 0)
+          naoRespondida = true;
+        if (pergunta.tipo === 'DISSERTATIVA' && (raw as string).trim() === '')
+          naoRespondida = true;
+      }
+
+      novasFalhas.push(naoRespondida);
+    });
+
+    setErrosObrigatorios(novasFalhas);
+
+    if (novasFalhas.some((e) => e)) {
+      toast.error('Responda todas as perguntas obrigatórias.');
+      return;
+    }
+
+    // Se passou, monta payload
+    const rawPayload = form.perguntas.map((pergunta, index) => {
+      const raw = respostas[index];
+
+      let submittedAnswer: SubmittedAnswer;
+
+      if (pergunta.tipo === 'ESCOLHA_ÚNICA') {
+        const idx = raw as number;
+        submittedAnswer = pergunta.opcoes?.[idx]?.label ?? '';
+      } else if (pergunta.tipo === 'MÚLTIPLA_ESCOLHA') {
+        const selected = raw as number[];
+        const texts = selected
+          .map((i) => pergunta.opcoes?.[i]?.label)
+          .filter((t): t is string => typeof t === 'string' && t.trim() !== '');
+
+        submittedAnswer = texts;
+      } else {
+        submittedAnswer = raw as string;
+      }
+
+      return {
+        questionId: pergunta._id,
+        questionText: pergunta.enunciado,
+        submittedAnswer,
+      };
+    });
+
+    const payload = rawPayload as FormAnswerType[];
+
     try {
-      if (!form) return;
-
-      const payload: FormAnswerType[] = form.perguntas.map((pergunta, index) => {
-        const raw = respostas[index];
-        let submittedAnswer: SubmittedAnswer;
-
-        if (pergunta.tipo === 'ESCOLHA_ÚNICA') {
-          const idx = raw as number;
-          const text = pergunta.opcoes?.[idx]?.label ?? '';
-          submittedAnswer = text;
-        } else if (pergunta.tipo === 'MÚLTIPLA_ESCOLHA') {
-          const selected = raw as number[];
-          const texts = selected
-            .map((i) => pergunta.opcoes?.[i]?.label ?? '')
-            .filter((t) => t.trim() !== '');
-          submittedAnswer = texts;
-        } else {
-          submittedAnswer = (raw as string) ?? '';
-        }
-
-        return {
-          questionId: pergunta._id,
-          questionText: pergunta.enunciado,
-          submittedAnswer,
-        };
-      });
-
       await sendResponses(form._id, payload);
-
       toast.success('Formulário respondido com sucesso!');
       router.push('/forms-page');
     } catch (err) {
-      console.error('Erro ao enviar respostas:', err);
+      console.error(err);
       toast.error('Não foi possível enviar as respostas.');
     }
   };
 
+  // --- RENDER ---
   if (!form)
     return <div className="p-10 text-center text-slate-gray">Carregando formulário...</div>;
 
@@ -145,64 +176,89 @@ export function FormAnswer({ formId }: FormAnswerProps) {
           <section className="py-10">
             <h2 className="text-xl sm:text-3xl font-semibold text-azure-secondary">Perguntas:</h2>
 
-            {form.perguntas.map((pergunta, i) => (
-              <div key={i} className="my-8 pb-4 border-b border-gray-100">
-                <h2 className="text-base sm:text-xl rounded-lg bg-[#eff6ff] text-azure-primary font-medium p-4 mb-4">
-                  {i + 1}. {pergunta.titulo}
-                </h2>
+            {form.perguntas.map((pergunta, i) => {
+              const erro = errosObrigatorios[i];
 
-                <p className="mb-4 text-base sm:text-lg font-medium pl-2">{pergunta.enunciado}</p>
+              return (
+                <div
+                  key={i}
+                  className={`my-8 pb-4 border-b ${
+                    erro ? 'border-red-400' : 'border-gray-100'
+                  }`}
+                >
+                  <h2
+                    className={`text-base sm:text-xl rounded-lg p-4 mb-4 font-medium ${
+                      erro
+                        ? 'bg-red-100 text-red-600'
+                        : 'bg-[#eff6ff] text-azure-primary'
+                    }`}
+                  >
+                    {i + 1}. {pergunta.titulo}
+                    {pergunta.obrigatoria && <span className="text-red-500 ml-2">*</span>}
+                  </h2>
 
-                {pergunta.tipo === 'ESCOLHA_ÚNICA' && (
-                  <div className="flex flex-col gap-3 pl-2">
-                    {pergunta.opcoes?.map((opcao, idx) => (
-                      <label
-                        key={idx}
-                        className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-                      >
-                        <input
-                          type="radio"
-                          name={`pergunta-${i}`}
-                          className="w-5 h-5 text-azure-primary focus:ring-azure-primary cursor-pointer"
-                          checked={respostas[i] === idx}
-                          onChange={() => handleRadioChange(i, idx)}
-                        />
-                        <span className="text-lg">{opcao.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
+                  <p className="mb-4 text-base sm:text-lg font-medium pl-2">
+                    {pergunta.enunciado}
+                  </p>
 
-                {pergunta.tipo === 'MÚLTIPLA_ESCOLHA' && (
-                  <div className="flex flex-col gap-3 pl-2">
-                    {pergunta.opcoes?.map((opcao, idx) => (
-                      <label
-                        key={idx}
-                        className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
-                      >
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 text-azure-primary focus:ring-azure-primary rounded cursor-pointer"
-                          checked={(respostas[i] as number[]).includes(idx)}
-                          onChange={() => handleCheckboxChange(i, idx)}
-                        />
-                        <span className="text-lg">{opcao.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
+                  {/* ESCOLHA ÚNICA */}
+                  {pergunta.tipo === 'ESCOLHA_ÚNICA' && (
+                    <div className="flex flex-col gap-3 pl-2">
+                      {pergunta.opcoes?.map((opcao, idx) => (
+                        <label
+                          key={idx}
+                          className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <input
+                            type="radio"
+                            name={`pergunta-${i}`}
+                            className="w-5 h-5 text-azure-primary focus:ring-azure-primary cursor-pointer"
+                            checked={respostas[i] === idx}
+                            onChange={() => handleRadioChange(i, idx)}
+                          />
+                          <span className="text-lg">{opcao.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
 
-                {pergunta.tipo === 'DISSERTATIVA' && (
-                  <textarea
-                    value={(respostas[i] as string) || ''}
-                    onChange={(e) => handleTextChange(i, e.target.value)}
-                    className="w-full mt-2 border border-gray-300 rounded-xl p-4 focus:outline-none focus:border-azure-primary focus:ring-1 focus:ring-azure-primary transition-all"
-                    placeholder="Digite sua resposta aqui..."
-                    rows={4}
-                  />
-                )}
-              </div>
-            ))}
+                  {/* MÚLTIPLA ESCOLHA */}
+                  {pergunta.tipo === 'MÚLTIPLA_ESCOLHA' && (
+                    <div className="flex flex-col gap-3 pl-2">
+                      {pergunta.opcoes?.map((opcao, idx) => (
+                        <label
+                          key={idx}
+                          className="flex gap-3 items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 text-azure-primary focus:ring-azure-primary rounded cursor-pointer"
+                            checked={(respostas[i] as number[]).includes(idx)}
+                            onChange={() => handleCheckboxChange(i, idx)}
+                          />
+                          <span className="text-lg">{opcao.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* DISSERTATIVA */}
+                  {pergunta.tipo === 'DISSERTATIVA' && (
+                    <textarea
+                      value={(respostas[i] as string) || ''}
+                      onChange={(e) => handleTextChange(i, e.target.value)}
+                      className={`w-full mt-2 border rounded-xl p-4 focus:outline-none transition-all ${
+                        erro
+                          ? 'border-red-400 focus:border-red-500 focus:ring-red-400'
+                          : 'border-gray-300 focus:border-azure-primary focus:ring-1 focus:ring-azure-primary'
+                      }`}
+                      placeholder="Digite sua resposta aqui..."
+                      rows={4}
+                    />
+                  )}
+                </div>
+              );
+            })}
 
             <div className="flex justify-center sm:justify-end pt-6">
               <button

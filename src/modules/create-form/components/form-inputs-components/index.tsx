@@ -36,15 +36,22 @@ export const CreateFormInput = ({
   </div>
 );
 
-export const CreateFormTextarea = ({ register, name, placeholder, rows, error }: InputProps) => (
+export const CreateFormTextarea = ({
+  register,
+  name,
+  placeholder,
+  rows,
+  error,
+  readOnly,
+}: InputProps & { readOnly?: boolean }) => (
   <div className="flex flex-col w-full">
     <textarea
       {...register(name as keyof CreateFormDataSchema)}
       rows={rows}
       placeholder={placeholder}
       className={`border-b p-2 my-2 focus:outline-none w-full ${error ? 'border-red-500' : ''}`}
+      readOnly={readOnly}
     />
-
     {error && (
       <span role="alert" className="text-red-500 text-sm mt-1 ml-1">
         {error.message}

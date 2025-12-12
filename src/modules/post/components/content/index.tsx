@@ -157,7 +157,7 @@ export function PostPageData({ postId }: PostPageDataProps) {
               </div>
             </div>
 
-            {user.role === 'admin' && (
+            {(user.role === 'admin' || user.role === 'manager') && (
               <span>
                 <button
                   className="text-xs sm:text-base btn-dafe-delete btn-dafe-delete-hover px-2 sm:px-6 py-2 text-white cursor-pointer"

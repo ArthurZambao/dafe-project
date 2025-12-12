@@ -60,7 +60,7 @@ export function CreateForm() {
             error={errors.formDesc}
           />
 
-          <FieldArray fields={fields} register={register} remove={remove} perguntas={perguntas} errors={errors} />
+          <FieldArray fields={fields} register={register} remove={remove} perguntas={perguntas} errors={errors} isPreview={true} />
 
           <div className="flex pl-26 gap-4 justify-center items-center">
             <button type="button" onClick={handleClick} className="flex justify-center">

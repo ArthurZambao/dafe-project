@@ -14,6 +14,7 @@ export function UserInfo() {
   const profileImageUrl = user.imageUrl || DEFAULT_AVATAR;
 
   const isAdmin = user.role === 'admin';
+  const isManager = user.role === 'manager';
 
   return (
     <div className="flex flex-col items-center justify-between mb-2 gap-6 sm:gap-0 pb-10 select-none">
@@ -34,10 +35,10 @@ export function UserInfo() {
             text-xl sm:text-3xl font-medium text-center sm:text-left"
         >
           Bem-Vindo
-          <br className="block sm:hidden" /> {user.usuario} <span className={`${isAdmin ? 'bg-blue-900 text-white px-3 rounded-xl' : 'hidden'}`}>ADM</span>
+          <br className="block sm:hidden" /> {user.usuario} <span className={`${isAdmin ? 'bg-blue-900 text-white px-3 rounded-xl' : 'hidden'}`}>ADM</span><span className={`${isManager ? 'bg-green-900 text-white px-3 rounded-xl' : 'hidden'}`}>MANAGER</span>
         </h2>
 
-        {!isAdmin &&
+        {!isAdmin && !isManager &&
           (user.role === 'student' ? (
             <div className="text-center">
               <h3 className="text-xl">Estudante da {user.instituicao}</h3>

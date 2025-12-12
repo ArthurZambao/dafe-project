@@ -17,6 +17,7 @@ export function NoticesList() {
     return <p className="text-center text-red-500 mt-10">{error}</p>;
   }
 
+  console.log(notices);
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pr-2 mx-5 sm:mx-20">
@@ -47,12 +48,13 @@ export function NoticesList() {
                     : 'h-[20rem] sm:h-[28rem]'
                 }`}
               >
-                <section className='flex flex-col gap-2'>
+                <section className="flex flex-col gap-2">
                   <p className="absolute top-4 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
-                    Feito por: <span className='font-semibold'>{notice.autor.usuario}</span>
+                    Feito por: <span className="font-semibold">{notice.autor.usuario}</span>
                   </p>
                   <p className="absolute top-12 left-4 text-white text-xs sm:text-sm z-10 font-medium bg-black/30 px-2 py-1 rounded">
-                    Para: {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
+                    Para: {notice.moduloDestino ? `${notice.moduloDestino}º` : ''}{' '}
+                    {notice.cursoDestino ? notice.cursoDestino : 'Todos os Cursos'}
                   </p>
                 </section>
 
