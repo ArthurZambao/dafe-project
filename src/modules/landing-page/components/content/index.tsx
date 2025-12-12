@@ -6,11 +6,12 @@ import { Register } from '../register';
 import { Definition } from '../definition';
 
 export function LandingPageData() {
+  console.log('Rendendo no:', typeof window === 'undefined' ? 'SERVER' : 'CLIENT');
   return (
     <AnimatedContent inverse>
       <Jumbotron />
       <MainObjectives />
-      <Definition/>
+      <Definition />
       <Operation />
       <Register />
     </AnimatedContent>

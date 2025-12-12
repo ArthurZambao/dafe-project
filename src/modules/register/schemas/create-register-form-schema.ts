@@ -55,7 +55,8 @@ const professorSchema = z
     role: z.literal('professor'),
     curso: z.string().optional(),
     modulo: z.string().optional(),
-    matricula: z.coerce.number({ required_error: 'Matrícula é obrigatória.' }),
+    matricula: z.coerce.number().min(5, 'Matrícula deve ter 5 dígitos.')
+      .refine((val) => val !== 0, { message: 'Matrícula é obrigatória.' }),
     periodo: z.string({ required_error: 'Período é obrigatório.' }),
   })
   .merge(z.object(baseSchema))

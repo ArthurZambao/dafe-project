@@ -15,7 +15,6 @@ export function useCreatePosts() {
   const dataFormatada = hoje.toISOString().slice(0, 10);
   const router = useRouter();
 
-  // 1. Novos estados pra guardar resultados do anexo de imgs
   const [imageHash, setImageHash] = useState<string | null>(null);
   const [filePreviewUrl, setFilePreviewUrl] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -27,7 +26,7 @@ export function useCreatePosts() {
     handleSubmit,
     reset,
     watch,
-    setValue, // Adicionado para limpar o input de arquivo se necessário
+    setValue, 
   } = useForm<CreateFormData>({
     resolver: zodResolver(createFormSchema),
   });
@@ -39,31 +38,27 @@ export function useCreatePosts() {
   const file = anexos && anexos.length > 0 ? (anexos[0] as File) : null;
 
 
-  // 2. useEffect principal: Processa arquivo e gerencia a limpeza da URL de preview
   useEffect(() => {
     
-    // 1. LÓGICA DE LIMPEZA (Cleanup Function): Executada antes do próximo efeito ou na desmontagem.
     return () => {
       if (filePreviewUrl) {
         URL.revokeObjectURL(filePreviewUrl);
       }
     };
     
-}, [filePreviewUrl]); // Dispara o cleanup quando o filePreviewUrl muda (para limpar o cache do navegador)
+}, [filePreviewUrl]); 
 
 
-  // NOVO useEffect: Dispara o processamento SÓ quando anexos (o arquivo) muda
+
   useEffect(() => {
     
-    // Se não houver arquivo, resetamos a hash e a URL de preview
     if (!file) {
         setImageHash(null);
         setFileName(null);
-        setFilePreviewUrl(null); // Garante que o estado está limpo
+        setFilePreviewUrl(null); 
         return;
     }
 
-    // Se houver um arquivo, iniciamos o processamento
     setIsProcessingFile(true);
     const toastId = toast.loading('Processando arquivo...');
     
@@ -77,22 +72,20 @@ export function useCreatePosts() {
         .then(hash => {
             console.log('Impressão Digital (Hash MD5):', hash);
             toast.success(`Arquivo pronto. Hash: ${hash.substring(0, 7)}...`, { id: toastId });
-            setImageHash(hash); // Salva hash no estado
+            setImageHash(hash);
         })
         .catch(err => {
             console.error('Erro ao calcular o hash:', err);
             toast.error('Não foi possível processar o arquivo.', { id: toastId });
             setImageHash(null);
             
-            // LIMPA O INPUT APÓS ERRO (OPCIONAL)
             setValue('anexos', undefined); 
         })
         .finally(() => {
-            setIsProcessingFile(false); // Terminar processamento
+            setIsProcessingFile(false);
         });
         
-    // Dependências: Apenas o objeto 'file' (extraído do 'anexos')
-  }, [file]); 
+  }, [file, setValue]); 
 
 
   useEffect(() => {
@@ -147,22 +140,18 @@ export function useCreatePosts() {
         return;
       }
       
-      // objeto formdata pra enviar os dados
       const formData = new FormData();
 
-      // campos de texto do form
       formData.append('titulo', data.titulo);
       formData.append('descricao', data.descricao);
       formData.append('conteudo', data.conteudo);
       formData.append('topico', data.topico);
       formData.append('data', dataFormatada);
       
-      // adiciona o hash 
     if (imageHash) {
       formData.append('imageHash', imageHash);
     }
 
-    // o nome 'image' deve ser o mesmo do FileInterceptor('image') no backend
     if (data.anexos && data.anexos.length > 0) {
       formData.append('image', data.anexos[0]);
     }
@@ -170,11 +159,10 @@ export function useCreatePosts() {
     try {
       await createPost(formData);
 
-      // Limpeza do estado após submissão bem sucedida
       setFilePreviewUrl(null);
       setFileName(null);
       setImageHash(null);
-      reset(); // Reseta o formulário
+      reset();
       
       localStorage.setItem(
         'forumDrafts',
