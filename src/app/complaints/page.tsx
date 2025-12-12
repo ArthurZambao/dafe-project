@@ -8,7 +8,7 @@ export const metadata = {
 export default function ComplaintsPage() {
   return(
   <AuthGate mode="auth">
-    <ComplaintsPageData />
+    <ComplaintsPageData/>
   </AuthGate>
   );
 }

@@ -1,4 +1,3 @@
-'use client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { typePostList } from '@/types/typePostList';
@@ -15,6 +14,8 @@ export function PostList({ posts }: PostListProps) {
   const router = useRouter();
 
   const { visibleItems, loadMoreRef } = useLazyLoadList<typePostList>(posts, 8);
+
+  console.log('Rendendo no:', typeof window === 'undefined' ? 'SERVER' : 'CLIENT');
 
   return (
     <div className="flex flex-col gap-8 px-4 sm:px-10 mx-10">
@@ -63,7 +64,11 @@ export function PostList({ posts }: PostListProps) {
               <p className="leading-relaxed pt-6 text-sm sm:text-base lg:text-lg text-slate-gray text-center sm:text-left break-words w-full">
                 {post.descricao}
               </p>
-              <PostInfoSection interacao={post.interacao} commentsCount={post.commentsCount} isInteracted={false} />
+              <PostInfoSection
+                interacao={post.interacao}
+                commentsCount={post.commentsCount}
+                isInteracted={false}
+              />
             </div>
           </div>
         </FadeInUp>
