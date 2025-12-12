@@ -27,7 +27,7 @@ export function FormsList({ filteredForms }: FormListProps) {
 
   if (!user) return null;
   return (
-    <section className="flex flex-col gap-16 mx-12 sm:mx-24 pb-10 select-none">
+    <section className="flex flex-col gap-16 mx-4 sm:mx-24 pb-10 select-none">
       {filteredForms.map((form) => {
         const CardContent = (
           <div
@@ -50,16 +50,16 @@ export function FormsList({ filteredForms }: FormListProps) {
               <div className="flex justify-between">
                 <div className="flex-col sm:flex justify-between w-full">
                   <div className="flex justify-between">
-                    <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary sm:truncate break-words">
+                    <h2 className="text-lg sm:text-3xl font-semibold text-azure-primary truncate">
                       {form.formTitulo || 'Sem título'}
                     </h2>
                     {user.role === 'student' && (
-                      <p className="text-sm sm:text-lg">
+                      <p className="text-xs sm:text-lg pl-4 flex items-center font-semibold text-right">
                         {form.hasResponded ? 'Respondido' : 'Não respondido'}
                       </p>
                     )}
                   </div>
-                  <p className="text-black text-xs sm:text-base break-words">
+                  <p className="text-black text-xs sm:text-base mr-24 sm:mr-0 truncate">
                     {form.formDesc || 'Sem descrição'}
                   </p>
                 </div>

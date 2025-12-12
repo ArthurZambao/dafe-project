@@ -44,7 +44,7 @@ export function LoginForm() {
           <h2 className="text-2xl sm:text-3xl text-azure-primary font-semibold pb-5">Login</h2>
         </div>
 
-        <section className="flex flex-col gap-6 px-10 sm:px-30">
+        <section className="flex flex-col gap-6 px-20 sm:px-30">
           <EnterInput<CreateLoginFormData>
             id="email"
             type="text"

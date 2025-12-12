@@ -5,19 +5,16 @@ import Link from 'next/link';
 export function Jumbotron() {
   return (
     <div className="gradient-bg overflow-hidden text-black flex flex-col sm:flex-row items-center sm:items-start justify-between relative">
-
       {/* Texto */}
-      <div className="w-full sm:w-1/2 text-center sm:text-left py-20 px-6 z-10">
+      <div className="w-full sm:w-1/2 text-center sm:text-left py-20 px-10 z-10">
         <SlideIn delay={2} from="left">
-          <h2 className="font-bold text-2xl sm:text-4xl pb-6">
-            Cadastro Simples e Rápido
-          </h2>
+          <h2 className="font-bold text-2xl sm:text-4xl pb-6">Cadastro Simples e Rápido</h2>
 
           <div className="max-w-full">
             <p className="text-base sm:text-xl font-light leading-relaxed mb-8">
-              O cadastro é rápido e fácil. Os alunos criam sua conta com
-              informações básicas, como nome, turma e email, e em poucos
-              minutos estão prontos para começar a usar o aplicativo.
+              O cadastro é rápido e fácil. Os alunos criam sua conta com informações básicas, como
+              nome, turma e e-mail, em um processo simples e intuitivo. Em poucos minutos, tudo está
+              pronto para que comecem a usar o aplicativo e acessar suas principais funcionalidades.
             </p>
           </div>
 
@@ -52,9 +49,7 @@ export function Jumbotron() {
               </button>
             </Link>
             <Link href="/login">
-              <button className="px-10 py-2 btn-login-jumbotron w-full sm:w-auto">
-                Entrar
-              </button>
+              <button className="px-10 py-2 btn-login-jumbotron w-full sm:w-auto">Entrar</button>
             </Link>
           </div>
         </SlideIn>
@@ -74,7 +69,7 @@ export function Jumbotron() {
         </SlideIn>
 
         {/* Cartoon superior */}
-        <div className="absolute top-10 right-60 hidden md:block">
+        <div className="absolute top-10 right-70 hidden md:block">
           <SlideIn delay={2}>
             <Image
               src="/svgs/lpage-jumbotron-cartoon-1.svg"
@@ -87,7 +82,7 @@ export function Jumbotron() {
         </div>
 
         {/* Cartoon inferior */}
-        <div className="absolute bottom-10 left-80 hidden md:block">
+        <div className="absolute bottom-10 right-120 hidden md:block">
           <SlideIn delay={1.8}>
             <Image
               src="/svgs/lpage-jumbotron-cartoon-2.svg"
