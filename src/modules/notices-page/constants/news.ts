@@ -1,0 +1,18 @@
+export const news = [
+  { id: 1, title: 'Notícia 1', description: 'descrição da notícia 1', image: '/icons/ig-logo.svg', },
+  { id: 2, title: 'Notícia 2', description: 'descrição da notícia 2', image: '/icons/ig-logo.svg', },
+  { id: 3, title: 'Notícia 3', description: 'descrição da notícia 3', image: '/icons/ig-logo.svg', },
+  { id: 4, title: 'Notícia 4', description: 'descrição da notícia 4', image: '/icons/ig-logo.svg', },
+  { id: 5, title: 'Notícia 5', description: 'descrição da notícia 5', image: '/icons/ig-logo.svg', },
+  { id: 6, title: 'Notícia 6', description: 'descrição da notícia 6', image: '/icons/ig-logo.svg', },
+  { id: 7, title: 'Notícia 7', description: 'descrição da notícia 7', image: '/icons/ig-logo.svg', },
+  { id: 8, title: 'Notícia 8', description: 'descrição da notícia 8', image: '/icons/ig-logo.svg', },
+  { id: 9, title: 'Notícia 1', description: 'descrição da notícia 9', image: '/icons/ig-logo.svg', },
+  { id: 10, title: 'Notícia 2', description: 'descrição da notícia 10', image: '/icons/ig-logo.svg', },
+  { id: 11, title: 'Notícia 3', description: 'descrição da notícia 11', image: '/icons/ig-logo.svg', },
+  { id: 12, title: 'Notícia 4', description: 'descrição da notícia 12', image: '/icons/ig-logo.svg', },
+  { id: 13, title: 'Notícia 5', description: 'descrição da notícia 13', image: '/icons/ig-logo.svg', },
+  { id: 14, title: 'Notícia 6', description: 'descrição da notícia 14', image: '/icons/ig-logo.svg', },
+  { id: 15, title: 'Notícia 7', description: 'descrição da notícia 15', image: '/icons/ig-logo.svg', },
+  { id: 16, title: 'Notícia 8', description: 'descrição da notícia 16', image: '/icons/ig-logo.svg', },
+];

@@ -1,8 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@theme {
+  --color-azure-primary: #05366b;
+  --color-azure-primary-hover: #0056b3;
+  --color-azure-secondary: #4a83c0;
+  --color-azure-footer: #195492;
+  --color-slate-gray: #6c757d;
+  --color-light-dafe-gray: #d4d4d4d3;
+  --color-dafe-gray-hover: #ebe8e8;
 }
 
 @theme inline {
@@ -14,13 +25,72 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #fffffff;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #dad8d8;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.navbar-mark {
+  @apply bg-azure-primary text-white duration-300;
+}
+
+.navbar-mark-hover:hover {
+  @apply bg-azure-primary text-white duration-300;
+}
+
+.gradient-bg {
+  @apply bg-gradient-to-br from-[#B7DAFF] to-[#FFFFFF];
+}
+
+.gradient-definition-bg {
+  @apply bg-gradient-to-r from-[#05366B] to-[#0A6AD1] transition duration-1000 ease-in-out;
+}
+
+.gradient-definition-bg:hover {
+  @apply bg-gradient-to-r from-[#0A6AD1] to-[#05366B];
+}
+
+.btn-dafe {
+  @apply bg-gradient-to-r from-[#05366B] to-[#0A6AD1] rounded-lg cursor-pointer transition duration-300 ease-in-out;
+}
+
+.btn-dafe-hover:hover {
+  @apply bg-gradient-to-r from-[#001f4d] to-[#005bb5];
+}
+
+.btn-dafe-delete {
+  @apply bg-gradient-to-r from-[#6b0505] to-[#d10a0a] rounded-lg cursor-pointer transition duration-300 ease-in-out;
+}
+
+.btn-dafe-delete-hover:hover {
+  @apply bg-gradient-to-r from-[#4d0000] to-[#b50000];
+}
+
+.btn-register-jumbotron {
+  @apply border-2 border-[#0B4079] text-black rounded-lg cursor-pointer transition duration-300 ease-in-out;
+}
+
+.btn-register-jumbotron:hover {
+  @apply bg-[#0B4079] text-white;
+}
+
+.btn-login-jumbotron {
+  @apply border-2 border-[#0B4079] text-white bg-[#0B4079] rounded-lg cursor-pointer transition duration-300 ease-in-out;
+}
+
+.btn-login-jumbotron:hover {
+  @apply border-2 border-white text-black bg-white;
 }

@@ -1,0 +1,52 @@
+import { TextAreaProps } from '@/types/formsTypes';
+import { ChangeEvent } from 'react';
+import {FieldValues} from 'react-hook-form';
+
+export function TextArea<T extends FieldValues>({
+  id,
+  label,
+  maxlength,
+  placeholder,
+  register,
+  error,
+  mask,
+  rows,
+}: TextAreaProps<T>) {
+  const applyMask = (value: string, maskType?: string) => {
+    if (!maskType) return value;
+
+    // Máscara de data 00/00/0000
+    if (maskType === 'date') {
+      const digits = value.replace(/\D/g, '');
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2, 4)}`;
+      return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
+    }
+
+    return value;
+  };
+
+  const { onChange, ...rest } = register(id);
+
+  return (
+    <div className="flex flex-col text-slate-gray">
+      <p className="text-lg sm:text-2xl font-semibold text-left">
+        {label} {error && <span className="text-red-500">*</span>}
+      </p>
+      <textarea
+        id={id}
+        maxLength={maxlength}
+        placeholder={placeholder}
+        {...rest}
+        rows={rows}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+          const maskedValue = applyMask(e.target.value, mask);
+          e.target.value = maskedValue;
+          onChange(e);
+        }}
+        className={`${error ? 'border-red-500' : 'border-slate-gray'} w-full text-sm tsm:text-base px-4 py-2 border rounded-2xl outline-none pr-10`}
+      />
+      {error && <span className="text-red-500 text-sm text-left ml-4">{error.message}</span>}
+    </div>
+  );
+}

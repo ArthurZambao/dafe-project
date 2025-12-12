@@ -1,0 +1,80 @@
+'use client';
+
+import { createContext, useContext, useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
+
+import { AuthContextProps } from '@/types/authContext';
+import { CustomJwtPayload } from '@/types/customJwt';
+
+const AuthContext = createContext<AuthContextProps>({
+  user: null,
+  isAuthenticated: false,
+  logout: () => {},
+  setUserFromToken: () => {},
+  updateUserContext: () => {},
+});
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<CustomJwtPayload | null>(null);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode<CustomJwtPayload>(token);
+        const now = Date.now() / 1000;
+
+        if (!decoded.exp || decoded.exp > now) {
+          setUser(decoded);
+        } else {
+          Cookies.remove('token');
+        }
+      } catch {
+        Cookies.remove('token');
+      }
+    }
+  }, []);
+
+  function logout() {
+    Cookies.remove('token');
+    setUser(null);
+    window.location.href = '/login';
+  }
+
+  function setUserFromToken(token: string) {
+    try {
+      const decoded = jwtDecode<CustomJwtPayload>(token);
+      setUser(decoded);
+    } catch {
+      setUser(null);
+    }
+  }
+
+  function updateUserContext(newUserData: Partial<CustomJwtPayload>) {
+    setUser(prevUser => {
+      if (!prevUser) return null;
+      const updatedUser = { ...prevUser, ...newUserData};
+
+      return updatedUser;
+    })
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        logout,
+        setUserFromToken,
+        updateUserContext,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}

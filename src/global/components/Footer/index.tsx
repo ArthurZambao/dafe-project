@@ -3,46 +3,27 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="w-full bg-[#007BFF] p-4">
-      <div className="flex flex-col sm:flex-row justify-between items-center">
-        {/* Logo no canto esquerdo */}
-        <h1 className="text-5xl font-semibold mb-4 sm:mb-0">LOGO</h1>
-
-        {/* Navegação no centro */}
-        <nav className="hidden flex-grow sm:flex justify-center">
-          <ul className="flex items-center space-x-10 text-xl">
-            <li className="hover:font-semibold">
-              <Link href="#">Início</Link>
-            </li>
-            <li className="hover:font-semibold">
-              <Link href="#">Fórum</Link>
-            </li>
-            <li className="hover:font-semibold">
-              <Link href="#">Notícias</Link>
-            </li>
-            <li className="hover:font-semibold">
-              <Link href="#">Denúncias</Link>
-            </li>
-            <li className="hover:font-semibold">
-              <Link href="#">Conversas</Link>
-            </li>
-            <li className="hover:font-semibold">
-              <Link href="#">Entrar</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Imagens à direita */}
+    <footer className="flex flex-col items-center bg-azure-footer text-white px-12 py-3 select-none">
+      <div className="w-full flex justify-between items-center relative py-6 sm:py-0">
+        <Link href="/" className="flex items-center h-full">
+          <h1 className="text-2xl sm:text-4xl font-semibold">D.A.F.E</h1>
+        </Link>
         <div className="flex space-x-4">
-          <Image src="/ig-logo.svg" width={50} height={50} alt="Ig Logo" />
-          <Image src="/x-logo.svg" width={50} height={50} alt="X Logo" />
-          <Image src="/fb-logo.svg" width={50} height={50} alt="Fb Logo" />
+          <a href="https://www.instagram.com/projeto.dafe">
+            <Image src="/icons/ig-logo.svg" width={50} height={50} alt="Ig Logo" />
+          </a>
+          <a href="https://www.twitter.com/projeto_dafe">
+            <Image src="/icons/x-logo.svg" width={50} height={50} alt="X Logo" />
+          </a>
+          <a href="https://www.instagram.com/projeto.dafe">
+            <Image src="/icons/fb-logo.svg" width={50} height={50} alt="Fb Logo" />
+          </a>
         </div>
       </div>
-
-      {/* Copyright abaixo */}
-      <div className="mt-4 text-center">
-        <h2 className="text-2xl font-bold">© 2025 D.A.F.E. Todos os direitos reservados.</h2>
+      <div>
+        <h2 className="text-lg sm:text-2xl font-bold text-center">
+          © 2025 D.A.F.E. Todos os direitos reservados.
+        </h2>
       </div>
     </footer>
   );
