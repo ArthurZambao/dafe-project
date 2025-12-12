@@ -6,30 +6,37 @@ import { useAuth } from '@/global/context/useAuth';
 
 interface UserMenuProps {
   toggleUserMenu: () => void;
-  toggleMenu: () => void;
-  inMobile: boolean;
+  closeMobileMenu?: () => void;
+  inMobile?: boolean;
 }
 
-export function UserMenu({ toggleUserMenu, toggleMenu, inMobile }: UserMenuProps) {
-  const toggleMenus = () => {
-    toggleUserMenu();
-    if (inMobile) {
-      toggleMenu();
-      inMobile = false;
-    }
+export function UserMenu({ toggleUserMenu, closeMobileMenu, inMobile }: UserMenuProps) {
+  const { logout } = useAuth();
+
+  const closeAllMenus = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    toggleUserMenu(); 
+    if (inMobile) closeMobileMenu?.();
   };
 
-  const { logout } = useAuth();
   return (
-    <div className="absolute right-0 mt-2 mr-10 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+    <div className="absolute top-full left-0 w-full bg-white shadow-lg z-50 border-b-3 border-azure-primary">
       <ul className="flex flex-col">
-        <li className="px-4 py-2" onClick={toggleMenus}>
+        <li className="px-4 py-2" onClick={closeAllMenus}>
           <AnimatedLink href="/users">Página do Perfil</AnimatedLink>
         </li>
-        <li className="px-4 py-2" onClick={toggleMenus}>
+
+        <li className="px-4 py-2" onClick={closeAllMenus}>
           <AnimatedLink href="/users/edit-user">Editar Perfil</AnimatedLink>
         </li>
-        <li className="px-4 py-2" onClick={logout}>
+
+        <li
+          className="px-4 py-2"
+          onClick={() => {
+            logout();
+            closeAllMenus();
+          }}
+        >
           <AnimatedButton>Logout</AnimatedButton>
         </li>
       </ul>

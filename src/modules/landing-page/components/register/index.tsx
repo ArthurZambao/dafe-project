@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function Register() {
   return (
-    <section className="relative w-full min-h-[800px] bg-[url('/svgs/lpage-register-bg.svg')] bg-no-repeat bg-cover bg-center flex flex-col sm:flex-row justify-start items-center gap-20 px-6 sm:px-10 pb-10 overflow-hidden">
+    <section className="relative w-full min-h-[500px] sm:min-h-[800px] bg-[url('/svgs/lpage-register-bg.svg')] bg-no-repeat bg-cover bg-center flex flex-col sm:flex-row justify-start items-center gap-20 px-6 sm:px-10 pb-10 overflow-hidden">
       <div className="absolute inset-0 bg-black/60 z-0" />
 
       <div className="relative z-10 flex flex-col gap-8 max-w-2xl sm:ml-0">

@@ -7,7 +7,12 @@ export function NoticesList() {
   const { notices, isLoading, error } = useNoticesList();
   const router = useRouter();
 
-  const { visibleItems, loadMoreRef } = useLazyLoadList(notices, 6);
+  // 🔥 Ordena do mais recente para o mais antigo usando createdAt
+  const sortedNotices = [...notices].sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
+  const { visibleItems, loadMoreRef } = useLazyLoadList(sortedNotices, 6);
 
   if (isLoading) {
     return <p className="text-center text-slate-gray mt-10">Carregando notícias...</p>;

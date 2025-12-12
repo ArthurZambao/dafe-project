@@ -24,6 +24,11 @@ export function NavBar() {
 
   const closeUserMenu = () => setIsUserMenuOpen(false);
 
+  const closeMenu = () => {
+    setIsOpen(false);
+    setIsInMobile(false);
+  };
+
   const renderAuthLink = () => {
     if (isAuthenticated) {
       return (
@@ -34,14 +39,17 @@ export function NavBar() {
               alt="Icon de perfil"
               layout="fill"
               objectFit="cover"
-              onClick={toggleUserMenu}
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                toggleUserMenu();
+              }}
             />
           </div>
           {isUserMenuOpen && (
             <UserMenu
               inMobile={isInMobile}
               toggleUserMenu={toggleUserMenu}
-              toggleMenu={toggleMenu}
+              closeMobileMenu={closeMenu}
             />
           )}
         </>
