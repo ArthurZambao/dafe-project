@@ -5,18 +5,14 @@ import { getPostById } from "@/libs/api/posts/posts";
 
 export const dynamic = "force-dynamic";
 
-type ForumPostRouteParams = {
-  postId: string;
-};
-
 type ForumPostPageProps = {
-  params: ForumPostRouteParams;
+  params: Promise<{ postId: string }>;
 };
 
 export async function generateMetadata(
   props: ForumPostPageProps
 ): Promise<Metadata> {
-  const postId = props.params.postId;
+  const { postId } = await props.params;
 
   try {
     const post = await getPostById(postId);
@@ -32,7 +28,7 @@ export async function generateMetadata(
 }
 
 export default async function PostPage(props: ForumPostPageProps) {
-  const postId = props.params.postId;
+  const { postId } = await props.params;
 
   return (
     <AuthGate mode="auth">
